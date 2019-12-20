@@ -16,3 +16,6 @@ instantly better vim extensions - highlight
 - symlink Desktop - gnu stow!
 toggle number line issue
 git aliases: status, commit, add, etc..
+explain vi mode awesomness in shell
+create setup guide: fonts, terminal emulator, gotchas, etc...
+rubocop runner + highlighting
