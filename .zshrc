@@ -1,11 +1,11 @@
-# Syntax highlighting
-source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
 # If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
+export PATH=$HOME/bin:/usr/local/bin:$PATH
+
+# Add hyper to path
+export PATH=$PATH:/mnt/c/Users/jcaffey/AppData/Local/hyper/app-3.0.2/resources/bin
 
 # Path to your oh-my-zsh installation.
-export ZSH="/Users/jcaffey/.oh-my-zsh"
+export ZSH="/home/jcaffey/.oh-my-zsh"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -73,6 +73,7 @@ ZSH_THEME="spaceship"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
+colored-man-pages
   git
   bundler
   dotenv
@@ -140,8 +141,22 @@ alias reload="source ~/.zshrc"
 # colorls with ll
 alias ll="colorls -lA --sd"
 
-# thefuck alias
-$(thefuck --alias)
+# tmux aliases and functions
+alias tl="tmux ls"
+alias td="tmux detach"
+function tn {
+  readonly s=${1:? "Must provide session"}
+  tmux new -s "$s"
+}
 
-# use homebrew ctags
-ctags=/usr/local/bin/ctags
+function ta {
+  readonly t=${1:? "Must provide session"}
+  tmux attach -t "$t"
+}
+
+# Syntax highlighting
+source /home/jcaffey/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export PATH="$PATH:$HOME/.rvm/bin"
+source ~/.rvm/scripts/rvm
