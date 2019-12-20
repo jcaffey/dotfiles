@@ -14,10 +14,13 @@ call vundle#begin()
   Plugin 'VundleVim/Vundle.vim'
 
   " Other
+  Plugin 'christoomey/vim-tmux-navigator'
+  Plugin 'edkolev/tmuxline.vim'
   Plugin 'easymotion/vim-easymotion'
   Plugin 'kien/ctrlp.vim'
   Plugin 'kristijanhusak/vim-hybrid-material'
   Plugin 'scrooloose/nerdtree'
+  Plugin 'tpope/vim-obsession'
   Plugin 'tpope/vim-surround'
   Plugin 'vim-airline/vim-airline'
   Plugin 'vim-airline/vim-airline-themes'
@@ -99,8 +102,6 @@ let g:netrw_list_hide.=',\(^\|\s\s\)\zs\.\S\+'
 " - <CR>/v/t to open in an h-split/v-split/tab
 " - check |netrw-browse-maps| for more mappings
 
-" JOSH SPECIFIC VIM SETTINGS
-" ----------------------------------------------------------------------
 " I'm using space as the leader key because it's hard to miss, doesn't do
 " anything useful in normal/visual mode and both hands can reach it easily
 noremap <Space> <Nop>
@@ -124,22 +125,39 @@ vnoremap <Down> :<C-u>echo "don't be stupid."<CR>
 " nnoremap <esc> :noh<CR>
 nnoremap <esc><esc> :noh<CR>
 
+" Use <Leader>l to toggle line numbers. This is useful when copying something from vim
+" while using tmux and you don't want lines.
+nnoremap <Leader>l :set nu! rnu!<CR>
+
+" sequences for ctrl+arrow in WSL
+map <esc>b <C-Left>
+map <esc>f <C-Right>
+map <C-k> <C-Up>
+map <C-@> <C-Down>
+
+" sequences for shift+arrow in WSL
+map <esc>[1;2D <S-Left>
+map <esc>[1;2C <S-Right>
+map <esc>[1;2A <S-Up>
+map <esc>[1;2B <S-Down>
+
+" map page up/down to h and l for stupid laptops
+map <PageUp> h
+map <PageDown> l
+
 " Allow copy/paste between vims and system
-set clipboard^=unnamed
+" NOTE: this wont work in WSL even with vim-gnome +clipboard
+" so just use ctrl+shift+c / ctrl+shift+v in hyper
+set clipboard=unnamed
 
 " colorscheme
-"For Neovim > 0.1.5 and Vim > patch 7.4.1799 < https://github.com/vim/vim/commit/61be73bb0f965a895bfb064ea3e55476ac175162 >
-"Based on Vim patch 7.4.1770 (`guicolors` option) < https://github.com/vim/vim/commit/8a633e3427b47286869aa4b96f2bfc1fe65b25cd >
-" < https://github.com/neovim/neovim/wiki/Following-HEAD#20160511 >
-if (has("termguicolors"))
-  set termguicolors
-endif
 set background=dark
 colorscheme hybrid_material
 let g:airline_theme = "hybrid"
 let g:enable_bold_font = 1
 let g:enable_italic_font = 1
 let g:hybrid_transparent_background = 1
+let g:airline#extensions#tmuxline#enabled = 0 " source-file .hybrid-theme.tmuxline so dont update when vim opens
 
 " Line numbers should be hybrid by default because it is more efficient to
 " work with chunks of text that way. Toggle absolute numbers with `:set nornu`
@@ -189,17 +207,6 @@ let g:EasyMotion_smartcase = 1
 "   <Leader>N            | Jump to latest "/" or "?" backward. See |N|.
 "   s                    | Find(Search) {char}{char} forward and backward.
 "                        | See |f| and |F|.
-
-" ----------------------------------------------------------------------
-
-" Settings from Kit
-" Change colorscheme from default to blackboard
-" colorscheme blackboard
-
-" Set backup, swap locations
-set undodir=~/.vim/.undo/
-set backupdir=~/.vim/.backup/
-set directory=~/.vim/.swp/
 
 " Indent automatically depending on filetype
 filetype indent plugin on
@@ -266,3 +273,13 @@ set listchars=tab:›\ ,trail:•,extends:#,nbsp:. " Highlight problematic white
 set colorcolumn=160
 set backspace=2 " make backspace work like most other apps
 
+" Fix line numbers in vim when using tmux
+highlight LineNr ctermfg=grey
+
+" https://medium.com/@Aenon/vim-swap-backup-undo-git-2bf353caa02f
+set backupdir=.backup/,~/.backup/,/tmp//
+set directory=.swp/,~/.swp/,/tmp//
+set undodir=.undo/,~/.undo/,/tmp//
+
+" Yellow splits in vim with green splits in tmux
+hi VertSplit ctermfg=yellow
