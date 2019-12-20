@@ -1,6 +1,6 @@
 # THERE IS ONLY VIM
-TODO:
 
+TODO:
 indentation
 cleanup vim tutor
 color scheme
@@ -8,6 +8,18 @@ more on windows - size, hide, vsplit <filename>
 regular expressions
 macros
 ctrl i and o cursor history
+TODO: need a section on :h, :b, :ls, etc...
+i don't know what the hell this does, but look into gg=G for formatting
+talk about Leader l for line number with tmux
+# Buffers are better than tabs. I promise.
+Buffers are just files that vim has in memory. Any file you open will be listed in buffers unless you ask vim to get rid of it with `:bd{buffer-number}`. Here are the common buffer commands I use all the time.
+- `:ls` list buffers
+- `:b{buffer-number}` switch to that buffer. IMPORTANT: vim will ask if you want to save your changes to the file (if it has changed), press y or your changes are gone. You have been warned.
+- `:bd{buffer-number}` close buffer. NOTE: if you are editing a file and vim complains about the file being opened in another program (probably another instance of vim) this is the command you need to remove the buffer from vim.
+- `:vs#{buffer-number}` open buffer in vertical split
+
+# Windows and multiple buffers
+TODO: bindings + tmux
 
 # Thoughts on general setup and getting around a document
 It seems that absolute line numbers and relative line numbers are both important. I have opted to default to relative and show absolute line numbers in insert mode. You can peek with `i` if you need an absolute number. I'm a vim newb, but my thought is that it is more intuitive and efficient to move around a document with `{` `}`, `(` `)`, `ctrl+u`, `ctrl+d` and the help of `/sometext`, `?sometext`, `H`, `M`, `L`, etc.. to quickly jump where you need to go. This is faster and more intuitive than `:line-number` as there are many other ways to get to that line and I can't type numbers quickly. It would take me the same amount of time to type `/longstring` as it would `:73`. Line numbers also become a problem when files are huge. More digits means less efficient. Finally, typing `:73` would require four keystrokes. Typing the maximum relative number will always be 2 digits unless you're a crazy person with a crazy big screen and pressing `j` or `k` for a direction leaves us with only three keystrokes. NEAT!
@@ -382,8 +394,6 @@ hashes = [
 Split a line with: `f ` to get to whitespace, `ciw` kill whitespace, `return`
 left side |  right side
 
-TODO: need a section on :h, :b, :ls, etc...
-
 # Plugins that make you unstoppable
 * EasyMotion - This is, by far, the coolest and fastest way to navigate around the text in your window. It's a bit difficult to explain what easy motion does and why it's so powerful, so just look at this:
 
@@ -401,6 +411,7 @@ IMPORTANT: Surround distinguishes between `{` and `}` (and all other brackets ex
 
   - `cs'"` change surrounding character {replace-char} - 'test' -> "test"
   - `ds'` delete surrounding {char} - 'test' -> test
+  - `yss<` yank surround sentence (line) {char} - test -> <test>
   - `ysiw"` yank surround in word {char} - test -> "test"
   - `ysis"` yank surround in sentence {char} - test test test! -> "test test test!"
   - `$v0S"` surround entire line with double quotes (go to end, visual mode, go to beginning, substitue line, ") NOTE: this doesnt work when selecting from beginning to end for me.
@@ -410,7 +421,7 @@ IMPORTANT: Surround distinguishes between `{` and `}` (and all other brackets ex
     test
   </p>
 
-  Single line html: write text, `ysiw<p` <p>test</p>
+  Single line html: write text, `yss<p` <p>test</p>
 
   Collapse a block of HTML: `JJds ` collapse twice, delete surrounding space. I have to hit spacebar twice because my spacebar is the leader key.
       <p>       -> <p>test</p>
@@ -420,9 +431,10 @@ IMPORTANT: Surround distinguishes between `{` and `}` (and all other brackets ex
    Use repeat.vim to repeat the surround command (it works out of the box). `ysiw"` to surround test with ". then `b."` to jump to [b]eginning of previous word and repeat with . then enter character ".
   test test -> "test" "test"
 
-* Airline - Every vim user has this. It's pretty and it displays useful info. Just install it.
+* Airline - Every vim user has this. It's pretty and it displays useful info. Just install it. My .vimrc also has tmuxline installed which uses the theme from airline.
 
-* CtrlP - Fuzzy find your files.
+* CtrlP - Fuzzy find your files
+`ctrl+p` as the name suggests will open a fuzzy search and list any files that match. By default it will start indexing files from where you started vim. You can use `:pwd` to find out where you are and `:cd path/to/something` if you want to change it.
 
 # Window management
 - `ctrl+w` {up|down|left|right} moves cursor to window in that direction
