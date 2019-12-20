@@ -15,3 +15,4 @@ instantly better vim extensions - highlight
 - tmux pane sizing - <Leader>+alt+{down|up|left|right}
 - symlink Desktop - gnu stow!
 toggle number line issue
+git aliases: status, commit, add, etc..
