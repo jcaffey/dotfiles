@@ -277,9 +277,9 @@ set backspace=2 " make backspace work like most other apps
 highlight LineNr ctermfg=grey
 
 " https://medium.com/@Aenon/vim-swap-backup-undo-git-2bf353caa02f
-set backupdir=.backup/,~/.backup/,/tmp//
-set directory=.swp/,~/.swp/,/tmp//
-set undodir=.undo/,~/.undo/,/tmp//
+set backupdir=.backup/,~/.vim/.backup/,/tmp//
+set directory=.swp/,~/.vim/.swp/,/tmp//
+set undodir=.undo/,~/.vim/.undo/,/tmp//
 
 " Yellow splits in vim with green splits in tmux
 hi VertSplit ctermfg=yellow
