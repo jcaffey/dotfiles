@@ -50,7 +50,7 @@ ZSH_THEME="spaceship"
 # ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
-# COMPLETION_WAITING_DOTS="true"
+COMPLETION_WAITING_DOTS="true"
 
 # Uncomment the following line if you want to disable marking untracked files
 # under VCS as dirty. This makes repository status check for large repositories
@@ -74,7 +74,7 @@ ZSH_THEME="spaceship"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
-colored-man-pages
+  colored-man-pages
   git
   bundler
   dotenv
@@ -138,6 +138,21 @@ alias reload="source ~/.zshrc"
 # colorls with ll
 alias ll="colorls -lA --sd"
 
+# git aliases
+alias gc="git commit -m"
+alias gp="git push"
+alias gs="git status"
+function ga {
+  readonly path=${1:? "Must provide path"}
+  git add "$path"
+}
+
+
+function gd {
+  readonly path=${1:? "Must provide path"}
+  git diff "$path"
+}
+
 # tmux aliases and functions
 alias tl="tmux ls"
 alias td="tmux detach"
@@ -152,7 +167,7 @@ function ta {
 }
 
 # Syntax highlighting
-source ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+#source ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
