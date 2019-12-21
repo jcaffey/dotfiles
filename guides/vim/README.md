@@ -448,8 +448,14 @@ IMPORTANT: Surround distinguishes between `{` and `}` (and all other brackets ex
         test
       </p>
 
+  Surrounding things that aren't words or sentences. Surround C-\ with a single quote using `vt S'` (cursor on C, visually select til space, surround ')
+  bind -n C-\    ->   bind -n 'C-\'
+
+
    Use repeat.vim to repeat the surround command (it works out of the box). `ysiw"` to surround test with ". then `b."` to jump to [b]eginning of previous word and repeat with . then enter character ".
   test test -> "test" "test"
+  
+  https://github.com/tpope/vim-surround/blob/master/doc/surround.txt
 
 * Airline - Every vim user has this. It's pretty and it displays useful info. My .vimrc also has tmuxline installed which uses the theme from airline.
 
