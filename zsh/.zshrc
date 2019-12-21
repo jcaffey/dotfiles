@@ -6,7 +6,7 @@ export PATH=$HOME/bin:/usr/local/bin:$PATH
 # export PATH=$PATH:/mnt/c/Users/jcaffey/AppData/Local/hyper/app-3.0.2/resources/bin
 
 # Path to your oh-my-zsh installation.
-export ZSH="/home/jcaffey/.oh-my-zsh"
+export ZSH="~/.oh-my-zsh"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -152,7 +152,7 @@ function ta {
 }
 
 # Syntax highlighting
-source /home/jcaffey/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
