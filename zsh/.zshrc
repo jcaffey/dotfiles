@@ -1,8 +1,9 @@
 # If you come from bash you might have to change your $PATH.
 export PATH=$HOME/bin:/usr/local/bin:$PATH
 
+# WSL only
 # Add hyper to path
-export PATH=$PATH:/mnt/c/Users/jcaffey/AppData/Local/hyper/app-3.0.2/resources/bin
+# export PATH=$PATH:/mnt/c/Users/jcaffey/AppData/Local/hyper/app-3.0.2/resources/bin
 
 # Path to your oh-my-zsh installation.
 export ZSH="/home/jcaffey/.oh-my-zsh"
@@ -111,10 +112,6 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-
-#
-# Josh Settings
-#
 
 # Use lf to switch directories and bind it to ctrl-o
 lfcd () {
