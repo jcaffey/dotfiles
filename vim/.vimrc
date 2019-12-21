@@ -293,5 +293,6 @@ set backupdir=.backup/,~/.vim/.backup/,/tmp//
 set directory=.swp/,~/.vim/.swp/,/tmp//
 set undodir=.undo/,~/.vim/.undo/,/tmp//
 
-" Yellow splits in vim with green splits in tmux
-hi VertSplit ctermfg=yellow
+" Style splits like tmux
+hi VertSplit ctermfg=65
+set fillchars+=vert:│
