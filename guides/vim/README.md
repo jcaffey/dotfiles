@@ -410,7 +410,7 @@
 
   * NerdTree - it is better than the default netrw plugin, so i use it, but i suggest configuring netrw as well so you can get comfortable with it when you SSH into a box that doesn't have plugins.
 
-  - `h|j|k|l` or arrows to navigate
+  - hjkl or arrows to navigate
   - `return` to open directory
   - `s` open in vertical split
   - `i` open in horizontal split
@@ -419,6 +419,7 @@
   - `o` preview in new window and move cursor
   - `cd` change directory (useful so that starting ctrlp doesnt start indexing a bunch of files if you happen to open vim outside of a project directory)
   - `p` jump to parent
+  - `I` show dotfiles
   - `A` toggle zoom
   - `?` for more details
 

@@ -1,0 +1,15 @@
+*/**
+
+#Ignore everything except...
+!git/**/.gitkeep
+!guides/**/.gitkeep
+!hyper/.hyper.js/.gitkeep
+!tmux/.tmux.conf/.gitkeep
+!tmux/.tmux/.hybrid-theme.tmuxline/.gitkeep
+!vifm/vifmrc/.gitkeep
+!vifm/.vifm/.zenburn_1.vifm/.gitkeep
+!vim/.vimrc/.gitkeep
+!vim/.vim/.backup/.gitkeep
+!vim/.vim/.swp/.gitkeep
+!vim/.vim/.undo/.gitkeep
+!zsh/.zshrc

@@ -1,3 +1,13 @@
+TODO: gitignore everything except example
+
+# Ignore everything except gitkeeps in backup/swap/undo
+vim/.vim/.backup
+vim/.vim/.swp
+vim/.vim/.undo
+!vim/.vim/.backup/.gitkeep
+!vim/.vim/.swp/.gitkeep
+!vim/.vim/.undo/.gitkeep
+
 # record a macro
 q{some-key-for-register}
 do stuff
