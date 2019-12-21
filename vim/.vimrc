@@ -129,19 +129,20 @@ nnoremap <esc><esc> :noh<CR>
 " while using tmux and you don't want lines.
 nnoremap <Leader>l :set nu! rnu!<CR>
 
-" sequences for ctrl+arrow in WSL
+" Make ctrl/shift + arrow behave in gvim and other vims like macvim.
+" sequences for ctrl+arrow
 map <esc>b <C-Left>
 map <esc>f <C-Right>
 map <C-k> <C-Up>
 map <C-@> <C-Down>
 
-" sequences for shift+arrow in WSL
+" sequences for shift+arrow
 map <esc>[1;2D <S-Left>
 map <esc>[1;2C <S-Right>
 map <esc>[1;2A <S-Up>
 map <esc>[1;2B <S-Down>
 
-" map page up/down to h and l for stupid laptops
+" map page up/down to h and l for laptops
 map <PageUp> h
 map <PageDown> l
 
