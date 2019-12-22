@@ -1,19 +1,6 @@
-# THERE IS ONLY VIM
+## THERE IS ONLY VIM
 
-  TODO:
-  indentation
-  cleanup vim tutor
-  color scheme
-  more on windows - size, hide, vsplit <filename>
-  regular expressions
-  macros
-  ctrl i and o cursor history
-  TODO: need a section on :h, :b, :ls, etc...
-  i don't know what the hell this does, but look into gg=G for formatting
-  talk about Leader l for line number with tmux
-  add example for practical use of visual select + :w (aliases to individual files `gv` to reselect what was written then `d` then `yykp$bcwname-of-file`)
-  w vs W, etc..
-# Buffers are better than tabs. I promise.
+## Buffers are better than tabs. I promise.
   Buffers are just files that vim has in memory. Any file you open will be listed in buffers unless you ask vim to get rid of it with `:bd{buffer-number}`. Here are the common buffer commands I use all the time.
   - `:ls` list buffers
   - `:b{buffer-number}` switch to that buffer. IMPORTANT: vim will ask if you want to save your changes to the file (if it has changed), press y or your changes are gone. You have been warned.
@@ -21,12 +8,11 @@
   - `:vs#{buffer-number}` open buffer in vertical split
   - `:s#{buffer-number}` open buffer in horizontal split
 
-# Windows and multiple buffers
-  TODO: bindings + tmux
+## Windows and multiple buffers
   - `:vert h ctrlp-mappings` open help at ctrlp mappings in vertical split
+  - TODO: bindings + tmux
 
-
-# Thoughts on general setup and getting around a document
+## Thoughts on general setup and getting around a document
   It seems that absolute line numbers and relative line numbers are both important. I have opted to default to relative and show absolute line numbers in insert mode. You can peek with `i` if you need an absolute number. I'm a vim newb, but my thought is that it is more intuitive and efficient to move around a document with `{` `}`, `(` `)`, `ctrl+u`, `ctrl+d` and the help of `/sometext`, `?sometext`, `H`, `M`, `L`, etc.. to quickly jump where you need to go. This is faster and more intuitive than `:line-number` as there are many other ways to get to that line and I can't type numbers quickly. It would take me the same amount of time to type `/longstring` as it would `:73`. Line numbers also become a problem when files are huge. More digits means less efficient. Finally, typing `:73` would require four keystrokes. Typing the maximum relative number will always be 2 digits unless you're a crazy person with a crazy big screen and pressing `j` or `k` for a direction leaves us with only three keystrokes. NEAT!
 
   That being said, I do think it is absolutely valid to work with absolute line numbers so I'm training myself to use `i` to peek at them when I need it.
@@ -60,7 +46,7 @@
   nnoremap <Down> :echo "don't be stupid."<CR>
   vnoremap <Down> :<C-u>echo "don't be stupid."<CR>
 
-# Modes
+## Modes
   - `esc` Normal
   - `:` Command
   - `i` Insert
@@ -69,19 +55,19 @@
   - `ctrl+v` Visual Block
   - `V` Visual Line
 
-# OMG HELP ME COMMANDS
+## OMG HELP ME COMMANDS
   - `esc` to return to normal mode
   - `:q!` to quit without writing file and no prompt before quit
   - `u` undo
   - `ctrl+r` redo
 
-# Commands
+## Commands
   - `d` delete (copy)
   - `c` change (delete then insert mode)
   - `y` yank (copy)
   - `v` visually select (visual mode)
 
-# Text Objects
+## Text Objects
   - `w` words
   - `s` sentences
   - `p` paragraphs
@@ -110,7 +96,7 @@
   - '``' that's two back ticks - jump to previous location
 
 # Common commands
-  - `ctrl+o`, `ctrl+i` move forward and backward through jump history (especially useful when editing multiple methods)
+  - `ctrl+o`, `ctrl+i` move forward and backward through jump history (especially useful when editing multiple files) NOTE: when I first learned this I didn't realize this was how to jump between files as quickly as you would with tabs. Remember these!
   - `d15G` delete lines from cursor position to line 15
   - `5dk` delete five lines up
   - `r` replace character
@@ -179,22 +165,15 @@
   - Scroll down `ctrl+d` and confine window to document
   - Scroll up `ctrl+u` and confine window to document
 
-# TODO: find place for these.
-  - Remove character `x` or `X` to remove character to the left
-  - Replace mode `r` 
-  - `.` to repeat previous command
-  - `ctrl+g` to new line and column that you are on
-  - `~` swap character case
-  - `:#` go to line number
-
 # Lines
   - `I` insert at beginning of line
   - `A` insert at end of line
   - `O` Open new line above and switch to insert mode
   - `o` Open new line below and switch to insert mode
-  - `D` Delete til end of line
+  - `D` Delete to end of line
   - `d0` Delete to beginning of line
-  - `C` Change til end of line
+  - `C` Change to end of line
+  - `c0` Change to beginning of line (^ for soft beginning)
   - `shift+{left|right}-arrow` to jump between words (works in normal and insert modes)
   - `<` and `>` tab left and right respectively
   - Jump to end of line - `end` or regex syntax ($)
@@ -208,164 +187,39 @@
   - `e` end of word
   - `b` previous word
 
-# Vimtutor Lessons
-                          Lesson 4.2: THE SEARCH COMMAND
-
-
-       ** Type  /  followed by a phrase to search for the phrase. **
-
-    1. In Normal mode type the  /  character.  Notice that it and the cursor
-       appear at the bottom of the screen as with the  :  command.
-
-    2. now type 'errroor' <enter>.  this is the word you want to search for.
-
-    3. to search for the same phrase again, simply type  n .
-       to search for the same phrase in the opposite direction, type  n .
-
-    4. to search for a phrase in the backward direction, use  ?  instead of  / .
-
-    5. to go back to where you came from press  ctrl-o  (keep ctrl down while
-       pressing the letter o).  repeat to go back further.  ctrl-i goes forward.
-
-  --->  "errroor" is not the way to spell error;  errroor is an error.
-  note: when the search reaches the end of the file it will continue at the
-        start, unless the 'wrapscan' option has been reset.
-
-
-                        lesson 4.4: the substitute command
-
-
-          ** type  :s/old/new/g  to substitute 'new' for 'old'. **
-
-    1. Move the cursor to the line below marked --->.
-
-    2. Type  :s/thee/the <ENTER>  .  Note that this command only changes the
-       first occurrence of "thee" in the line.
-
-    3. Now type  :s/thee/the/g .  Adding the  g  flag means to substitute
-       globally in the line, change all occurrences of "thee" in the line.
-
-  ---> thee best time to see thee flowers is in thee spring.
-
-    4. To change every occurrence of a character string between two lines,
-       type   :#,#s/old/new/g    where #,# are the line numbers of the range
-                                 of lines where the substitution is to be done.
-       Type   :%s/old/new/g      to change every occurrence in the whole file.
-       Type   :%s/old/new/gc     to find every occurrence in the whole file,
-                                 with a prompt whether to substitute or not.
-
-
-                  Lesson 5.1: HOW TO EXECUTE AN EXTERNAL COMMAND
-
-
-     ** Type  :!  followed by an external command to execute that command. **
-
-    1. Type the familiar command  :  to set the cursor at the bottom of the
-       screen.  This allows you to enter a command-line command.
-
-    2. Now type the  !  (exclamation point) character.  This allows you to
-       execute any external shell command.
-
-    3. As an example type   ls   following the ! and then hit <ENTER>.  This
-       will new you a listing of your directory, just as if you were at the
-       shell prompt.  Or use  :!dir  if ls doesn't work.
-
-  NOTE:  It is possible to execute any external command this way, also with
-         arguments.
-
-  NOTE:  All  :  commands must be finished by hitting <ENTER>
-         From here on we will not always mention it.
-
-
-                      Lesson 5.3: SELECTING TEXT TO WRITE
-
-
-          ** To save part of the file, type  v  motion  :w FILENAME **
-
-    1. Move the cursor to this line.
-
-    2. Press  v  and move the cursor to the fifth item below.  Notice that the
-       text is highlighted.
-
-    3. Press the  :  character.  At the bottom of the screen  :'<,'> will appear.
-
-    4. Type  w TEST  , where TEST is a filename that does not exist yet.  Verify
-       that you see  :'<,'>w TEST  before you press <ENTER>.
-
-    5. Vim will write the selected lines to the file TEST.  Use  :!dir  or  :!ls
-       to see it.  Do not remove it yet!  We will use it in the next lesson.
-
-  NOTE:  Pressing  v  starts Visual selection.  You can move the cursor around
-         to make the selection bigger or smaller.  Then you can use an operator
-         to do something with the text.  For example,  d  deletes the text.
-
-
-                     Lesson 5.4: RETRIEVING AND MERGING FILES
-
-
-         ** To insert the contents of a file, type  :r FILENAME  **
-
-    1. Place the cursor just above this line.
-
-  NOTE:  After executing Step 2 you will see text from lesson 5.3.  Then move
-         DOWN to see this lesson again.
-
-    2. Now retrieve your TEST file using the command   :r TEST   where TEST is
-       the name of the file you used.
-       The file you retrieve is placed below the cursor line.
-
-    3. To verify that a file was retrieved, cursor back and notice that there
-       are now two copies of lesson 5.3, the original and the file version.
-
-  NOTE:  You can also read the output of an external command.  For example,
-         :r !ls  reads the output of the ls command and puts it below the
-         cursor.
-
-
-                          Lesson 6.4: COPY AND PASTE TEXT
-
-
-            ** Use the  y  operator to copy text and  p  to paste it **
-
-    1. Move to the line below marked ---> and place the cursor after "a)".
-
-    2. Start Visual mode with  v  and move the cursor to just before "first".
-
-    3. Type  y  to yank (copy) the highlighted text.
-
-    4. Move the cursor to the end of the next line:  j$
-
-    5. Type  p  to put (paste) the text.  Then type:  a second <ESC> .
-
-    6. Use Visual mode to select " item.", yank it with  y , move to the end of
-       the next line with  j$  and put the text there with  p .
-
-  --->  a) this is the first item.
-        b) this is the first item.
-
-
-    NOTE: You can also use  y  as an operator;  yw  yanks one word.
-
-
-            ** Set an option so a search or substitute ignores case **
-
-    1. Search for 'ignore' by entering:  /ignore <ENTER>
-       Repeat several times by pressing  n .
-
-    2. Set the 'ic' (Ignore case) option by entering:   :set ic
-
-    3. Now search for 'ignore' again by pressing  n
-       Notice that Ignore and IGNORE are now also found.
-
-    4. Set the 'hlsearch' and 'incsearch' options:  :set hls is
-
-    5. Now type the search command again and see what happens:  /ignore <ENTER>
-
-    6. To disable ignoring case enter:  :set noic
-
-  NOTE:  To remove the highlighting of matches enter:   :nohlsearch
-  NOTE:  If you want to ignore case for just one search command, use  \c
-         in the phrase:  /ignore\c <ENTER>
+## Search
+  - `/expression` search forward
+  - `?expression` search backward
+  - `n` next
+  - `N` previous
+
+## Search and replace (substitute)
+  - `:s/search/replace` find "search" in the current line and change it to "replace." This will only change the first occurence of the word "search."
+  - `:s/search/replace/g` find "search" in the current line and change it to "replace." Changes all occurences in the line.
+  - `:3,10s/search/replace/g` find "search" in lines 3-10 (inclusive) and replace it with the word "replace".
+  - `:%s/search/replace/gc` find "search" in the entire document and ask me to [c]onfirm replacing it with the word "replace" each time.
+  - The first character after `:%s` is the delimiter and can be most non-alphanumeric characters (but not \, " or |). This means that `:%s/a/b` does the same thing as `:%s#a#b`
+  - See `:help magic` if you want to be throughly confused.
+
+## Execute shell command
+  - `:!ls` any command prefixed with `!` will be executed by your shell.
+  - `:e new/dir/path.txt` creates a buffer for path.txt and you can edit this buffer but you won't be able to save it because the path doesn't exist. No worries, run `:!mkdir -p %:h` to create the dir and use % (current buffer path and file name) followed by :h to *only* return the path. NOTE: get used to % because it comes in handy. Especially when you're editing .vimrc and need to source it. Just use `:source %`
+  <https://til.hashrocket.com/posts/d2bed4a1e5-create-a-new-file-in-a-new-directory>
+
+## Reading and writing selections to disk (partials)
+  - Any text highlighted in visual modes can be written to a new file. Just highlight your text then `:w filename`. I think of this as partials in rails. This didn't seem incredibly useful at first, but it is. See example below.
+  - Insert text from a file using `:r filename` the text will be inserted at the position of your cursor.
+  
+  Example: While writing aliases for .zshrc I wanted to move them into separate files by program. I simply wrote the list, highlighted what I wanted with `V{count}{j|k}` then `:w zsh/.aliases/program`. PROTIP THOUGH: this will put you in the new buffer window and your selection is gone. DANG! Don't worry. This is how we do it:
+
+  1. From the new buffer window `:!mkdir -p %:h` to create our path
+  2. `:w` to save the file
+  3. `ctrl+o` to get back to our original file
+  4. `gv` to reselect the highlighted text we wrote to disk
+  5. `d` to delete
+  6. `source ~/path/to/whatever`
+
+You try. If you've pulled this repo and want to learn vim I suggest you use `:r` to read in the aliases to create a list, then practice highighting to write them out. Extra protip: vim stores the last 10 files you've opened. You can jump to them using `'0` to `'9` if you're jump history with `ctrl+o` is long.
 
 # Working with chunks of text
   For the next three exercises, move your cursor to the line of the instruction text before selecting text.
@@ -395,8 +249,9 @@
     { id: 6, name: "foo 6" },
     { id: 7, name: "foo 7" }
   ----------------------------------------
+
 # Splitting lines
-  Split a line with: `f ` to get to whitespace, `ciw` kill whitespace, `return`
+  Split a line with: `f ` (f then spacebar) to get to whitespace, `ciw` kill whitespace, `return`
   left side |  right side
 
 # Plugins that make you unstoppable
@@ -465,6 +320,13 @@ IMPORTANT: Surround distinguishes between `{` and `}` (and all other brackets ex
 * CtrlP - Fuzzy find your files
 `ctrl+p` as the name suggests will open a fuzzy search and list any files that match. By default it will start indexing files from where you started vim. You can use `:pwd` to find out where you are and `:cd path/to/something` if you want to change it.
 
+  - `ctrl+f` and `ctrl+b` to switch modes modes [f]orward and [b]ackward through project files, buffers, and mru (most recently used) files.
+  - `ctrl+d` to toggle file name only mode.
+  - `ctrl+v` open file in [v]ertical split
+  - `ctrl+t` open file in [t]ab
+  - `ctrl+x` open file in horizontal split. It's not mnemonic, but it's convenient.
+  - `ctrl+n` and `ctrl+p` to cycle search history
+
 # Window management
 - `ctrl+w` {up|down|left|right} moves cursor to window in that direction
 - `ctrl+ww` move cursor to next window
@@ -475,8 +337,6 @@ IMPORTANT: Surround distinguishes between `{` and `}` (and all other brackets ex
 
 # Package management
 Just use vundle because it supports all the other package managers and all you have to do is add {username}/{repo} from github to .vimrc then `'V:PluginInstall :so %` ('V = Open marked .vimrc then run :PluginInstall then run :source path-current-file)
-
-TODO: `q:`, `q/` query?
 
 # Utilities
 - `ctrl+a` increment integer
@@ -503,14 +363,14 @@ Word wrap seems to be a complicated topic in vim. There are resources with vario
 
 # Resources
 - vimtutor
-- Vim <https://www.youtube.com/watch?v=1lzXr-MztOU&list=PLy7Kah3WzqrEjsuvhT46fr28Q11oa5ZoI>
-- Graphical cheat sheet tutorial <http://www.viemu.com/a_vi_vim_graphical_cheat_sheet_tutorial.html>
-- Vim + tmux <https://www.youtube.com/watch?v=5r6yzFEXajQ&t=1696s>
-- How to do 90% of what plugins do with just vim <https://www.youtube.com/watch?v=XA2WjJbmmoM&t=2670s>
-- VimAwesome.com <https://vimawesome.com/>
-- Vim tips on fandom <https://vim.fandom.com/wiki/Vim_Tips_Wiki>
-- Vim registers <https://www.brianstorti.com/vim-registers/>
-- Folds cheat sheet <https://gist.github.com/lestoni/8c74da455cce3d36eb68>
+- [Vim](https://www.youtube.com/watch?v=1lzXr-MztOU&list=PLy7Kah3WzqrEjsuvhT46fr28Q11oa5ZoI)
+- [Graphical cheat sheet tutorial](http://www.viemu.com/a_vi_vim_graphical_cheat_sheet_tutorial.html)
+- [Vim + tmux](https://www.youtube.com/watch?v=5r6yzFEXajQ&t=1696s)
+- [How to do 90% of what plugins do with just vim](https://www.youtube.com/watch?v=XA2WjJbmmoM&t=2670s)
+- [VimAwesome.com](https://vimawesome.com/)
+- [Vim tips on fandom](https://vim.fandom.com/wiki/Vim_Tips_Wiki)
+- [Vim registers](https://www.brianstorti.com/vim-registers/)
+- [Folds cheat sheet](https://gist.github.com/lestoni/8c74da455cce3d36eb68)
 
 # Folds
 There are various fold methods, but I don't find this particularly interesting, so I'm just copying this cheat sheet for future reference.
@@ -528,4 +388,27 @@ There are various fold methods, but I don't find this particularly interesting, 
 - [z move to start of open fold.
 - ]z move to end of open fold.
 
-<https://gist.github.com/lestoni/8c74da455cce3d36eb68>
+[Folds](https://gist.github.com/lestoni/8c74da455cce3d36eb68)
+
+## TODO
+* [ ] indentation
+* [ ] cleanup vim tutor
+* [ ] color scheme
+* [ ] more on windows - size, hide, vsplit <filename>
+* [ ] regular expressions
+* [ ] macros
+* [ ] ctrl i and o cursor history
+* [ ] need a section on :h, :b, :ls, etc...
+* [ ] i don't know what the hell this does, but look into gg=G for formatting
+* [ ] talk about Leader l for line number with tmux
+* [ ] add example for practical use of visual select + :w (aliases to individual files `gv` to reselect what was written then `d` then `yykp$bcwname-of-file`)
+* [ ] w vs W, etc..
+* [ ] `q:`, `q/` query?
+
+Find a place for these:
+  - Remove character `x` or `X` to remove character to the left
+  - Replace mode `r`
+  - `.` to repeat previous command
+  - `ctrl+g` to new line and column that you are on
+  - `~` swap character case
+  - `:#` go to line number
