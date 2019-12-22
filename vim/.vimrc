@@ -1,30 +1,11 @@
-" START - Setting up Vundle - the vim plugin bundler
-let iCanHazVundle=1
-let vundle_readme=expand('~/.vim/bundle/Vundle.vim/README.md')
-if !filereadable(vundle_readme)
-  echo "Installing Vundle.."
-  echo ""
-  silent !mkdir -p ~/.vim/bundle
-  silent !git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-  let iCanHazVundle=0
-endif
+set nocompatible              " be iMproved, required
+filetype off                  " required
 
 " set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim/
-call vundle#rc()
-
-" let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
-if iCanHazVundle == 0
-  echo "Installing Bundles, please ignore key map error messages"
-  echo ""
-  :PluginInstall
-endif
-" END - Setting up Vundle - the vim plugin bundler
-
-" Plugins!
-" ----------------------------------------------------------------------
+set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
+  " Plugins
+  Plugin 'VundleVim/Vundle.vim'
   Plugin 'christoomey/vim-tmux-navigator'
   Plugin 'edkolev/tmuxline.vim'
   Plugin 'easymotion/vim-easymotion'
@@ -247,7 +228,7 @@ set whichwrap=b,s,h,l,<,>,[,]   " Backspace and cursor keys wrap too
 set wildmenu " Better command-line completion
 set showcmd  " Show partial commands in the last line of the screen
 
-" not using this because it breaks fuzzy :find with * for some reason
+" not using this because it breaks :find with * for some reason
 " set wildmode=longest,list,full " Command <Tab> completion, list matches, then longest common part, then all.
 
 " Use case insensitive search, except when using capital letters
@@ -278,7 +259,6 @@ set scrolloff=3       " Minimum lines to keep above and below cursor
 set foldenable        " Auto fold code
 set foldmethod=indent " fold based on indent level
 set foldlevelstart=20
-"nnoremap <space> za   " space open/close folds
 
 set list
 set listchars=tab:›\ ,trail:•,extends:#,nbsp:. " Highlight problematic whitespace
