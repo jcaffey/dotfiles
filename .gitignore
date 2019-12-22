@@ -1,6 +1,6 @@
 */**
 
-#Ignore everything except...
+# Ignore everything except...
 !git/**/.gitkeep
 !guides/**/.gitkeep
 !hyper/.hyper.js/.gitkeep
@@ -13,3 +13,4 @@
 !vim/.vim/.swp/.gitkeep
 !vim/.vim/.undo/.gitkeep
 !zsh/.zshrc
+!zsh/**
