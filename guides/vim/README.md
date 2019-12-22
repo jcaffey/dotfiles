@@ -11,12 +11,15 @@
   TODO: need a section on :h, :b, :ls, etc...
   i don't know what the hell this does, but look into gg=G for formatting
   talk about Leader l for line number with tmux
+  add example for practical use of visual select + :w (aliases to individual files `gv` to reselect what was written then `d` then `yykp$bcwname-of-file`)
+  w vs W, etc..
 # Buffers are better than tabs. I promise.
   Buffers are just files that vim has in memory. Any file you open will be listed in buffers unless you ask vim to get rid of it with `:bd{buffer-number}`. Here are the common buffer commands I use all the time.
   - `:ls` list buffers
   - `:b{buffer-number}` switch to that buffer. IMPORTANT: vim will ask if you want to save your changes to the file (if it has changed), press y or your changes are gone. You have been warned.
   - `:bd{buffer-number}` close buffer. NOTE: if you are editing a file and vim complains about the file being opened in another program (probably another instance of vim) this is the command you need to remove the buffer from vim.
   - `:vs#{buffer-number}` open buffer in vertical split
+  - `:s#{buffer-number}` open buffer in horizontal split
 
 # Windows and multiple buffers
   TODO: bindings + tmux
