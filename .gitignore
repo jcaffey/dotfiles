@@ -12,5 +12,4 @@
 !vim/.vim/.backup/.gitkeep
 !vim/.vim/.swp/.gitkeep
 !vim/.vim/.undo/.gitkeep
-!zsh/.zshrc
 !zsh/**
