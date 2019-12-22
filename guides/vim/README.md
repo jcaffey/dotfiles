@@ -257,8 +257,8 @@ You try. If you've pulled this repo and want to learn vim I suggest you use `:r`
 ## Plugins that make you unstoppable
   * EasyMotion - This is, by far, the coolest and fastest way to navigate a document. EasyMotion asks you what you are looking for and then puts anchor points in the window to jump to the location matching the characters you provided. If you need to move more than a few lines this is way faster than using relative line numbers to jump up or down. This is what makes my preferred strategy for word wrapping work. See word wrapping.
 
-[EasyMotion](https://github.com/easymotion/vim-easymotion)
-![EasyMotion][https://camo.githubusercontent.com/d5f800b9602faaeccc2738c302776a8a11797a0e/68747470733a2f2f662e636c6f75642e6769746875622e636f6d2f6173736574732f333739373036322f323033393335392f61386539333864362d383939662d313165332d383738392d3630303235656138333635362e676966]
+  [EasyMotion](https://github.com/easymotion/vim-easymotion)
+  ![EasyMotion](https://camo.githubusercontent.com/d5f800b9602faaeccc2738c302776a8a11797a0e/68747470733a2f2f662e636c6f75642e6769746875622e636f6d2f6173736574732f333739373036322f323033393335392f61386539333864362d383939662d313165332d383738392d3630303235656138333635362e676966)
 
   - `<Leader>j` show anchors down. Same for k to go up.
   - `<Leader>f` show anchors [f]orward in the document. Use `F` to reverse.
