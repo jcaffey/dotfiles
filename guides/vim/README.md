@@ -184,7 +184,7 @@ You try. If you've pulled this repo and want to learn vim I suggest you use `:r`
 
   `%` jumps are marked with []
   [d]ef eql?[(]other[)]
-    options = [{] verbose: true [}]
+    options = [{] verbose: true [}O=]
 
     [i]f other.is_a? String
       self.to_s == other || self.to_s[(]options[)] == other
@@ -211,10 +211,10 @@ You try. If you've pulled this repo and want to learn vim I suggest you use `:r`
   <https://www.brianstorti.com/vim-registers/>
 
 ## Working with chunks of text
-  For the next three exercises, move your cursor to the line of the instruction text before selecting text.
+  For the next three instructions, move your cursor to the line of the instruction text before making a selectio
 
   1. Select the text between ---- with `5j V 9j`
-  2. Select the text between "hashes = [" and "]" with `7j % vi]`
+  2. Select the text between "hashes = [" and "]" with `7jvi]`
   3. Select only id numbers with `4j 0 f0 ctrl+v 7j`
 
   ----------------------------------------
@@ -228,15 +228,6 @@ You try. If you've pulled this repo and want to learn vim I suggest you use `:r`
     { id: 6, name: "foo 6" },
     { id: 7, name: "foo 7" }
   ]
-
-    { id: 0, name: "foo 0" },
-    { id: 1, name: "foo 1" },
-    { id: 2, name: "foo 2" },
-    { id: 3, name: "foo 3" },
-    { id: 4, name: "foo 4" },
-    { id: 5, name: "foo 5" },
-    { id: 6, name: "foo 6" },
-    { id: 7, name: "foo 7" }
   ----------------------------------------
 
 ## Splitting lines
