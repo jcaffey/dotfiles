@@ -1,0 +1,11 @@
+# tmux aliases and functions
+alias tl="tmux ls"
+alias td="tmux detach"
+function tn {
+  readonly s=${1:? "Must provide session"}
+  tmux new -s "$s"
+}
+function ta {
+  readonly t=${1:? "Must provide session"}
+  tmux attach -t "$t"
+}

@@ -125,46 +125,14 @@ lfcd () {
 }
 bindkey -s '^o' 'lfcd\n'
 
-# vimmmm
+# vimmm
 export EDITOR=/usr/local/bin/vim
 
-# edit rc files
-alias vimrc="vim ~/.vimrc"
-alias rc="vim ~/.zshrc"
-
-# reload .zshrc
-alias reload="source ~/.zshrc"
-
-# colorls with ll
-alias ll="colorls -lA --sd"
-
-# git aliases
-alias gc="git commit -m"
-alias gp="git push"
-alias gs="git status"
-function ga {
-  readonly path=${1:? "Must provide path"}
-  git add "$path"
-}
-
-
-function gd {
-  readonly path=${1:? "Must provide path"}
-  git diff "$path"
-}
-
-# tmux aliases and functions
-alias tl="tmux ls"
-alias td="tmux detach"
-function tn {
-  readonly s=${1:? "Must provide session"}
-  tmux new -s "$s"
-}
-
-function ta {
-  readonly t=${1:? "Must provide session"}
-  tmux attach -t "$t"
-}
+# Aliases
+source ~/.zsh_aliases/common
+source ~/.zsh_aliases/ls
+source ~/.zsh_aliases/git
+source ~/.zsh_aliases/tmux
 
 # Syntax highlighting
 #source ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh

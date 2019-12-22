@@ -1,0 +1,6 @@
+# edit rc files
+alias vimrc="vim ~/.vimrc"
+alias rc="vim ~/.zshrc"
+
+# reload .zshrc
+alias reload="source ~/.zshrc"

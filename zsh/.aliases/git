@@ -1,0 +1,11 @@
+alias gc="git commit -m"
+alias gp="git push"
+alias gs="git status"
+function ga {
+  readonly path=${1:? "Must provide path"}
+  git add "$path"
+}
+function gd {
+  readonly path=${1:? "Must provide path"}
+  git diff "$path"
+}
