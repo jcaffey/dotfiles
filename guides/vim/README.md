@@ -73,7 +73,7 @@
   - `p` paragraphs
   - `t` tags
 
-# Motions
+## Motions
   - `a` all
   - `i` in
   - `t` 'til forward
@@ -81,21 +81,21 @@
   - `f` find forward
   - `F` find backward
 
-# Command Format
+## Command Format
   {number of times}{command}{motion}{text object}
 
-# Command history
+## Command history
   - `q /`, `q ?` new buffer with search history
   - `q :` new buffer with command history
 
-# Marks
+## Marks
   - `m [a-z]` mark line in a-z register (per buffer) or A-Z register (global)
   - `m [A-Z]` mark line in A-Z register, but globally. Open ~/.vimrc, `mV`, `:q`, start new vim and type `'V` ... magic!
   - `' [a-z]` go to beginning of line at first non-whitespace character
   - '` [a-z]' back tick then register means "jump to line and column position." NOTE: this is really useful for macros!
   - '``' that's two back ticks - jump to previous location
 
-# Common commands
+## Common commands
   - `ctrl+o`, `ctrl+i` move forward and backward through jump history (especially useful when editing multiple files) NOTE: when I first learned this I didn't realize this was how to jump between files as quickly as you would with tabs. Remember these!
   - `d15G` delete lines from cursor position to line 15
   - `5dk` delete five lines up
@@ -118,7 +118,7 @@
   - `va"` visually select all text including double quotes
   - `ciw'ctrl+r"'` wrap text in double quotes (change in word, replace with ', insert the contents of the " register, add last ') or just use surround.vim
 
-# The magical %
+## The magical %
   - `%` jump to matching parentheses, bracket, or curly brace.
   - `%` will jump to other *matching* items depending upon the programming language. See ruby example below.
 
@@ -135,7 +135,7 @@
 
   Given the method above, `:line-number-of-def` will place the cursor on the first line of the method declaration. `V` will highlight the line. `%` will highlight from the line to (and including) the end line. Now you can yank, change, or whatever you need to do. If you are indenting simply press `<` or `>` and then `.` to repeat indentation.
 
-# Registers
+## Registers
   - The default or unnamed register is `"`
   - Registers 1-9 hold the text you have yanked/deleted, so you never really lose anything.
   - Use `:reg` or `:registers` to see what the registers hold.
@@ -150,7 +150,7 @@
   Excellent article covering registers in detail:
   <https://www.brianstorti.com/vim-registers/>
 
-# Movement
+## Movement
   - Move cursor: `h` left, `j` down, `k` up, `l` right
     - Move cursor: `H`igh, `M`iddle, `L`ow in window (top, middle, bottom)
   - Use `/blah` where blah is something you want to navigate to
@@ -165,7 +165,7 @@
   - Scroll down `ctrl+d` and confine window to document
   - Scroll up `ctrl+u` and confine window to document
 
-# Lines
+## Lines
   - `I` insert at beginning of line
   - `A` insert at end of line
   - `O` Open new line above and switch to insert mode
@@ -182,7 +182,7 @@
     - `g0` go to first non-blank character
   - `#G` move cursor to specified line number
 
-# Words
+## Words
   - `w` beginning of word
   - `e` end of word
   - `b` previous word
@@ -221,7 +221,7 @@
 
 You try. If you've pulled this repo and want to learn vim I suggest you use `:r` to read in the aliases to create a list, then practice highighting to write them out. Extra protip: vim stores the last 10 files you've opened. You can jump to them using `'0` to `'9` if you're jump history with `ctrl+o` is long.
 
-# Working with chunks of text
+## Working with chunks of text
   For the next three exercises, move your cursor to the line of the instruction text before selecting text.
 
   1. Select the text between ---- with `5j V 9j`
@@ -250,11 +250,11 @@ You try. If you've pulled this repo and want to learn vim I suggest you use `:r`
     { id: 7, name: "foo 7" }
   ----------------------------------------
 
-# Splitting lines
+## Splitting lines
   Split a line with: `f ` (f then spacebar) to get to whitespace, `ciw` kill whitespace, `return`
   left side |  right side
 
-# Plugins that make you unstoppable
+## Plugins that make you unstoppable
   * EasyMotion - This is, by far, the coolest and fastest way to navigate a document. EasyMotion asks you what you are looking for and then puts anchor points in the window to jump to the location matching the characters you provided. If you need to move more than a few lines this is way faster than using relative line numbers to jump up or down. This is what makes my preferred strategy for word wrapping work. See word wrapping.
 
   [EasyMotion](https://github.com/easymotion/vim-easymotion)
@@ -327,41 +327,41 @@ IMPORTANT: Surround distinguishes between `{` and `}` (and all other brackets ex
   - `ctrl+x` open file in horizontal split. It's not mnemonic, but it's convenient.
   - `ctrl+n` and `ctrl+p` to cycle search history
 
-# Window management
+## Window management
 - `ctrl+w` {up|down|left|right} moves cursor to window in that direction
 - `ctrl+ww` move cursor to next window
 - `ctrl+w ctrl+r` Rotate windows (swap windows when 2 are visible)
 
-# Substitution (search and replace)
+## Substitution (search and replace)
 - the g modifier probably doesn't work like you think it does. it means global *for each line*
 
-# Package management
+## Package management
 Just use vundle because it supports all the other package managers and all you have to do is add {username}/{repo} from github to .vimrc then `'V:PluginInstall :so %` ('V = Open marked .vimrc then run :PluginInstall then run :source path-current-file)
 
-# Utilities
+## Utilities
 - `ctrl+a` increment integer
 - `ctrl+x` decrement integer
 - `ictrl+r=7*1=` Do math in vim using the expression register (=) while in insert mode. Naturally, the first thing you should do with this information is divide a prime number (because they're awesome) by 0.
 
-# Cursor
+## Cursor
 - Vim keeps pissing me off because the cursor jumps back 1 space from insert mode to nomal mode! YEP! BUT YOU WANT IT TO! Here's why: let's say we have a line with the word "test" and we want to change it to "test123." We could `A123` to change the text then *maybe do something with it.* Because the cursor jumps back we can efficiently yank or perform some other command. This is a contrived example, but hopefully that gets the point across. TODO: make an example that doesnt suck.
 
 - Getting used to the block cursor can be a little annoying at first, but it's totally worth it because it's useful once you get in the groove. Just remember that hitting `i` will allow you to insert to the *left* of the cursor and `a` allow you to [a]ppend to the *right*
 
 - When you mess up and leave some nasty white space at the end of a line, just `f ` (f space) to jump to it and deal with it with `x` or `diw` if there are multiple spaces. This also works for any other character you might accidentally leave somewhere in a line
 
-# Search in a line or block of text
+## Search in a line or block of text
 - `/\%Vsomething` will search for 'something' in:
-  Visual Mode: the highlighted text only.
-  Normal Mode: A sentence? TODO: not sure what the rules are, but this is really useful.
+  * Visual Mode: the highlighted text only.
+  * Normal Mode: A sentence? TODO: not sure what the rules are, but this is really useful.
 
-# Word wrapping
+## Word wrapping
 Word wrap seems to be a complicated topic in vim. There are resources with various strategies for how to handle wordwrapping, but while building this document (my first vim document), I have found 3 things that make this painless:
   1. `(` and `)` to jump from sentence to sentence.
   2. `f{char}` to move 'down lines'
   3. EasyMotion. It just kicks ass.
 
-# Resources
+## Resources
 - vimtutor
 - [Vim](https://www.youtube.com/watch?v=1lzXr-MztOU&list=PLy7Kah3WzqrEjsuvhT46fr28Q11oa5ZoI)
 - [Graphical cheat sheet tutorial](http://www.viemu.com/a_vi_vim_graphical_cheat_sheet_tutorial.html)
@@ -372,7 +372,7 @@ Word wrap seems to be a complicated topic in vim. There are resources with vario
 - [Vim registers](https://www.brianstorti.com/vim-registers/)
 - [Folds cheat sheet](https://gist.github.com/lestoni/8c74da455cce3d36eb68)
 
-# Folds
+## Folds
 There are various fold methods, but I don't find this particularly interesting, so I'm just copying this cheat sheet for future reference.
 
 - zj moves the cursor to the next fold.
