@@ -72,17 +72,6 @@
 ## Command Format
   {number of times}{command}{motion}{text object}
 
-## Command history
-  - `q /`, `q ?` new buffer with search history
-  - `q :` new buffer with command history
-
-## Marks
-  - `m [a-z]` mark line in a-z register (per buffer) or A-Z register (global)
-  - `m [A-Z]` mark line in A-Z register, but globally. Open ~/.vimrc, `mV`, `:q`, start new vim and type `'V` ... magic!
-  - `' [a-z]` go to beginning of line at first non-whitespace character
-  - '` [a-z]' back tick then register means "jump to line and column position." NOTE: this is really useful for macros!
-  - '``' that's two back ticks - jump to previous location
-
 ## Common commands
   - `ctrl+o`, `ctrl+i` move forward and backward through jump history (especially useful when editing multiple files) NOTE: when I first learned this I didn't realize this was how to jump between files as quickly as you would with tabs. Remember these!
   - `d15G` delete lines from cursor position to line 15
@@ -105,38 +94,6 @@
   - `vi"` visually select all text in double quotes
   - `va"` visually select all text including double quotes
   - `ciw'ctrl+r"'` wrap text in double quotes (change in word, replace with ', insert the contents of the " register, add last ') or just use surround.vim
-
-## The magical %
-  - `%` jump to matching parentheses, bracket, or curly brace.
-  - `%` will jump to other *matching* items depending upon the programming language. See ruby example below.
-
-  `%` jumps are marked with []
-  [d]ef eql?[(]other[)]
-    options = [{] verbose: true [}]
-
-    [i]f other.is_a? String
-      self.to_s == other || self.to_s[(]options[)] == other
-    [e]lse
-      self.to_s[(]options[)] == other.to_s[(]options[)]
-    [e]nd
-  [e]nd
-
-  Given the method above, `:line-number-of-def` will place the cursor on the first line of the method declaration. `V` will highlight the line. `%` will highlight from the line to (and including) the end line. Now you can yank, change, or whatever you need to do. If you are indenting simply press `<` or `>` and then `.` to repeat indentation.
-
-## Registers
-  - The default or unnamed register is `"`
-  - Registers 1-9 hold the text you have yanked/deleted, so you never really lose anything.
-  - Use `:reg` or `:registers` to see what the registers hold.
-  - In insert mode you can `ctrl+r "` to paste from default register
-  - In normal mode you can `"1p` which means grab register 1 and paste
-  - `ayiw` yank in word to the a register
-
-  - Update .vimrc with the following:
-  " Allow copy/paste between vims and system by setting the clipboard to be unnamed register.
-  set clipboard^=unnamed
-
-  Excellent article covering registers in detail:
-  <https://www.brianstorti.com/vim-registers/>
 
 ## Movement
   - Move cursor: `h` left, `j` down, `k` up, `l` right
@@ -220,6 +177,38 @@ You try. If you've pulled this repo and want to learn vim I suggest you use `:r`
 ## Windows and multiple buffers
   - `:vert h ctrlp-mappings` open help at ctrlp mappings in vertical split
   - TODO: bindings + tmux
+
+## The magical %
+  - `%` jump to matching parentheses, bracket, or curly brace.
+  - `%` will jump to other *matching* items depending upon the programming language. See ruby example below.
+
+  `%` jumps are marked with []
+  [d]ef eql?[(]other[)]
+    options = [{] verbose: true [}]
+
+    [i]f other.is_a? String
+      self.to_s == other || self.to_s[(]options[)] == other
+    [e]lse
+      self.to_s[(]options[)] == other.to_s[(]options[)]
+    [e]nd
+  [e]nd
+
+  Given the method above, `:line-number-of-def` will place the cursor on the first line of the method declaration. `V` will highlight the line. `%` will highlight from the line to (and including) the end line. Now you can yank, change, or whatever you need to do. If you are indenting simply press `<` or `>` and then `.` to repeat indentation.
+
+## Registers
+  - The default or unnamed register is `"`
+  - Registers 1-9 hold the text you have yanked/deleted, so you never really lose anything.
+  - Use `:reg` or `:registers` to see what the registers hold.
+  - In insert mode you can `ctrl+r "` to paste from default register
+  - In normal mode you can `"1p` which means grab register 1 and paste
+  - `ayiw` yank in word to the a register
+
+  - Update .vimrc with the following:
+  " Allow copy/paste between vims and system by setting the clipboard to be unnamed register.
+  set clipboard^=unnamed
+
+  Excellent article covering registers in detail:
+  <https://www.brianstorti.com/vim-registers/>
 
 ## Working with chunks of text
   For the next three exercises, move your cursor to the line of the instruction text before selecting text.
@@ -332,8 +321,16 @@ IMPORTANT: Surround distinguishes between `{` and `}` (and all other brackets ex
 - `ctrl+ww` move cursor to next window
 - `ctrl+w ctrl+r` Rotate windows (swap windows when 2 are visible)
 
-## Substitution (search and replace)
-- the g modifier probably doesn't work like you think it does. it means global *for each line*
+## Command history
+  - `q /`, `q ?` new buffer with search history
+  - `q :` new buffer with command history
+
+## Marks
+  - `m [a-z]` mark line in a-z register (per buffer) or A-Z register (global)
+  - `m [A-Z]` mark line in A-Z register, but globally. Open ~/.vimrc, `mV`, `:q`, start new vim and type `'V` ... magic!
+  - `' [a-z]` go to beginning of line at first non-whitespace character
+  - '` [a-z]' back tick then register means "jump to line and column position." NOTE: this is really useful for macros!
+  - '``' that's two back ticks - jump to previous location
 
 ## Package management
 Just use vundle because it supports all the other package managers and all you have to do is add {username}/{repo} from github to .vimrc then `'V:PluginInstall :so %` ('V = Open marked .vimrc then run :PluginInstall then run :source path-current-file)
