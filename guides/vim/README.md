@@ -1,17 +1,5 @@
 ## THERE IS ONLY VIM
 
-## Buffers are better than tabs. I promise.
-  Buffers are just files that vim has in memory. Any file you open will be listed in buffers unless you ask vim to get rid of it with `:bd{buffer-number}`. Here are the common buffer commands I use all the time.
-  - `:ls` list buffers
-  - `:b{buffer-number}` switch to that buffer. IMPORTANT: vim will ask if you want to save your changes to the file (if it has changed), press y or your changes are gone. You have been warned.
-  - `:bd{buffer-number}` close buffer. NOTE: if you are editing a file and vim complains about the file being opened in another program (probably another instance of vim) this is the command you need to remove the buffer from vim.
-  - `:vs#{buffer-number}` open buffer in vertical split
-  - `:s#{buffer-number}` open buffer in horizontal split
-
-## Windows and multiple buffers
-  - `:vert h ctrlp-mappings` open help at ctrlp mappings in vertical split
-  - TODO: bindings + tmux
-
 ## Thoughts on general setup and getting around a document
   It seems that absolute line numbers and relative line numbers are both important. I have opted to default to relative and show absolute line numbers in insert mode. You can peek with `i` if you need an absolute number. I'm a vim newb, but my thought is that it is more intuitive and efficient to move around a document with `{` `}`, `(` `)`, `ctrl+u`, `ctrl+d` and the help of `/sometext`, `?sometext`, `H`, `M`, `L`, etc.. to quickly jump where you need to go. This is faster and more intuitive than `:line-number` as there are many other ways to get to that line and I can't type numbers quickly. It would take me the same amount of time to type `/longstring` as it would `:73`. Line numbers also become a problem when files are huge. More digits means less efficient. Finally, typing `:73` would require four keystrokes. Typing the maximum relative number will always be 2 digits unless you're a crazy person with a crazy big screen and pressing `j` or `k` for a direction leaves us with only three keystrokes. NEAT!
 
@@ -220,6 +208,18 @@
   6. `source ~/path/to/whatever`
 
 You try. If you've pulled this repo and want to learn vim I suggest you use `:r` to read in the aliases to create a list, then practice highighting to write them out. Extra protip: vim stores the last 10 files you've opened. You can jump to them using `'0` to `'9` if you're jump history with `ctrl+o` is long.
+
+## Buffers are better than tabs. I promise.
+  Buffers are just files that vim has in memory. Any file you open will be listed in buffers unless you ask vim to get rid of it with `:bd{buffer-number}`. Here are the common buffer commands I use all the time.
+  - `:ls` list buffers
+  - `:b{buffer-number}` switch to that buffer. IMPORTANT: vim will ask if you want to save your changes to the file (if it has changed), press y or your changes are gone. You have been warned.
+  - `:bd{buffer-number}` close buffer. NOTE: if you are editing a file and vim complains about the file being opened in another program (probably another instance of vim) this is the command you need to remove the buffer from vim.
+  - `:vs#{buffer-number}` open buffer in vertical split
+  - `:s#{buffer-number}` open buffer in horizontal split
+
+## Windows and multiple buffers
+  - `:vert h ctrlp-mappings` open help at ctrlp mappings in vertical split
+  - TODO: bindings + tmux
 
 ## Working with chunks of text
   For the next three exercises, move your cursor to the line of the instruction text before selecting text.
