@@ -216,7 +216,7 @@ You try. If you've pulled this repo and want to learn vim I suggest you use `:r`
   1. Select the text between ---- with `5j V 9j`
   2. Select the text between "hashes = [" and "]" with `7jvi]`
   3. Select only id numbers with `4j 0 f0 ctrl+v 7j`
-
+`
   ----------------------------------------
   hashes = [
     { id: 0, name: "foo 0" },
@@ -229,7 +229,7 @@ You try. If you've pulled this repo and want to learn vim I suggest you use `:r`
     { id: 7, name: "foo 7" }
   ]
   ----------------------------------------
-
+`
 ## Splitting lines
   Split a line with: `f ` (f then spacebar) to get to whitespace, `ciw` kill whitespace, `return`
   left side |  right side
