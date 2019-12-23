@@ -11,7 +11,9 @@ Windows:
 
 3. stow -vn package-name to see what files will be moved, this will perform a dry run. your filesystem will not be changed. Recommended packages: hyper, vifm, vim, tmux, zsh
 
-4. stow will not override any existing files unless you force it to, i recommend moving your files to a .dotfiles_backup directory like this: mkdir ~/.dotfiles_backup
+4. stow will not override any existing files unless you force it to, i recommend moving your files to a .dotfiles_backup directory like this: mkdir ~/.dotfiles_backup && mv ~/.\* ~/.last-dotfiles (automate this and have it automatically do a cp)
+
+You can also use stow's `--adopt` option to replace the existing file with a symbolic link and move that file to the dotfiles repo.
 
 5. stow -v package-name Example: stow -v vim
 
@@ -23,7 +25,8 @@ git clone https://github.com/jcaffey/dotfiles.git ~/dotfiles && cd ~/dotfiles &&
 `
 
 ## TODO
-
+* [ ] make note about using % with `:!cp % ~/.last_dotfiles` for backing up files in vim
+* [ ] figure out how to use tmux panes with multiple vim sessions and not have to deal with swap overwriting issues...
 * [x] rubocop runner + highlighting
 * [x] tmux statusline fix when in vim
 * [x] tmux-resurrect and tmux-continuum
