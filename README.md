@@ -4,6 +4,19 @@ Manage dotfiles with GNU stow
 OSX: `brew install stow`
 Ubuntu: todo
 
+Windows:
+1. sudo apt install stow
+
+2. checkout dotfiles
+
+3. stow -vn package-name to see what files will be moved, this will perform a dry run. your filesystem will not be changed. Recommended packages: hyper, vifm, vim, tmux, zsh
+
+4. stow will not override any existing files unless you force it to, i recommend moving your files to a .dotfiles_backup directory like this: mkdir ~/.dotfiles_backup
+
+5. stow -v package-name Example: stow -v vim
+
+6. some packages require additional setup, so TODO: make shell script to run stow for each package along with installing plugins, etc...
+
 Clone this repo: 
 `
 git clone https://github.com/jcaffey/dotfiles.git ~/dotfiles && cd ~/dotfiles && echo "stow [ options ] package"
