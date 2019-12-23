@@ -15,7 +15,7 @@ Windows:
 
 5. stow -v package-name Example: stow -v vim
 
-6. some packages require additional setup, so TODO: make shell script to run stow for each package along with installing plugins, etc...
+6. some packages require additional setup, so TODO: make shell script to run stow for each package along with installing plugins, etc... actually, just make a .last-dotfiles so users can always have a backup of their last dotfile settings, similar to oh my zsh setup.
 
 Clone this repo: 
 `
