@@ -5,9 +5,15 @@
 3. Install nerd font
 4. Install powerline font
 5. Install spaceship
+  git clone https://github.com/denysdovhan/spaceship-prompt.git "$ZSH_CUSTOM/themes/spaceship-prompt"
+  ln -s "$ZSH_CUSTOM/themes/spaceship-prompt/spaceship.zsh-theme" "$ZSH_CUSTOM/themes/spaceship.zsh-theme"
 6. Install homebrew
 7. brew install stow
-
+NOTE: you need a bash installed and available in your $PATH for my tmux config to work correctly. If you are on MacOS Catalina, you can just `brew install bash`
+Install tmux `brew install tmux`
+Clone TPM repository `git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm`
+`prefix + I` to install plugins
+Now you can `prefix + ctrl-s` to save your session between reboots or just let tmux continuum save it for you every 15 minutes. Vim sessions will automatically be restored if you are using my config via vim-obsession.
 need env variables for things like fonts, paths, etc...
 
 Manage dotfiles with GNU stow
@@ -22,7 +28,7 @@ Windows:
 
 3. stow -vn package-name to see what files will be moved, this will perform a dry run. your filesystem will not be changed. Recommended packages: hyper, vifm, vim, tmux, zsh
 
-4. stow will not override any existing files unless you force it to, i recommend moving your files to a .dotfiles_backup directory like this: mkdir ~/.dotfiles_backup && mv ~/.\* ~/.last-dotfiles (automate this and have it automatically do a cp)
+4. stow will not override any existing files unless you force it to, i recommend moving your dotfiles to a directory like this: `mkdir ~/.dotfiles-last && mv ~/.* ~/.dotfiles-last` (automate this and have it automatically do a cp)
 
 You can also use stow's `--adopt` option to replace the existing file with a symbolic link and move that file to the dotfiles repo.
 
