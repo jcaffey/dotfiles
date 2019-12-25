@@ -1,5 +1,7 @@
 ## dotfiles for an efficient and awesome terminal
 
+In MacOS you need to disable shortcuts for ctrl+arrows in System Preferences -> Keyboard -> Shortcuts. Uncheck the boxes for mission control labeled ^->, ^<-, etc...
+
 1. Install zsh if < 5.2
 2. Install oh my zsh
 3. Install nerd font
