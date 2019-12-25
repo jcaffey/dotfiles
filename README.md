@@ -1,4 +1,15 @@
 ## dotfiles for an efficient and awesome terminal
+
+1. Install zsh if < 5.2
+2. Install oh my zsh
+3. Install nerd font
+4. Install powerline font
+5. Install spaceship
+6. Install homebrew
+7. brew install stow
+
+need env variables for things like fonts, paths, etc...
+
 Manage dotfiles with GNU stow
 
 OSX: `brew install stow`
