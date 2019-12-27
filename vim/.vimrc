@@ -6,6 +6,7 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
   " Plugins
   Plugin 'VundleVim/Vundle.vim'
+  Plugin 'chrisbra/unicode.vim'
   Plugin 'christoomey/vim-tmux-navigator'
   Plugin 'edkolev/tmuxline.vim'
   Plugin 'easymotion/vim-easymotion'
@@ -35,6 +36,9 @@ filetype plugin indent on    " required
 " Plugin settings
 " CtrlP
 let g:ctrlp_working_path_mode = 0 " do not change working directory everytime ctrlp is opened
+
+" nerdtree
+let NERDTreeQuitOnOpen=1 " close nerd tree when opening file
 
 " Syntastic
 set statusline+=%#warningmsg#
@@ -179,7 +183,7 @@ augroup numbertoggle
 augroup END
 
 " Easy Motion
-" ----------------------------------------------------------------------
+" ----------------------------------------
 let g:EasyMotion_do_mapping = 1 " Enable default mappings
 map <Leader> <Plug>(easymotion-prefix)
 
@@ -196,7 +200,7 @@ nmap s <Plug>(easymotion-overwin-f2)
 let g:EasyMotion_smartcase = 1
 
 "   Mapping              | Details
-"   ---------------------|----------------------------------------------
+" ----------------------------------------
 "   <Leader>f{char}      | Find {char} to the right. See |f|.
 "   <Leader>F{char}      | Find {char} to the left. See |F|.
 "   <Leader>t{char}      | Till before the {char} to the right. See |t|.

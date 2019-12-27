@@ -4,6 +4,7 @@
 !git/**/.gitkeep
 !guides/**/.gitkeep
 !hyper/.hyper.js/.gitkeep
+!ssh/.ssh/config
 !tmux/.tmux.conf/.gitkeep
 !tmux/.tmux/.hybrid-theme.tmuxline/.gitkeep
 !vifm/vifmrc/.gitkeep
