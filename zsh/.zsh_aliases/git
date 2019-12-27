@@ -9,3 +9,7 @@ function gd {
   readonly path=${1:? "Must provide path"}
   git diff "$path"
 }
+function gr {
+  readonly path=${1:? "Must provide path"}
+  git rm "$path"
+}
