@@ -166,6 +166,8 @@
 
 You try. If you've pulled this repo and want to learn vim I suggest you use `:r` to read in the aliases to create a list, then practice highighting to write them out. Extra protip: vim stores the last 10 files you've opened. You can jump to them using `'0` to `'9` if you're jump history with `ctrl+o` is long.
 
+TODO: todo lists in vim using `0r !head -n1 README.md`
+
 ## Buffers are better than tabs. I promise.
   Buffers are just files that vim has in memory. Any file you open will be listed in buffers unless you ask vim to get rid of it with `:bd{buffer-number}`. Here are the common buffer commands I use all the time.
   - `:ls` list buffers
