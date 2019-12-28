@@ -44,6 +44,14 @@ git clone https://github.com/jcaffey/dotfiles.git ~/dotfiles && cd ~/dotfiles &&
 `
 
 ## TODO
+* [ ] section on vim types, flags, and +clipboard
+* [ ] vim copy to unix/windows clipboard * register: `V"*y` to yank and `"*p` to put.
+* [ ] start moving dotfiles to .sugar for sugar term
+* [ ] giphy recorder + screen keys
+* [ ] why sugar term TL;DR because it kicks ass, but mostly because i have so many thoughts in my crazy brain i can't keep up with them and i need to be efficient
+  - no mouse days. make everything hard, so you can be awesome later.
+  - `gpg --list-secret-keys --keyid-format long | sed -n -e '3s/.*\///p' | sed -e 's/ .*//' | pbcopy`
+* [ ] `yf]` example for mardkdown list
 * [ ] introduce snippets concept with `:0r!snip todo.md | sed 's/new/add vimux + rspec to environment for jojo/'`
 * [ ] tmux new pane vim pwd / shell pwd
 * [ ] make note about using % with `:!cp % ~/.last_dotfiles` for backing up files in vim
@@ -72,3 +80,4 @@ git clone https://github.com/jcaffey/dotfiles.git ~/dotfiles && cd ~/dotfiles &&
 * [ ] explain vi mode awesomness in shell
 * [ ] create setup guide: fonts, terminal emulator, gotchas, etc...
 * [ ] install script
+  - zsh, ohmyzsh, git, bash, spaceship, rvm, ruby, yarn, nvm, node 12, gpg, mutt, figlet, vifm, vim/macvim/gvim, tmux, vundle, tpm, pass, curl, wget, brew, apt, monoid nerd font, powerline symbols?
