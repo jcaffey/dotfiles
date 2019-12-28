@@ -1,5 +1,6 @@
 alias la="ls -la"
 alias ll="ls -lahG"
+alias lld="ls -dlahG .*"
 
 # colorls is awesome, but slow when you need to keep checking a directory
 alias cll="colorls -lA --sd"
