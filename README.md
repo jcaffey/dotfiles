@@ -44,7 +44,7 @@ git clone https://github.com/jcaffey/dotfiles.git ~/dotfiles && cd ~/dotfiles &&
 `
 
 ## TODO
-* [ ] introduce snippets concept with `:r snippets/example.thing` and `:0r !head -n1 path.thing`
+* [ ] introduce snippets concept with `:0r!snip todo.md | sed 's/new/add vimux + rspec to environment for jojo/'`
 * [ ] tmux new pane vim pwd / shell pwd
 * [ ] make note about using % with `:!cp % ~/.last_dotfiles` for backing up files in vim
 * [ ] figure out how to use tmux panes with multiple vim sessions and not have to deal with swap overwriting issues...
