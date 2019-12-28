@@ -5,6 +5,7 @@
 
 # whitelist
 !.gitignore
+!bin/**
 !git/**/.gitkeep
 !guides/**/.gitkeep
 !hyper/.hyper.js
