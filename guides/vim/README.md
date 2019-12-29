@@ -350,6 +350,27 @@ Word wrap seems to be a complicated topic in vim. There are resources with vario
   2. `f{char}` to move 'down lines'
   3. EasyMotion. It just kicks ass.
 
+## Real world usage example with muttrc
+I'm currently setting up mutt as my mail client because I must have vim bindings in all applications. I'm simply following a tutorial with a supplied muttrc that has placeholders. Here's what I'm doing for each line (and could probably do more efficiently):
+
+```shell
+set realname = "<first and last name>"
+# `di"` delete in quotes, `iname` insert name
+set from = "<gmail username>@gmail.com"
+# used `j` to go down, cursor was inside angle brackets, so `da>` delete all bracket
+set use_from = yes
+set envelope_from = yes
+
+set smtp_url = "smtps://jcaffey@gmail.com@smtp.gmail.com:465/"
+# cursor before angle brackets, `f<da>` jump [f]orward to angle bracket <, delete all >, then just `iwhatever` to insert whatever.
+set smtp_pass = "<app password>"
+PROTIP: cursor landed on the last quote for me, but it doesn't need to for `di"` to work. This kicks major ass. I thought the cursor had to be in the quotes until I started writing this! No more f/F jumps!
+set imap_user = "<gmail username>@gmail.com"
+Update protip: `di<` doesn't work the same way `di"` does. I need to research this. For now I am doing `f<da>` to find the angle bracket and delete all.
+set imap_pass = "<app password>"
+# `di"` ... you get the idea.
+```
+
 ## Resources
 - vimtutor
 - [Vim](https://www.youtube.com/watch?v=1lzXr-MztOU&list=PLy7Kah3WzqrEjsuvhT46fr28Q11oa5ZoI)
@@ -360,6 +381,7 @@ Word wrap seems to be a complicated topic in vim. There are resources with vario
 - [Vim tips on fandom](https://vim.fandom.com/wiki/Vim_Tips_Wiki)
 - [Vim registers](https://www.brianstorti.com/vim-registers/)
 - [Folds cheat sheet](https://gist.github.com/lestoni/8c74da455cce3d36eb68)
+- [Mutt Tutorial](https://medium.com/@itsjefftong/mutt-gmail-59447a4bffef)
 
 ## Folds
 There are various fold methods, but I don't find this particularly interesting, so I'm just copying this cheat sheet for future reference.
