@@ -162,7 +162,6 @@
   3. `ctrl+o` to get back to our original file
   4. `gv` to reselect the highlighted text we wrote to disk
   5. `d` to delete
-  6. `source ~/path/to/whatever`
 
 You try. If you've pulled this repo and want to learn vim I suggest you use `:r` to read in the aliases to create a list, then practice highighting to write them out. Extra protip: vim stores the last 10 files you've opened. You can jump to them using `'0` to `'9` if you're jump history with `ctrl+o` is long.
 
