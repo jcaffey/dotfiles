@@ -10,6 +10,7 @@
 !git/**/.gitkeep
 !guides/**/.gitkeep
 !hyper/.hyper.js
+!mbsync/**
 !nvm/.nvm/.npmrc
 !sup/**
 tmux/.tmux/**
