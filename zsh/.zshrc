@@ -1,3 +1,6 @@
+# Get $DOTFILES_OS for darwin/wsl/linux
+source ~/dotfiles/.dotfiles_os
+
 # If you come from bash you might have to change your $PATH.
 export PATH=$HOME/bin:/usr/local/bin:$PATH
 
@@ -80,7 +83,6 @@ plugins=(
   dotenv
   osx
   rake
-  rbenv
   ruby
   vi-mode
 )
@@ -114,7 +116,7 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 # vimmm
-export EDITOR=/usr/local/bin/vim
+export EDITOR='vim'
 
 # Aliases
 source ~/.zsh_aliases/common
@@ -123,8 +125,20 @@ source ~/.zsh_aliases/git
 source ~/.zsh_aliases/tmux
 
 # Syntax highlighting
-source /home/jcaffey/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+if [ $DOTFILES_OS = $DOTFILES_DARWIN ]; then
+  source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+else
+  # brew
+  source ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+fi
+
+# NVM
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
-source ~/.rvm/scripts/rvm
+if [ $DOTFILES_OS = $DOTFILES_WSL_LINUX ]; then
+  source ~/.rvm/scripts/rvm
+fi

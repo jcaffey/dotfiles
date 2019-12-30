@@ -1,0 +1,3 @@
+#!/bin/zsh
+readonly name=${1:? "Must provide snippet name"}
+head ~/repos/snippets/$name

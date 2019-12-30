@@ -1,15 +1,24 @@
-*/**
+*
 
-# Ignore everything except...
+# whitelist first level .dirs (.tmux, .vim, etc..)
+!*/
+
+# whitelist
+!.gitignore
+!bin/**
 !git/**/.gitkeep
 !guides/**/.gitkeep
-!hyper/.hyper.js/.gitkeep
-!tmux/.tmux.conf/.gitkeep
-!tmux/.tmux/.hybrid-theme.tmuxline/.gitkeep
+!hyper/.hyper.js
+!nvm/.nvm/.npmrc
+tmux/.tmux/**
+!tmux/.tmux.conf
+!tmux/.tmux/.hybrid-theme.tmuxline
 !vifm/vifmrc/.gitkeep
-!vifm/.vifm/.zenburn_1.vifm/.gitkeep
-!vim/.vimrc/.gitkeep
+!vifm/.vifm/.zenburn_1.vifm
+vim/.vim/**
+!vim/.vimrc
 !vim/.vim/.backup/.gitkeep
 !vim/.vim/.swp/.gitkeep
 !vim/.vim/.undo/.gitkeep
 !zsh/**
+
