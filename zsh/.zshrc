@@ -125,7 +125,7 @@ source ~/.zsh_aliases/git
 source ~/.zsh_aliases/tmux
 
 # Syntax highlighting
-if [ $DOTFILES_OS=$DOTFILES_DARWIN ]; then
+if [ "$DOTFILES_OS" = "$DOTFILES_DARWIN" ]; then
   # brew
   source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 else
@@ -140,15 +140,16 @@ export NVM_DIR="$HOME/.nvm"
 # executables (brew)
 export PATH="/usr/local/sbin:$PATH"
 
-# For compilers to find openssl@1.1 you may need to set
-export LDFLAGS="-L/usr/local/opt/openssl@1.1/lib"
-export CPPFLAGS="-I/usr/local/opt/openssl@1.1/include"
+if [ "$DOTFILES_OS" = "$DOTFILES_DARWIN" ]; then
+  # openssl with brew if you need to recompile an old ruby, you need openssl 1!
+  # For compilers to find openssl@1.1 you may need to set
+  export LDFLAGS="-L/usr/local/opt/openssl@1.1/lib"
+  export CPPFLAGS="-I/usr/local/opt/openssl@1.1/include"
 
-# For pkg-config to find openssl@1.1 you may need to set:
-export PKG_CONFIG_PATH="/usr/local/opt/openssl@1.1/lib/pkgconfig"
+  # For pkg-config to find openssl@1.1 you may need to set:
+  export PKG_CONFIG_PATH="/usr/local/opt/openssl@1.1/lib/pkgconfig"
+fi
+
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
-if [ $DOTFILES_OS=$DOTFILES_GNU_LINUX_WSL ]; then
-  source ~/.rvm/scripts/rvm
-fi
