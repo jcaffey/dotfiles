@@ -5,7 +5,7 @@
     :email: jcaffey46@gmail.com
     :alternates: []
     :sendmail: "msmtp -t --read-envelope-from"
-    :signature: "/Users/jcaffey/.signature"
+    :signature: "/Users/jcaffey/.sup/.signature"
     :gpgkey: ''
 :editor: "/usr/local/bin/vim"
 :thread_by_subject: false
