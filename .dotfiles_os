@@ -1,0 +1,13 @@
+DOTFILES_DARWIN="darwin"
+DOTFILES_WSL_LINUX="wsl_linux"
+
+# only darwin / ubuntu WSL for now.
+if grep -q Microsoft /proc/version; then
+  DOTFILES_OS=DOTFILES_WSL_LINUX
+else
+  DOTFILES_OS=DOTFILES_DARWIN
+fi
+
+export $DOTFILES_OS
+export $DOTFILES_DARWIN
+export $DOTFILES_WSL_LINUX
