@@ -1,11 +1,10 @@
 IMAPAccount gmail
 # Address to connect to
 Host imap.gmail.com
-User jcaffey46@gmail.com
+User jcaffey46
 PassCmd "pass gmail/jcaffey46-app@soliloquy"
 # To store the password in an encrypted file use PassCmd instead of Pass
 # PassCmd "gpg2 -q --for-your-eyes-only --no-tty -d ~/.mailpass.gpg"
-#
 AuthMechs PLAIN
 # Use SSL
 SSLType IMAPS
