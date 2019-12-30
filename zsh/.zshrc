@@ -123,8 +123,8 @@ source ~/.zsh_aliases/git
 source ~/.zsh_aliases/tmux
 
 # Syntax highlighting
-#source ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source /home/jcaffey/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
-# export PATH="$PATH:$HOME/.rvm/bin"
-# source ~/.rvm/scripts/rvm
+export PATH="$PATH:$HOME/.rvm/bin"
+source ~/.rvm/scripts/rvm
