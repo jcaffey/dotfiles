@@ -5,7 +5,8 @@
 
 # whitelist
 !.gitignore
-!bin/**
+!bin/bin/email
+!bin/bin/snip
 !git/**/.gitkeep
 !guides/**/.gitkeep
 !hyper/.hyper.js

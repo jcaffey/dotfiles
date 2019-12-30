@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+RUBYOPT=-W0 rvm ruby-2.6@sup do sup
