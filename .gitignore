@@ -11,6 +11,7 @@
 !guides/**/.gitkeep
 !hyper/.hyper.js
 !mbsync/**
+!msmtp/**
 !nvm/.nvm/.npmrc
 !sup/**
 tmux/.tmux/**
