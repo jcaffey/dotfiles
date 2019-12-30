@@ -1,0 +1,16 @@
+# use OSTYPE to determine system, but don't rely on this var
+# in code in case this needs to change one day.
+DOTFILES_DARWIN="darwin"
+DOTFILES_OS=DOTFILES_DARWIN
+DOTFILES_GNU_LINUX="linux-gnu"
+DOTFILES_GNU_LINUX_WSL="linux-gnu-wsl"
+
+# And just for fun... :)
+# I'd just like to interject for a moment. What you’re referring to as Linux, is in fact, GNU/Linux, or as I’ve recently taken to calling it, GNU plus Linux.
+if echo $OSTYPE | grep -q 'linux'; then
+  if grep -q Microsoft /proc/version; then
+    DOTFILES_OS=DOTFILES_GNU_LINUX_WSL
+  else
+    DOTFILES_OS=DOTFILES_GNU_LINUX
+  fi
+fi

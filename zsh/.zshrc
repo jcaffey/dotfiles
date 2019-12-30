@@ -1,3 +1,6 @@
+# Get $DOTFILES_OS for darwin/wsl/linux
+source ~/dotfiles/.dotfiles_os
+
 # If you come from bash you might have to change your $PATH.
 export PATH=$HOME/bin:/usr/local/bin:$PATH
 
@@ -80,7 +83,6 @@ plugins=(
   dotenv
   osx
   rake
-  rbenv
   ruby
   vi-mode
 )
@@ -114,7 +116,7 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 # vimmm
-export EDITOR=/usr/local/bin/vim
+export EDITOR='vim'
 
 # Aliases
 source ~/.zsh_aliases/common
@@ -123,15 +125,19 @@ source ~/.zsh_aliases/git
 source ~/.zsh_aliases/tmux
 
 # Syntax highlighting
-source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-# TODO: ubuntu
-#source ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+if [ $DOTFILES_OS=$DOTFILES_DARWIN ]; then
+  # brew
+  source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+else
+  source ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+fi
 
+# NVM
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-# brew executables
+# executables (brew)
 export PATH="/usr/local/sbin:$PATH"
 
 # For compilers to find openssl@1.1 you may need to set
@@ -143,3 +149,6 @@ export PKG_CONFIG_PATH="/usr/local/opt/openssl@1.1/lib/pkgconfig"
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
+if [ $DOTFILES_OS=$DOTFILES_GNU_LINUX_WSL ]; then
+  source ~/.rvm/scripts/rvm
+fi
