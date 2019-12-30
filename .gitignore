@@ -4,6 +4,7 @@
 !*/
 
 # whitelist
+!.dotfiles_os
 !.gitignore
 !bin/**
 !git/**/.gitkeep
