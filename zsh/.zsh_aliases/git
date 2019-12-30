@@ -13,4 +13,4 @@ function gr {
   git rm "$path"
 }
 alias push="git push"
-alias pull="gitpull"
+alias pull="git pull"
