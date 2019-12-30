@@ -44,6 +44,8 @@ git clone https://github.com/jcaffey/dotfiles.git ~/dotfiles && cd ~/dotfiles &&
 `
 
 ## TODO
+* [ ] surround `v$` vs `vf{char}` behaves different at end of line!
+* [ ] `escape` vs `ctrl+[`
 * [ ] section on vim types, flags, and +clipboard
 * [ ] vim copy to unix/windows clipboard * register: `V"*y` to yank and `"*p` to put.
 * [ ] start moving dotfiles to .sugar for sugar term
