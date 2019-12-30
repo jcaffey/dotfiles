@@ -1,5 +1,4 @@
 alias gc="git commit -m"
-alias gp="git push"
 alias gs="git status"
 function ga {
   readonly path=${1:? "Must provide path"}
@@ -13,3 +12,5 @@ function gr {
   readonly path=${1:? "Must provide path"}
   git rm "$path"
 }
+alias push="git push"
+alias pull="gitpull"
