@@ -6,6 +6,7 @@
 # whitelist
 !.dotfiles_os
 !.gitignore
+!ack/.ackrc
 !bin/bin/email
 !bin/bin/snip
 !git/**/.gitkeep
