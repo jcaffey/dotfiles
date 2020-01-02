@@ -6,19 +6,26 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
   " Plugins
   Plugin 'VundleVim/Vundle.vim'
+  Plugin 'airblade/vim-gitgutter'
+  Plugin 'benmills/vimux'
   Plugin 'chrisbra/unicode.vim'
   Plugin 'christoomey/vim-tmux-navigator'
   Plugin 'edkolev/tmuxline.vim'
   Plugin 'easymotion/vim-easymotion'
+  Plugin 'godlygeek/tabular'
+  Plugin 'plasticboy/vim-markdown'
+  Plugin 'luochen1990/rainbow'
   Plugin 'kien/ctrlp.vim'
   Plugin 'kristijanhusak/vim-hybrid-material'
   Plugin 'mattn/webapi-vim'
   Plugin 'mattn/gist-vim'
   Plugin 'mileszs/ack.vim'
+  Plugin 'preservim/nerdcommenter'
   Plugin 'scrooloose/nerdtree'
   Plugin 'scrooloose/syntastic'
   Plugin 'tpope/vim-obsession'
   Plugin 'tpope/vim-surround'
+  Plugin 'skalnik/vim-vroom'
   Plugin 'vim-airline/vim-airline'
   Plugin 'vim-airline/vim-airline-themes'
 call vundle#end()            " required
@@ -53,6 +60,15 @@ let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 let g:syntastic_ruby_checkers = ['rubocop', 'mri'] 
+
+" Use ag instead of ack
+let g:ackprg = 'ag --nogroup --nocolor --column'
+
+" vroom
+let g:vroom_use_vimux = 1
+
+" rainbow
+let g:rainbow_active = 0
 " Get the defaults that most users want.
 source $VIMRUNTIME/defaults.vim
 
