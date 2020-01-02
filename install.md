@@ -16,7 +16,7 @@ Install utility programs. Unless noted, each app can be installed with either:
   OSX: `brew install package`
   Ubuntu: `sudo apt update` then `sudo apt install package`
   - yarn
-  - fzf `git clone --depth 1 https://github.com/junegunn/fzf.git ~/repos/fzf && ~/repos/fzf/install`
+  - fzf `git clone --depth 1 https://github.com/junegunn/fzf.git ~/bin/fzf && ~/bin/fzf/install` answer y to prompts
   - urlview
   - diff-so-fancy `yarn global add diff-so-fancy`
 6. Install zplug: curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
