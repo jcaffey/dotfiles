@@ -124,6 +124,22 @@ source ~/.zsh_aliases/ls
 source ~/.zsh_aliases/git
 source ~/.zsh_aliases/tmux
 
+ #zplug
+source ~/.zplug/init.zsh
+
+zplug 'wfxr/forgit'
+
+ #Install plugins if there are plugins that have not been installed
+if ! zplug check --verbose; then
+    printf "Install? [y/N]: "
+    if read -q; then
+        echo; zplug install
+    fi
+fi
+
+ #Then, source plugins and add commands to $PATH
+zplug load # --verbose
+
 # Syntax highlighting
 if [ "$DOTFILES_OS" = "$DOTFILES_DARWIN" ]; then
   # brew
@@ -149,7 +165,6 @@ if [ "$DOTFILES_OS" = "$DOTFILES_DARWIN" ]; then
   # For pkg-config to find openssl@1.1 you may need to set:
   export PKG_CONFIG_PATH="/usr/local/opt/openssl@1.1/lib/pkgconfig"
 fi
-
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
