@@ -21,6 +21,7 @@ call vundle#begin()
   Plugin 'mattn/gist-vim'
   Plugin 'mileszs/ack.vim'
   Plugin 'preservim/nerdcommenter'
+  Plugin 'roxma/vim-tmux-clipboard'
   Plugin 'scrooloose/nerdtree'
   Plugin 'scrooloose/syntastic'
   Plugin 'tpope/vim-obsession'
@@ -181,7 +182,12 @@ map <PageDown> l
 " NOTE: this wont work in WSL even with vim-gnome +clipboard
 " so just use ctrl+shift+c / ctrl+shift+v in hyper
 set clipboard=unnamed
-
+if system('uname -r') =~ "Microsoft"
+  augroup Yank
+    autocmd!
+    autocmd TextYankPost * :call system('clip.exe ',@")
+  augroup END
+endif
 " colorscheme
 set background=dark
 colorscheme hybrid_material

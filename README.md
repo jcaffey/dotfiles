@@ -4,6 +4,7 @@ Did you know that most google apps use the vim keybindings? You can just open gm
 https://medium.com/@gregsramblings/gmail-keyboard-shortcuts-using-3c845bb77043
 
 ## TODO
+* [ ] add examples for :0r %:h/darwin.conf with tmux darwin/wsl config in vim guide
 * [ ] rainbow is a shitty plugin but it's useful and can reset with `:e`
 * [ ] that last thing you copied as you get better with vim
 * [ ] tabularize examples: http://vimcasts.org/episodes/aligning-text-with-tabular-vim/
