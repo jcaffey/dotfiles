@@ -21,8 +21,8 @@ bin/**
 !sup/**
 tmux/.tmux/**
 !tmux/.tmux.conf
-!tmux/.tmux/.darwin.conf
-!tmux/.tmux/.ubuntu_wsl.conf
+!tmux/.tmux/darwin.conf
+!tmux/.tmux/ubuntu_wsl.conf
 !tmux/.tmux/.hybrid-theme.tmuxline
 !vifm/vifmrc/.gitkeep
 !vifm/.vifm/.zenburn_1.vifm
