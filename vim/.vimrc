@@ -24,6 +24,7 @@ call vundle#begin()
   Plugin 'scrooloose/nerdtree'
   Plugin 'scrooloose/syntastic'
   Plugin 'tpope/vim-obsession'
+  Plugin 'vim-ruby/vim-ruby'
   Plugin 'tpope/vim-surround'
   Plugin 'skalnik/vim-vroom'
   Plugin 'vim-airline/vim-airline'
