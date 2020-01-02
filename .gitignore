@@ -12,9 +12,11 @@
 !git/**/.gitkeep
 !guides/**/.gitkeep
 !hyper/.hyper.js
+!install.md
 !mbsync/**
 !msmtp/**
 !nvm/.nvm/.npmrc
+!README.md
 !sup/**
 tmux/.tmux/**
 !tmux/.tmux.conf

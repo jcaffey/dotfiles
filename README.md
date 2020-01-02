@@ -1,50 +1,7 @@
 ## dotfiles for an efficient and awesome terminal
+Did you know that most google apps use the vim keybindings? You can just open gmail and use j/k to move up and down!
 
-In MacOS you need to disable shortcuts for ctrl+arrows in System Preferences -> Keyboard -> Shortcuts. Uncheck the boxes for mission control labeled `^->`, `^<-`, etc...
-
-1. Install zsh if lt 5.2
-2. Install oh my zsh
-3. Install nerd font
-4. Install powerline font
-5. Install spaceship
-```shell
-  git clone https://github.com/denysdovhan/spaceship-prompt.git "$ZSH_CUSTOM/themes/spaceship-prompt"
-  ln -s "$ZSH_CUSTOM/themes/spaceship-prompt/spaceship.zsh-theme" "$ZSH_CUSTOM/themes/spaceship.zsh-theme"
-```
-6. Install homebrew
-7. brew install stow
-
-NOTE: you need a bash installed and available in your $PATH for my tmux config to work correctly. If you are on MacOS Catalina, you can just `brew install bash`
-Install tmux `brew install tmux`
-Clone TPM repository `git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm`
-`prefix + I` to install plugins
-Now you can `prefix + ctrl-s` to save your session between reboots or just let tmux continuum save it for you every 15 minutes. Vim sessions will automatically be restored if you are using my config via vim-obsession.
-need env variables for things like fonts, paths, etc...
-
-Manage dotfiles with GNU stow
-
-OSX: `brew install stow`
-Ubuntu: todo
-
-Windows:
-1. sudo apt install stow
-
-2. checkout dotfiles
-
-3. stow -vn package-name to see what files will be moved, this will perform a dry run. your filesystem will not be changed. Recommended packages: hyper, vifm, vim, tmux, zsh
-
-4. stow will not override any existing files unless you force it to, i recommend moving your dotfiles to a directory like this: `mkdir ~/.dotfiles-last && mv ~/.* ~/.dotfiles-last` (automate this and have it automatically do a cp)
-
-You can also use stow's `--adopt` option to replace the existing file with a symbolic link and move that file to the dotfiles repo.
-
-5. stow -v package-name Example: stow -v vim
-
-6. some packages require additional setup, so TODO: make shell script to run stow for each package along with installing plugins, etc... actually, just make a .last-dotfiles so users can always have a backup of their last dotfile settings, similar to oh my zsh setup.
-
-Clone this repo: 
-`
-git clone https://github.com/jcaffey/dotfiles.git ~/dotfiles && cd ~/dotfiles && echo "stow [ options ] package"
-`
+https://medium.com/@gregsramblings/gmail-keyboard-shortcuts-using-3c845bb77043
 
 ## TODO
 * [ ] rainbow is a shitty plugin but it's useful and can reset with `:e`
