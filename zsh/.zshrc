@@ -2,11 +2,7 @@
 source ~/dotfiles/.dotfiles_os
 
 # If you come from bash you might have to change your $PATH.
-export PATH=$HOME/bin:/usr/local/bin:$PATH
-
-# WSL only
-# Add hyper to path
-# export PATH=$PATH:/mnt/c/Users/jcaffey/AppData/Local/hyper/app-3.0.2/resources/bin
+export PATH=$HOME/bin:/usr/local/bin:/usr/local/sbin:$PATH
 
 # Path to your oh-my-zsh installation.
 export ZSH=~/.oh-my-zsh
@@ -168,6 +164,12 @@ if [ "$DOTFILES_OS" = "$DOTFILES_DARWIN" ]; then
 
   # For pkg-config to find openssl@1.1 you may need to set:
   export PKG_CONFIG_PATH="/usr/local/opt/openssl@1.1/lib/pkgconfig"
+fi
+
+
+if [ "$DOTFILES_OS" = "$DOTFILES_GNU_LINUX_WSL" ]; then
+  #fzf if installed via git
+  [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 fi
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
