@@ -61,4 +61,4 @@ by simply putting `let g:vroom_map_keys = 0` in your vimrc.
 * [ ] explain vi mode awesomness in shell
 * [ ] create setup guide: fonts, terminal emulator, gotchas, etc...
 * [ ] install script
-  - zsh, ohmyzsh, git, bash, spaceship, rvm, ruby, yarn, nvm, node 12, gpg, mutt, figlet, vifm, vim/macvim/gvim, tmux, vundle, tpm, pass, curl, wget, brew, apt, monoid nerd font, powerline symbols?
+  - zsh, ohmyzsh, git, bash, spaceship, rvm, ruby, yarn, nvm, node 12, gpg, mutt, figlet, vifm, vim/macvim/gvim, tmux, vundle, tpm, pass, curl, wget, brew, apt, monoid nerd font, powerline symbols, ag, ack, fzf
