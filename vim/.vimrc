@@ -7,6 +7,7 @@ call vundle#begin()
   " Plugins
   Plugin 'VundleVim/Vundle.vim'
   Plugin 'airblade/vim-gitgutter'
+  Plugin 'arcticicestudio/nord-vim'
   Plugin 'benmills/vimux'
   Plugin 'chrisbra/unicode.vim'
   Plugin 'christoomey/vim-tmux-navigator'
@@ -16,7 +17,8 @@ call vundle#begin()
   Plugin 'plasticboy/vim-markdown'
   Plugin 'luochen1990/rainbow'
   Plugin 'kien/ctrlp.vim'
-  Plugin 'kristijanhusak/vim-hybrid-material'
+"  Plugin 'kristijanhusak/vim-hybrid-material'
+  Plugin 'jlanzarotta/bufexplorer'
   Plugin 'mattn/webapi-vim'
   Plugin 'mattn/gist-vim'
   Plugin 'mileszs/ack.vim'
@@ -189,13 +191,20 @@ if system('uname -r') =~ "Microsoft"
   augroup END
 endif
 " colorscheme
-set background=dark
-colorscheme hybrid_material
-let g:airline_theme = "hybrid"
-let g:enable_bold_font = 1
-let g:enable_italic_font = 1
-let g:hybrid_transparent_background = 1
-let g:airline#extensions#tmuxline#enabled = 0 " dont change tmux status line to what is in vim
+set cursorline
+
+" nord colors
+colorscheme nord
+
+" hybrid_material colors
+"set background=dark
+"let g:airline_theme = "hybrid"
+
+"let g:airline_theme = "hybrid"
+"let g:enable_bold_font = 1
+"let g:enable_italic_font = 1
+"let g:hybrid_transparent_background = 1
+"let g:airline#extensions#tmuxline#enabled = 0 " dont change tmux status line to what is in vim
 
 " Line numbers should be hybrid by default because it is more efficient to
 " work with chunks of text that way. Toggle absolute numbers with `:set nornu`
@@ -247,9 +256,9 @@ let g:EasyMotion_smartcase = 1
 "                        | See |f| and |F|.
 
 " Indent automatically depending on filetype
-filetype indent plugin on
+"filetype indent plugin on
+"set autoindent
 syntax enable
-set autoindent
 
 " Indentation, tab to spaces
 set smartindent
@@ -311,7 +320,11 @@ set colorcolumn=160
 set backspace=2 " make backspace work like most other apps
 
 " Fix line numbers in vim when using tmux
-highlight LineNr ctermfg=grey
+" i don't want this when using nord colorscheme
+"highlight LineNr ctermfg=grey
+
+" nord comments arent readable to me unless they are bold
+highlight Comment cterm=bold
 
 " https://medium.com/@Aenon/vim-swap-backup-undo-git-2bf353caa02f
 set backupdir=.backup/,~/.vim/.backup/,/tmp//
@@ -321,3 +334,9 @@ set undodir=.undo/,~/.vim/.undo/,/tmp//
 " Style splits like tmux
 hi VertSplit ctermfg=65
 set fillchars+=vert:│
+
+" Ex commands
+" command abbreviations for typos: 
+ca Wq wq
+ca W w
+ca Q q
