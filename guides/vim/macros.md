@@ -1,13 +1,3 @@
-TODO: gitignore everything except example
-
-# Ignore everything except gitkeeps in backup/swap/undo
-vim/.vim/.backup
-vim/.vim/.swp
-vim/.vim/.undo
-!vim/.vim/.backup/.gitkeep
-!vim/.vim/.swp/.gitkeep
-!vim/.vim/.undo/.gitkeep
-
 # record a macro
 q{some-key-for-register}
 do stuff
@@ -78,3 +68,28 @@ hashes = [
   { id: 21, name: "Foo 21" },
   { id: 22, name: "Foo 22" }
 ]
+
+
+
+## real world example: making a bufexplorer cheat sheet from their documentation
+
+Text from github:
+##bufexplorer
+'be' (normal open) or 'bt' (toggle open / close) or 'bs' (force horizontal split open) or 'bv' (force vertical split open)
+
+Text after after replacing or with carriage return using: `:s/or /\r/g` (notice space at end of each line!)
+##bufexplorer
+'be' (normal open) 
+'bt' (toggle open / close) 
+'bs' (force horizontal split open) 
+'bv' (force vertical split open)
+
+Text after recording and executing macro: 
+- `gg` (top of document, so cursor is on line with '##bufexplorer') 
+- `qq` record macro on register q
+- `j0` go down one line and then to the beginning of the line. it's important to always think about where you are in an abstract way when recording a macro. rather than thinking in terms of line x, column y it would be better to think about line x and some word, beginning of line, end of line, etc.. this just becomes second nature over time.
+- `cs'`` change surrounding single quotes to backticks
+- `:s/ $//` remove the space at the end of the line
+- `q3@q` stop recording macro and execute macro on register q 3 times (i know it's 3 because i can quickly look at the hybrid numbers vim is showing me)
+
+This may seem like a lot of steps but I've been using vim for about a month and I was able to do this quickly even though I'm very tired because my allergies suck and I have taken zyretc. :)
