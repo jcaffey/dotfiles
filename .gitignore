@@ -9,6 +9,7 @@
 !ack/.ackrc
 bin/**
 !bin/bin/email
+!bin/bin/repo
 !bin/bin/snip
 !git/**/.gitkeep
 !guides/**/.gitkeep

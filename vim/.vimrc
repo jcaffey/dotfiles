@@ -72,7 +72,10 @@ let g:ackprg = 'ag --nogroup --nocolor --column'
 let g:vroom_use_vimux = 1
 
 " rainbow
-let g:rainbow_active = 0
+" only turn this on if using nord colorscheme.
+" i find it quite annoying in other colorschemes, but nord
+" is clearly the best colorscheme ever, so just use nord. duh.
+let g:rainbow_active = 1
 " Get the defaults that most users want.
 source $VIMRUNTIME/defaults.vim
 
@@ -334,6 +337,16 @@ set undodir=.undo/,~/.vim/.undo/,/tmp//
 " Style splits like tmux
 hi VertSplit ctermfg=65
 set fillchars+=vert:│
+
+" SPLITS:
+" see: https://thoughtbot.com/blog/vim-splits-move-faster-and-more-naturally
+set splitbelow
+set splitright
+
+" make splits work the same as in tmux
+nnoremap <Leader>x :q<CR>
+nnoremap <Leader>\ :vsp<CR>
+nnoremap <Leader>- :sp<CR>
 
 " Ex commands
 " command abbreviations for typos: 
