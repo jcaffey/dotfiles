@@ -96,8 +96,10 @@ class Program
   def status
     @set.each do |repo|
       Dir.chdir(File.expand_path(repo.path)) do
-        clean = `git status`.match?(/working tree clean/i)
-        repo.status = clean ? Repo::CLEAN : Repo::DIRTY
+        status           = `git status`
+        clean            = status.match?(/working tree clean/i)
+        has_commits = status.match?(/ahead of/i)
+        repo.status      = (clean && !has_commits) ? Repo::CLEAN : Repo::DIRTY
       end
     end
   end
