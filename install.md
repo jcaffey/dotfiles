@@ -1,5 +1,10 @@
 # install
+TODO: add chmod u+x to bin* files
+
 In MacOS you need to disable shortcuts for ctrl+arrows in System Preferences -> Keyboard -> Shortcuts. Uncheck the boxes for mission control labeled `^->`, `^<-`, etc...
+
+##vims
+TODO: write about different vims, clipboard support, vim8 with opmnisharp, etc..
 
 ## zsh
 1. TODO: Install zsh if lt 5.2
