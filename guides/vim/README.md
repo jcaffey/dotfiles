@@ -197,19 +197,39 @@ TODO: todo lists in vim using `0r !head -n1 README.md`
   Given the method above, `:line-number-of-def` will place the cursor on the first line of the method declaration. `V` will highlight the line. `%` will highlight from the line to (and including) the end line. Now you can yank, change, or whatever you need to do. If you are indenting simply press `<` or `>` and then `.` to repeat indentation.
 
 ## Registers
-  - The default or unnamed register is `"`
-  - Registers 1-9 hold the text you have yanked/deleted, so you never really lose anything.
-  - Use `:reg` or `:registers` to see what the registers hold.
-  - In insert mode you can `ctrl+r "` to paste from default register
-  - In normal mode you can `"1p` which means grab register 1 and paste
-  - `ayiw` yank in word to the a register
+- The default or unnamed register is `"` this gets updated with the latest deleted or yanked text.
+- Registers 1-9 hold the text you have yanked/deleted, so you never really lose anything.
+- Use `:reg` or `:registers` to see what the registers hold.
+- In insert mode you can `ctrl+r "` to paste from default register
+- In normal mode you can `"1p` which means grab register 1 and paste
+- `ayiw` yank in word to the a register
 
-  - Update .vimrc with the following:
-  " Allow copy/paste between vims and system by setting the clipboard to be unnamed register.
-  set clipboard^=unnamed
+- Update .vimrc with the following:
+" Allow copy/paste between vims and system by setting the clipboard to be unnamed register.
+set clipboard^=unnamed
 
-  Excellent article covering registers in detail:
-  <https://www.brianstorti.com/vim-registers/>
+##cheat sheet to snippet example
+This is another real world example as I was creating this document. Let's look at how we can use some simple command and vim awesomeness to get what we want quickly. Again, it may look like a lot of commands, but this is all second nature stuff that happens very quickly with just a little practice. Don't be overhwlemed, just keep practicing.
+
+Example text:
+Excellent article covering registers in detail:
+<https://www.brianstorti.com/vim-registers/>
+[title](https://www.example.com)
+TODO: exit with 0 when `:<>!snipi add name` and remove add!
+
+Steps to awesomeness:
+`r!cheat markdown | ag url`
+`daw`
+`wcwRegisters`
+`k`
+`ds>`
+`D` so we don't get newline
+`f(p` move to ( and paste url
+`dt)` delete til ) to remove old url
+
+Output:
+Excellent article covering registers in detail:
+[Registers](https://www.brianstorti.com/vim-registers)
 
 ## Working with chunks of text
   For the next three instructions, move your cursor to the line of the instruction text before making a selectio
@@ -322,7 +342,7 @@ IMPORTANT: Surround distinguishes between `{` and `}` (and all other brackets ex
   - `m [A-Z]` mark line in A-Z register, but globally. Open ~/.vimrc, `mV`, `:q`, start new vim and type `'V` ... magic!
   - `' [a-z]` go to beginning of line at first non-whitespace character
   - '` [a-z]' back tick then register means "jump to line and column position." NOTE: this is really useful for macros!
-  - '``' that's two back ticks - jump to previous location
+  - '\`\`' that's two back ticks - jump to previous location
 
 ## Package management
 Just use vundle because it supports all the other package managers and all you have to do is add {username}/{repo} from github to .vimrc then `'V:PluginInstall :so %` ('V = Open marked .vimrc then run :PluginInstall then run :source path-current-file)
@@ -402,8 +422,7 @@ There are various fold methods, but I don't find this particularly interesting, 
 [Folds](https://gist.github.com/lestoni/8c74da455cce3d36eb68)
 
 ## TODO
-* [ ] indentation
-* [ ] cleanup vim tutor
+* [ ] indentation + tabularize
 * [ ] color scheme
 * [ ] more on windows - size, hide, vsplit <filename>
 * [ ] regular expressions
