@@ -10,6 +10,7 @@
 !bin/bin/email
 !bin/bin/repo
 !bin/bin/snip
+!bin/bin/snipi
 !git/**/.gitkeep
 !guides/**/.gitkeep
 !hyper/.hyper.js
