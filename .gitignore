@@ -7,7 +7,6 @@
 !.dotfiles_os
 !.gitignore
 !ack/.ackrc
-bin/**
 !bin/bin/email
 !bin/bin/repo
 !bin/bin/snip
