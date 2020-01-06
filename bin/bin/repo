@@ -138,8 +138,17 @@ class Program
     status
     @set.each do |repo|
       # only pull if clean
-      def repo.to_s
-        "#{name}"
+      if repo.clean?
+        Dir.chdir(repo.path) do
+          `git pull`
+        end
+        def repo.to_s
+          "#{name} pulled"
+        end
+      else
+        def repo.to_s
+          "#{name} is #{status} and was not pulled"
+        end
       end
     end
   end
