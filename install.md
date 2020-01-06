@@ -12,6 +12,7 @@ In MacOS you need to disable shortcuts for ctrl+arrows in System Preferences -> 
   ln -s "$ZSH_CUSTOM/themes/spaceship-prompt/spaceship.zsh-theme" "$ZSH_CUSTOM/themes/spaceship.zsh-theme"
 ```
 Install nvm: curl -o- `https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.2/install.sh | bash`
+Set default node: `nvm use 12 && nvm alias default 12`
 Install utility programs. Unless noted, each app can be installed with either:
   OSX: `brew install package`
   Ubuntu: `sudo apt update` then `sudo apt install package`
