@@ -23,6 +23,7 @@ call vundle#begin()
   Plugin 'mattn/gist-vim'
   Plugin 'mileszs/ack.vim'
   Plugin 'preservim/nerdcommenter'
+  Plugin 'OmniSharp/omnisharp-vim'
   Plugin 'roxma/vim-tmux-clipboard'
   Plugin 'scrooloose/nerdtree'
   Plugin 'scrooloose/syntastic'
@@ -76,6 +77,13 @@ let g:vroom_use_vimux = 1
 " i find it quite annoying in other colorschemes, but nord
 " is clearly the best colorscheme ever, so just use nord. duh.
 let g:rainbow_active = 1
+
+" OmniSharp in WSL
+" TODO: update username to be whoami and test if WSL
+let g:OmniSharp_server_path = '/mnt/c/Users/jcaffey/omnisharp/OmniSharp.exe'
+let g:OmniSharp_translate_cygwin_wsl = 1
+let g:OmniSharp_highlight_types = 2
+
 " Get the defaults that most users want.
 source $VIMRUNTIME/defaults.vim
 
@@ -193,14 +201,28 @@ if system('uname -r') =~ "Microsoft"
     autocmd TextYankPost * :call system('clip.exe ',@")
   augroup END
 endif
-" colorscheme
+
+" show current line cursor is on
 set cursorline
 
 " nord colors
+" set background=dark
 colorscheme nord
+" TODO: comments are not bold and no visual mode on WSL?
+
+" Fix line numbers in vim when using tmux
+" i don't want this when using nord colorscheme
+"highlight LineNr ctermfg=grey
+
+" ubuntu WSL needs highlight reset for some reason
+" nord sets ctermbg to #434C5E
+" highlight Visual cterm=reverse ctermbg=red
+
+" nord comments arent readable to me unless they are bold
+highlight Comment cterm=bold
 
 " hybrid_material colors
-"set background=dark
+" set background=dark
 "let g:airline_theme = "hybrid"
 
 "let g:airline_theme = "hybrid"
@@ -322,20 +344,13 @@ set listchars=tab:›\ ,trail:•,extends:#,nbsp:. " Highlight problematic white
 set colorcolumn=160
 set backspace=2 " make backspace work like most other apps
 
-" Fix line numbers in vim when using tmux
-" i don't want this when using nord colorscheme
-"highlight LineNr ctermfg=grey
-
-" nord comments arent readable to me unless they are bold
-highlight Comment cterm=bold
-
 " https://medium.com/@Aenon/vim-swap-backup-undo-git-2bf353caa02f
 set backupdir=.backup/,~/.vim/.backup/,/tmp//
 set directory=.swp/,~/.vim/.swp/,/tmp//
 set undodir=.undo/,~/.vim/.undo/,/tmp//
 
-" Style splits like tmux
-hi VertSplit ctermfg=65
+" Style splits like tmux if you are using hybrid_material
+" hi VertSplit ctermfg=65
 set fillchars+=vert:│
 
 " SPLITS:
