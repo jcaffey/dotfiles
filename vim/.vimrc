@@ -368,3 +368,6 @@ nnoremap <Leader>- :sp<CR>
 ca Wq wq
 ca W w
 ca Q q
+
+" Ctrl p show hidden files
+command CtrlPShowHidden :let g:ctrlp_show_hidden=1
