@@ -229,7 +229,8 @@ highlight Comment cterm=bold
 "let g:enable_bold_font = 1
 "let g:enable_italic_font = 1
 "let g:hybrid_transparent_background = 1
-"let g:airline#extensions#tmuxline#enabled = 0 " dont change tmux status line to what is in vim
+" Disable tmuxline since tmux.conf has lines to source-file theme
+let g:airline#extensions#tmuxline#enabled = 0 " dont change tmux status line to what is in vim
 
 " Line numbers should be hybrid by default because it is more efficient to
 " work with chunks of text that way. Toggle absolute numbers with `:set nornu`

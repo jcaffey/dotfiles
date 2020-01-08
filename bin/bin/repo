@@ -1,4 +1,6 @@
 #!/usr/bin/env ruby
+require 'shellwords'
+require 'pry'
 
 Repo = Struct.new('Repo', :name, :path, :status) do
   def clean?
@@ -20,11 +22,18 @@ Repo::DIRTY = 'dirty'.freeze
 class Program
   def initialize(action:, set:)
     @editor         = ENV['EDITOR'] || ENV['VISUAL'] || 'vim' # TODO: need to be able to specify preferred option for terminal or not
-    @editor_options = ENV['REPO_EDITOR_OPTIONS'] || '-c :cd #{path}'
-    @path           = ENV['REPOS_PATH'] || '~/repos' # TODO: rc
+    @editor_options = { # TODO: move this to ~/.reporc
+      'global'      => "${path};-c ':cd ${path}'",
+      'dotfiles'   => "-c ':let g:ctrlp_show_hidden=1'"
+    }
+    @path = ENV['REPOS_PATH'] || '~/repos' # TODO: rc
+    @path = File.expand_path(@path)
 
     # allow sets to be defined in rc
     # hardcore set with an alias as g for now.
+    # TODO: have smart defaults and use first letter in the list if the actual name doesnt exist
+    # ex: repo o g => repo o global only when g is not specified!
+    # also, add method to build this list and reindex the repo path
     @sets = {
       'g' => ['cheat-sheets', 'dotfiles', 'snippets', 'todo']
     }
@@ -62,18 +71,27 @@ class Program
     puts "Error: #{msg}"
   end
 
-  # all options must be in the form #{option} where options
+  # all options must be in the form ${option} where option
   # is the option to be replaced
   #
   # Example:
-  # -c :cd #{path}
+  # -c :cd ${path}
   #
   # available options:
   # path - path to repository
   def editor_options_for(repo)
-    @editor_options.split(';').map do |line|
-      line.chomp.gsub(/\#{path}/, repo.path)
+    # NOTE: all keys need to be strings
+    # TODO: global as constant please
+    options = []
+    ['global', repo.name].each do |key|
+      if @editor_options.has_key?(key)
+        @editor_options[key].split(';').map do |line|
+          options << line.chomp.gsub(/\${path}/, repo.path)
+        end
+      end
     end
+
+    options
   end
 
   def open
@@ -82,8 +100,10 @@ class Program
       return
     end
 
+    # /home/jcaffey/dotfiles :let g:ctrlp_show_hidden=1
     @editor_options = editor_options_for(@set.first).join(' ')
-    system(@editor, @editor_options)
+    # binding.pry
+    system([@editor, @editor_options].join(' '))
   end
   alias :o :open
 

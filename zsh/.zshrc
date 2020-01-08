@@ -151,10 +151,7 @@ export NVM_DIR="$HOME/.nvm"
 
 # yarn globals
 # TODO: check this on mac/linux but it doesn't work on my wsl install without this..
-export PATH="$PATH:$(yarn global bin)"
-
-# executables (brew)
-export PATH="/usr/local/sbin:$PATH"
+# export PATH="$PATH:$(yarn global bin)"
 
 if [ "$DOTFILES_OS" = "$DOTFILES_DARWIN" ]; then
   # openssl with brew if you need to recompile an old ruby, you need openssl 1!
@@ -165,7 +162,6 @@ if [ "$DOTFILES_OS" = "$DOTFILES_DARWIN" ]; then
   # For pkg-config to find openssl@1.1 you may need to set:
   export PKG_CONFIG_PATH="/usr/local/opt/openssl@1.1/lib/pkgconfig"
 fi
-
 
 if [ "$DOTFILES_OS" = "$DOTFILES_GNU_LINUX_WSL" ]; then
   #fzf if installed via git
