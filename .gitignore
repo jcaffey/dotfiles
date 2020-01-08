@@ -8,6 +8,7 @@
 !.gitignore
 !ack/.ackrc
 !bash/.bashrc
+!bin/bin/cheat
 !bin/bin/email
 !bin/bin/repo
 !bin/bin/snip
