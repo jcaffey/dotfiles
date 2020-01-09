@@ -221,6 +221,8 @@ colorscheme nord
 " nord comments arent readable to me unless they are bold
 highlight Comment cterm=bold
 
+set termguicolors
+
 " hybrid_material colors
 " set background=dark
 "let g:airline_theme = "hybrid"
@@ -359,6 +361,12 @@ set fillchars+=vert:│
 set splitbelow
 set splitright
 
+" navigate with ctrl+hjkl
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+
 " make splits work the same as in tmux
 nnoremap <Leader>x :q<CR>
 nnoremap <Leader>\ :vsp<CR>
@@ -371,4 +379,7 @@ ca W w
 ca Q q
 
 " Ctrl p show hidden files
-command CtrlPShowHidden :let g:ctrlp_show_hidden=1
+"command CtrlPShowHidden :let g:ctrlp_show_hidden=1
+
+" Get around windows with ctrl+arrow
+nnoremap <silent><C-Left>:wincmd h<CR>

@@ -2,7 +2,7 @@
 source ~/dotfiles/.dotfiles_os
 
 # If you come from bash you might have to change your $PATH.
-export PATH=$HOME/bin:/usr/local/bin:/usr/local/sbin:$PATH
+export PATH=$PATH:$HOME/bin:/usr/local/bin:/usr/local/sbin
 
 # Path to your oh-my-zsh installation.
 export ZSH=~/.oh-my-zsh
@@ -150,8 +150,7 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 # yarn globals
-# TODO: check this on mac/linux but it doesn't work on my wsl install without this..
-# export PATH="$PATH:$(yarn global bin)"
+export PATH="$PATH:$(yarn global bin)"
 
 if [ "$DOTFILES_OS" = "$DOTFILES_DARWIN" ]; then
   # openssl with brew if you need to recompile an old ruby, you need openssl 1!
