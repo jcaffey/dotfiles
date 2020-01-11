@@ -16,7 +16,8 @@ TODO: write about different vims, clipboard support, vim8 with opmnisharp, etc..
   git clone https://github.com/denysdovhan/spaceship-prompt.git "$ZSH_CUSTOM/themes/spaceship-prompt"
   ln -s "$ZSH_CUSTOM/themes/spaceship-prompt/spaceship.zsh-theme" "$ZSH_CUSTOM/themes/spaceship.zsh-theme"
 ```
-Install nvm: curl -o- `https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.2/install.sh | bash`
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.2/install.sh | bash
+Install node 12: nvm install 12
 Set default node: `nvm use 12 && nvm alias default 12`
 Install utility programs. Unless noted, each app can be installed with either:
   OSX: `brew install package`
