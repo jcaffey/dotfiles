@@ -14,7 +14,7 @@
 !bin/bin/snip
 !bin/bin/snipi
 !git/**/.gitkeep
-!guides/**/.gitkeep
+!guides/**
 !hyper/.hyper.js
 !install.md
 !mbsync/**
