@@ -208,26 +208,7 @@ set cursorline
 " nord colors
 " set background=dark
 colorscheme nord
-" TODO: comments are not bold and no visual mode on WSL?
 
-" Fix line numbers in vim when using tmux
-" i don't want this when using nord colorscheme
-"highlight LineNr ctermfg=grey
-
-" ubuntu WSL needs highlight reset for some reason
-" nord sets ctermbg to #434C5E
-" highlight Visual cterm=reverse ctermbg=red
-
-" nord comments arent readable to me unless they are bold
-highlight Comment cterm=bold
-
-set termguicolors
-
-" hybrid_material colors
-" set background=dark
-"let g:airline_theme = "hybrid"
-
-"let g:airline_theme = "hybrid"
 "let g:enable_bold_font = 1
 "let g:enable_italic_font = 1
 "let g:hybrid_transparent_background = 1
@@ -378,8 +359,6 @@ ca Wq wq
 ca W w
 ca Q q
 
-" Ctrl p show hidden files
-"command CtrlPShowHidden :let g:ctrlp_show_hidden=1
-
-" Get around windows with ctrl+arrow
-nnoremap <silent><C-Left>:wincmd h<CR>
+" nord comments arent readable to me unless they are bold
+"highlight Comment cterm=bold
+highlight Visual ctermbg=red

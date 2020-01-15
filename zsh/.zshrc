@@ -72,14 +72,15 @@ COMPLETION_WAITING_DOTS="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
+# if not using WSL i reccomend using these plugins as well, but WSL needs all the help it can get.
+#git
+#bundler
+#dotenv
+#osx
+#rake
+#ruby
 plugins=(
   colored-man-pages
-  git
-  bundler
-  dotenv
-  osx
-  rake
-  ruby
   vi-mode
 )
 
@@ -120,28 +121,25 @@ source ~/.zsh_aliases/ls
 source ~/.zsh_aliases/git
 source ~/.zsh_aliases/tmux
 
- #zplug
+#zplug
 source ~/.zplug/init.zsh
-
 zplug 'wfxr/forgit'
 
- #Install plugins if there are plugins that have not been installed
+#Install plugins if there are plugins that have not been installed
 if ! zplug check --verbose; then
-    printf "Install? [y/N]: "
-    if read -q; then
-        echo; zplug install
-    fi
+printf "Install? [y/N]: "
+  if read -q; then
+      echo; zplug install
+  fi
 fi
 
- #Then, source plugins and add commands to $PATH
-zplug load # --verbose
+#Then, source plugins and add commands to $PATH
+zplug load
 
 # Syntax highlighting
 if [ "$DOTFILES_OS" = "$DOTFILES_DARWIN" ]; then
   # brew
   source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-else
-  source ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 fi
 
 # NVM
