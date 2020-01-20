@@ -161,9 +161,11 @@ if [ "$DOTFILES_OS" = "$DOTFILES_DARWIN" ]; then
 fi
 
 if [ "$DOTFILES_OS" = "$DOTFILES_GNU_LINUX_WSL" ]; then
-  #fzf if installed via git
-  [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 fi
+
+#fzf if installed via git
+# TODO: this is not working with the if above on wsl. fix me.
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
