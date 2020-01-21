@@ -14,7 +14,7 @@
 !bin/bin/snip
 !bin/bin/snipi
 !git/**/.gitkeep
-!guides/**/.gitkeep
+!guides/**
 !hyper/.hyper.js
 !install.md
 !mbsync/**
@@ -27,7 +27,8 @@ tmux/.tmux/**
 !tmux/.tmux.conf
 !tmux/.tmux/darwin.conf
 !tmux/.tmux/ubuntu_wsl.conf
-!tmux/.tmux/.hybrid-theme.tmuxline
+!tmux/.tmux/hybrid-theme.tmuxline
+!tmux/.tmux/nord-theme.tmuxline
 !vifm/vifmrc/.gitkeep
 !vifm/.vifm/.zenburn_1.vifm
 vim/.vim/**

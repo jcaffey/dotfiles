@@ -2,7 +2,7 @@
 source ~/dotfiles/.dotfiles_os
 
 # If you come from bash you might have to change your $PATH.
-export PATH=$HOME/bin:/usr/local/bin:/usr/local/sbin:$PATH
+export PATH=$PATH:$HOME/bin:/usr/local/bin:/usr/local/sbin
 
 # Path to your oh-my-zsh installation.
 export ZSH=~/.oh-my-zsh
@@ -72,14 +72,15 @@ COMPLETION_WAITING_DOTS="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
+# if not using WSL i reccomend using these plugins as well, but WSL needs all the help it can get.
+#git
+#bundler
+#dotenv
+#osx
+#rake
+#ruby
 plugins=(
   colored-man-pages
-  git
-  bundler
-  dotenv
-  osx
-  rake
-  ruby
   vi-mode
 )
 
@@ -120,28 +121,25 @@ source ~/.zsh_aliases/ls
 source ~/.zsh_aliases/git
 source ~/.zsh_aliases/tmux
 
- #zplug
+#zplug
 source ~/.zplug/init.zsh
-
 zplug 'wfxr/forgit'
 
- #Install plugins if there are plugins that have not been installed
+#Install plugins if there are plugins that have not been installed
 if ! zplug check --verbose; then
-    printf "Install? [y/N]: "
-    if read -q; then
-        echo; zplug install
-    fi
+printf "Install? [y/N]: "
+  if read -q; then
+      echo; zplug install
+  fi
 fi
 
- #Then, source plugins and add commands to $PATH
-zplug load # --verbose
+#Then, source plugins and add commands to $PATH
+zplug load
 
 # Syntax highlighting
 if [ "$DOTFILES_OS" = "$DOTFILES_DARWIN" ]; then
   # brew
   source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-else
-  source ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 fi
 
 # NVM
@@ -150,8 +148,7 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 # yarn globals
-# TODO: check this on mac/linux but it doesn't work on my wsl install without this..
-# export PATH="$PATH:$(yarn global bin)"
+export PATH="$PATH:$(yarn global bin)"
 
 if [ "$DOTFILES_OS" = "$DOTFILES_DARWIN" ]; then
   # openssl with brew if you need to recompile an old ruby, you need openssl 1!
@@ -164,9 +161,11 @@ if [ "$DOTFILES_OS" = "$DOTFILES_DARWIN" ]; then
 fi
 
 if [ "$DOTFILES_OS" = "$DOTFILES_GNU_LINUX_WSL" ]; then
-  #fzf if installed via git
-  [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 fi
+
+#fzf if installed via git
+# TODO: this is not working with the if above on wsl. fix me.
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"

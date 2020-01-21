@@ -17,7 +17,7 @@ call vundle#begin()
   Plugin 'plasticboy/vim-markdown'
   Plugin 'luochen1990/rainbow'
   Plugin 'kien/ctrlp.vim'
-"  Plugin 'kristijanhusak/vim-hybrid-material'
+  " Plugin 'kristijanhusak/vim-hybrid-material'
   Plugin 'jlanzarotta/bufexplorer'
   Plugin 'mattn/webapi-vim'
   Plugin 'mattn/gist-vim'
@@ -27,9 +27,10 @@ call vundle#begin()
   Plugin 'roxma/vim-tmux-clipboard'
   Plugin 'scrooloose/nerdtree'
   Plugin 'scrooloose/syntastic'
-  Plugin 'tpope/vim-obsession'
-  Plugin 'vim-ruby/vim-ruby'
+  " Plugin 'tpope/vim-obsession'
+  Plugin 'tpope/vim-fugitive'
   Plugin 'tpope/vim-surround'
+  Plugin 'vim-ruby/vim-ruby'
   Plugin 'skalnik/vim-vroom'
   Plugin 'vim-airline/vim-airline'
   Plugin 'vim-airline/vim-airline-themes'
@@ -204,24 +205,7 @@ set cursorline
 " nord colors
 " set background=dark
 colorscheme nord
-" TODO: comments are not bold and no visual mode on WSL?
 
-" Fix line numbers in vim when using tmux
-" i don't want this when using nord colorscheme
-"highlight LineNr ctermfg=grey
-
-" ubuntu WSL needs highlight reset for some reason
-" nord sets ctermbg to #434C5E
-" highlight Visual cterm=reverse ctermbg=red
-
-" nord comments arent readable to me unless they are bold
-highlight Comment cterm=bold
-
-" hybrid_material colors
-" set background=dark
-"let g:airline_theme = "hybrid"
-
-"let g:airline_theme = "hybrid"
 "let g:enable_bold_font = 1
 "let g:enable_italic_font = 1
 "let g:hybrid_transparent_background = 1
@@ -355,6 +339,12 @@ set fillchars+=vert:│
 set splitbelow
 set splitright
 
+" navigate with ctrl+hjkl
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+
 " make splits work the same as in tmux
 nnoremap <Leader>x :q<CR>
 nnoremap <Leader>\ :vsp<CR>
@@ -366,5 +356,6 @@ ca Wq wq
 ca W w
 ca Q q
 
-" Ctrl p show hidden files
-command CtrlPShowHidden :let g:ctrlp_show_hidden=1
+" nord comments arent readable to me unless they are bold
+"highlight Comment cterm=bold
+highlight Visual ctermbg=red
