@@ -187,10 +187,6 @@ map <esc>[1;2C <S-Right>
 map <esc>[1;2A <S-Up>
 map <esc>[1;2B <S-Down>
 
-" map page up/down to h and l for laptops
-map <PageUp> h
-map <PageDown> l
-
 " Allow copy/paste between vims and system
 " NOTE: this wont work in WSL even with vim-gnome +clipboard
 " so just use ctrl+shift+c / ctrl+shift+v in hyper
