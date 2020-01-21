@@ -8,6 +8,7 @@
 !.gitignore
 !ack/.ackrc
 !bash/.bashrc
+!bootstrap.sh
 !bin/bin/cheat
 !bin/bin/email
 !bin/bin/repo
@@ -29,6 +30,7 @@ tmux/.tmux/**
 !tmux/.tmux/ubuntu_wsl.conf
 !tmux/.tmux/hybrid-theme.tmuxline
 !tmux/.tmux/nord-theme.tmuxline
+!Vagrantfile
 !vifm/vifmrc/.gitkeep
 !vifm/.vifm/.zenburn_1.vifm
 vim/.vim/**

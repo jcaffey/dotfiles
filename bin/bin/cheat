@@ -1,3 +1,3 @@
 #!/bin/zsh
 readonly name=${1:? "Must provide snippet name"}
-cat ~/repos/cheat-sheets/$name.md
+cat ~/repos/cheat-sheets/$name.adoc

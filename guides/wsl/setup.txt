@@ -1,0 +1,659 @@
+              _            _               
+__      _____| |  ___  ___| |_ _   _ _ __  
+\ \ /\ / / __| | / __|/ _ \ __| | | | '_ \ 
+ \ V  V /\__ \ | \__ \  __/ |_| |_| | |_) |
+  \_/\_/ |___/_| |___/\___|\__|\__,_| .__/ 
+                                    |_|    
+
+This is a rough draft from a transcript of me installing zsh and
+various programs to help someone new to the linux world have a terminal that
+is awesome and efficient. If you have any comments on how to improve this
+document (other tools, something doesnt make sense, something is poorly
+worded) PLEASE get in touch or just submit a pull request with your changes:
+https://github.com/jcaffey/dotfiles
+
+With that out of the way I want to cover a few things before we get
+started:
+
+1. This has not been verified on a fresh install of Ubuntu since editing the
+transcript which was more than 300,000 lines
+
+2. This is focused towards beginners and limited in scope. I do not intend to
+write a linux book nor do I have the background to do so. That being said,
+this is a great place for users with no experience or users with many years of
+experience to learn something new. My focus is on development so many of the
+tools I use are centered around that but this is absolutely applicable to
+system administrators as well.
+
+3. While this document is focused on Ubuntu in WSL it is not limited to a
+specific operating system. Simply ignore the WSL specific items if you are on
+a Mac or anything else.
+
+4. Terminal commands are displayed like this:
+----------------------------------------
+jcaffey@TULLT033:~ some-command-here
+----------------------------------------
+
+Often times you will see the output of the terminal, but not always, so don't
+be alarmed if you see something different.
+
+5. Sections are broken out with fancy text from figlet and since I'm using a
+fancy text editor called vim I can easily insert headings by doing this:
+`r!figlet section title` keep reading if you want to know how to do that.
+
+               _   _               _   _ _   _      
+ ___  ___  ___| |_(_) ___  _ __   | |_(_) |_| | ___ 
+/ __|/ _ \/ __| __| |/ _ \| '_ \  | __| | __| |/ _ \
+\__ \  __/ (__| |_| | (_) | | | | | |_| | |_| |  __/
+|___/\___|\___|\__|_|\___/|_| |_|  \__|_|\__|_|\___|
+                                                    
+
+6. AGAIN, if there is a better way of doing any of this, if you have something
+efficient, fun, or just otherwise awesome, LET ME KNOW.
+https://github.com/jcaffey/dotfiles
+
+ _                      _             _ 
+| |_ ___ _ __ _ __ ___ (_)_ __   __ _| |
+| __/ _ \ '__| '_ ` _ \| | '_ \ / _` | |
+| ||  __/ |  | | | | | | | | | | (_| | |
+ \__\___|_|  |_| |_| |_|_|_| |_|\__,_|_|
+                                        
+                      _       _             
+  ___ _ __ ___  _   _| | __ _| |_ ___  _ __ 
+ / _ \ '_ ` _ \| | | | |/ _` | __/ _ \| '__|
+|  __/ | | | | | |_| | | (_| | || (_) | |   
+ \___|_| |_| |_|\__,_|_|\__,_|\__\___/|_|   
+                                            
+
+Before you do anything you should decide on a terminal emulator. You already have one with WSL by default, so it's not required but I encourage you to check some out and see what you like. I'm using hyper because I think it's the prettiest and it works well on both Mac and Windows. I have a hyper config specifically for WSL, so if you are following along I would reccomend installing it from here:
+
+https://hyper.is
+
+Popular Windows terminal emulators:
+- ConEmu
+- MinTTY
+
+Popular Mac OS terminal emulators:
+- Terminal (already installed on your mac)
+- iTerm2
+
+     _       _    __ _ _           
+  __| | ___ | |_ / _(_) | ___  ___ 
+ / _` |/ _ \| __| |_| | |/ _ \/ __|
+| (_| | (_) | |_|  _| | |  __/\__ \
+ \__,_|\___/ \__|_| |_|_|\___||___/
+                                   
+
+What the hell are dotfiles? dotfiles are just configuration files that start with a period or dot and
+tell applications in linux world how they should behave. I have dotfiles for
+text editing, email, coding, and more. Each folder in my dotfiles repository
+corresponds to a program. Notice how there is a zsh folder? I have zsh now,
+but I don't have my zsh configured like I normally would. With my dotfiles
+repo I can just pull the repository and then use a program called stow to have
+it create symbolic links in my home directory (~). Programs like vim, zsh, and
+many others know to look in your home directory for an RC (runtime config).
+Unix does a lot of things by convention which means it doesn't need a registry
+like you have on windows. Anyone who has ever launched regedit knows the pain.
+That doesn't mean it's a perfect system however. Unix can still be a pain in
+the ass too.
+
+          _               
+ ___  ___| |_ _   _ _ __  
+/ __|/ _ \ __| | | | '_ \ 
+\__ \  __/ |_| |_| | |_) |
+|___/\___|\__|\__,_| .__/ 
+                   |_|    
+
+First things first, if you are using hyper and WSL and want my config:
+
+1. install hyper from https://hyper.is
+2. open hyper
+
+replace the shell and shellArgs lines with the following (NOTE THE COMMENTS FOR WSL DISTRO SETUP)
+
+shell: 'C:\\Windows\\System32\\wsl.exe', 
+// Default WSL setup (uses default distro)
+shellArgs: [],
+
+// WSL distro named Ubuntu
+// shellArgs: ['--distribution', 'Ubuntu'],
+
+// WSL distro named Ubuntu with zsh installed and cd to ~ by default (my setup)
+// shellArgs: ['~', '--distribution', 'Ubuntu'],
+
+3. KEEP THIS FILE OPEN. Save and reopen hyper to ensure that you can launch
+ubuntu correctly. If you get stuck you should make sure you have told wsl.exe
+the correct distribution to use by opening a command prompt or powershell in
+Windows and executing: `wsl -l -v` that will list your installed distros BUT
+IT ONLY WORKS IF YOU HAVE WSL2 ENABLED.
+
+My complete config is here:
+
+If you want to run with my config you need to make sure zsh is installed (just
+continue through the tutorial to do that), open a command prompt and type
+`hyper i` to install hyper plugins, and set the shellArgs correctly for
+--distribution. If you only have 1 distributioon installed, just remove the
+arguments to wsl as it will just pick the first distro it sees by default.
+
+ _ _                    _   _                
+| (_)_ __  _   ___  __ | |_(_)_ __ ___   ___ 
+| | | '_ \| | | \ \/ / | __| | '_ ` _ \ / _ \
+| | | | | | |_| |>  <  | |_| | | | | | |  __/
+|_|_|_| |_|\__,_/_/\_\  \__|_|_| |_| |_|\___|
+
+If you are unsure what a command is or get lost, PLEASE HELP UPDATE THIS
+DOCUMENT.
+
+I'm going to start by installing ag which is a fancy grep made for source
+code. Even if you don't think you need ag, just follow along because I'm
+introducing you to linux concepts along the way.
+
+----------------------------------------
+jcaffey@TULLT033:~ sudo apt search ag
+----------------------------------------
+silversearcher-ag
+Sorting... 0%
+Sorting... 0%
+Sorting... 0%
+Sorting... Done
+Full Text Search... 50%
+Full Text Search... 50%
+Full Text Search... Done
+silversearcher-ag
+bionic 2.1.0-1 amd64
+  very fast grep-like program, alternative to ack-grep
+
+----------------------------------------
+jcaffey@TULLT033:~ sudo apt install silversearcher-ag
+----------------------------------------
+       _           
+__   _(_)_ __ ___  
+\ \ / / | '_ ` _ \ 
+ \ V /| | | | | | |
+  \_/ |_|_| |_| |_|
+                   
+ubuntu uses the vim-tiny package by default. this is a vim compiled without
+clipboard support, etc... so we need to install a 'real' vim. vim has a ton of
+plugins and ive done more research than I care to admit on how to be as
+efficient as possible in vim. If you interested in learning vim please have a
+look at my guides and help me improve. It's a living document and I'd love all
+the input I can get.
+
+https://github.com/jcaffey/dotfiles/tree/master/guides/vim
+----------------------------------------
+jcaffey@TULLT033:~ sudo apt show vim-gtk3
+----------------------------------------
+Package: vim-gtk3
+Version: 2:8.0.1453-1ubuntu1.1
+Priority: extra
+Section: editors
+Source: vim
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Original-Maintainer: Debian Vim Maintainers <pkg-vim-maintainers@lists.alioth.debian.org>
+Bugs: https://bugs.launchpad.net/ubuntu/+filebug
+Installed-Size: 3351 kB
+Provides: editor, gvim, vim, vim-lua, vim-perl, vim-python, vim-tcl
+Depends: vim-common (= 2:8.0.1453-1ubuntu1.1), vim-gui-common (= 2:8.0.1453-1ubuntu1.1), vim-runtime (= 2:8.0.1453-1ubuntu1.1), libacl1 (>= 2.2.51-8), libc6 (>= 2.15), libcairo2 (>= 1.4.10), libgdk-pixbuf2.0-0 (>= 2.22.0), libglib2.0-0 (>= 2.37.3), libgpm2 (>= 1.20.7), libgtk-3-0 (>= 3.21.5), libice6 (>= 1:1.0.0), liblua5.2-0, libpango-1.0-0 (>= 1.37.5), libpangocairo-1.0-0 (>= 1.14.0), libperl5.26 (>= 5.26.0~rc1), libpython3.6 (>= 3.6.5), libselinux1 (>= 1.32), libsm6, libtcl8.6 (>= 8.6.0), libtinfo5 (>= 6), libx11-6, libxt6
+Suggests: cscope, fonts-dejavu, gnome-icon-theme, vim-doc
+Homepage: https://vim.sourceforge.io/
+Supported: 5y
+Download-Size: 1343 kB
+APT-Sources: http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 Packages
+Description: Vi IMproved - enhanced vi editor - with GTK3 GUI
+ Vim is an almost compatible version of the UNIX editor Vi.
+ Many new features have been added: multi level undo, syntax
+ highlighting, command line history, on-line help, filename
+ completion, block operations, folding, Unicode support, etc.
+ This package contains a version of vim compiled with a GTK3 GUI
+ and support for scripting with Lua, Perl, Python 3, and Tcl.
+N: There is 1 additional record. Please use the '-a' switch to see it
+----------------------------------------
+jcaffey@TULLT033:~ sudo apt install vim-gtk3
+----------------------------------------
+ahhh thats better! :)
+i also just realized that its important to understand packages and package sources in ubuntu world. you can read all about it here: https://help.ubuntu.com/community/Repositories/CommandLine
+
+         _          _ _ 
+ _______| |__   ___| | |
+|_  / __| '_ \ / _ \ | |
+ / /\__ \ | | |  __/ | |
+/___|___/_| |_|\___|_|_|
+                        
+
+----------------------------------------
+jcaffey@TULLT033:~ which zsh
+----------------------------------------
+
+no zsh installed. zsh is like bash, but it is a lot more user friendly and all your bash scripts will work fine in zsh. there are many other shells, another popular one is fish, but i would not recommend using it unless you just want to nerd out on using their fancy scripting language.
+----------------------------------------
+jcaffey@TULLT033:~ sudo apt show zsh
+----------------------------------------
+Package: zsh
+Version: 5.4.2-3ubuntu3.1
+Priority: optional
+Section: shells
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Original-Maintainer: Debian Zsh Maintainers <pkg-zsh-devel@lists.alioth.debian.org>
+Bugs: https://bugs.launchpad.net/ubuntu/+filebug
+Installed-Size: 2120 kB
+Depends: zsh-common (= 5.4.2-3ubuntu3.1), libc6 (>= 2.15), libcap2 (>= 1:2.10), libtinfo5 (>= 6)
+Recommends: libc6 (>= 2.23), libncursesw5 (>= 6), libpcre3
+Suggests: zsh-doc
+Homepage: https://www.zsh.org/
+Supported: 5y
+Download-Size: 690 kB
+APT-Sources: http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 Packages
+Description: shell with lots of features
+ Zsh is a UNIX command interpreter (shell) usable as an
+ interactive login shell and as a shell script command
+ processor. Of the standard shells, zsh most closely resembles
+ ksh but includes many enhancements. Zsh has command-line editing,
+ built-in spelling correction, programmable command completion,
+ shell functions (with autoloading), a history mechanism, and a
+ host of other features.
+N: There is 1 additional record. Please use the '-a' switch to see it
+----------------------------------------
+jcaffey@TULLT033:~ sudo apt install zsh
+----------------------------------------
+Reading package lists... 0%
+Reading package lists... 100%
+Reading package lists... Done
+Building dependency tree... 0%
+Building dependency tree... 0%
+Building dependency tree... 50%
+Building dependency tree... 50%
+Building dependency tree       
+Reading state information... 0%
+Reading state information... 0%
+Reading state information... Done
+The following additional packages will be installed:
+  zsh-common
+Suggested packages:
+  zsh-doc
+The following NEW packages will be installed:
+  zsh zsh-common
+0 upgraded, 2 newly installed, 0 to remove and 127 not upgraded.
+Need to get 4066 kB of archives.
+After this operation, 15.2 MB of additional disk space will be used.
+Do you want to continue? [Y/n] y
+im still on bash, but lets see if we have zsh now.
+----------------------------------------
+jcaffey@TULLT033:~ which zsh
+----------------------------------------
+/usr/bin/zsh
+yay! we have zsh. the next question you should ask yourself is how does the
+command know where zsh lives? it's in the PATH environment variable.
+----------------------------------------
+jcaffey@TULLT033:~ echo $PATH
+/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/mnt/c/WINDOWS/system32:/mnt/c/WINDOWS:/mnt/c/WINDOWS/System32/Wbem:/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/:/mnt/c/WINDOWS/System32/OpenSSH/:/mnt/c/Program Files/dotnet/:/mnt/c/Program Files/Microsoft SQL Server/130/Tools/Binn/:/mnt/c/Program Files/Microsoft SQL Server/Client SDK/ODBC/170/Tools/Binn/:/mnt/c/Program Files (x86)/Microsoft SQL Server/150/DTS/Binn/:/mnt/c/Program Files/Git/cmd:/mnt/c/Users/jcaffey/AppData/Local/Microsoft/WindowsApps:/mnt/c/Users/jcaffey/AppData/Local/Programs/Microsoft VS Code/bin:/mnt/c/Users/jcaffey/AppData/Local/Programs/Fiddler:/mnt/c/Users/jcaffey/AppData/Local/hyper/app-3.0.2/resources/bin:/snap/bin
+----------------------------------------
+the path env variable tells my shell where to look for programs. the path for zsh is /usr/bin/zsh so if i grep (or ag which is just a faster version of grep meant to be used with source code and is also just 2 letters instead of 4) we should see that /usr/bin is in our path
+jcaffey@TULLT033:~ echo $PATH | ag /usr/bin
+/usr/local/sbin:/usr/local/bin:/usr/sbin:
+----------------------------------------
+yep. there it is. its easier to see when you grep or ag text because it should
+be color coded if your terminal emulator doesn't suck and the TERM environment
+variable is set correctly. its all fine by default in Ubuntu WSL so don't worry about it unless you just want to learn more.
+
+another note on ag... i recommend running both commands so you can see the
+difference. ag has smart defaults and can be customized with an rc (runtime
+configuration) file in your home directory. ill talk more about that later.
+just remember that this may seem silly now, but when you are looking for
+something specific because a server is down and you dont know why, youre going
+to want both ag and grep. this i can promise you. you should get familiar with
+the commands by doing `man grep` and `man ag` after you run `man someprogram`
+use ctrl+u and ctrl+d to go up and down. use /thing to search for 'thing', hit
+`n` to highlight the next found thing, and press q when youre done. all the
+commands i just mentioned are in a program called `less` it uses the vim key
+conventions so it's important to understand the basic vim keys. if you really
+want to nerd out on vim look into guides/vim in my dotfiles.
+
+okay, back to zsh. lets CHange our SHell with the chsh command. NOTE: if you
+dont know what youre doing with sudo, don't use sudo or do some research
+first. if i ran `sudo chsh` vs `chsh` im changing the shell for the root user, not jcaffey.
+
+on that note, your prompt will usually indicate who you are, but if you don't know just run `whoami`
+----------------------------------------
+jcaffey@TULLT033:~ whoami
+----------------------------------------
+if you want to see the users on this machine and other info like their default
+  shell just look at /etc/passwd. we can do that with `cat /etc/passwd`
+  conCAT the contents of that file to stdout.
+
+jcaffey@TULLT033:~ cat /etc/passwd
+jcaffey:x:0:0:jcaffey:/jcaffey:/bin/bash
+daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+bin:x:2:2:bin:/bin:/usr/sbin/nologin
+sys:x:3:3:sys:/dev:/usr/sbin/nologin
+sync:x:4:65534:sync:/bin:/bin/sync
+games:x:5:60:games:/usr/games:/usr/sbin/nologin
+man:x:6:12:man:/var/cache/man:/usr/sbin/nologin
+lp:x:7:7:lp:/var/spool/lpd:/usr/sbin/nologin
+mail:x:8:8:mail:/var/mail:/usr/sbin/nologin
+news:x:9:9:news:/var/spool/news:/usr/sbin/nologin
+uucp:x:10:10:uucp:/var/spool/uucp:/usr/sbin/nologin
+proxy:x:13:13:proxy:/bin:/usr/sbin/nologin
+www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin
+backup:x:34:34:backup:/var/backups:/usr/sbin/nologin
+list:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin
+irc:x:39:39:ircd:/var/run/ircd:/usr/sbin/nologin
+gnats:x:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/usr/sbin/nologin
+nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin
+systemd-network:x:100:102:systemd Network Management,,,:/run/systemd/netif:/usr/sbin/nologin
+systemd-resolve:x:101:103:systemd Resolver,,,:/run/systemd/resolve:/usr/sbin/nologin
+syslog:x:102:106::/home/syslog:/usr/sbin/nologin
+messagebus:x:103:107::/nonexistent:/usr/sbin/nologin
+_apt:x:104:65534::/nonexistent:/usr/sbin/nologin
+lxd:x:105:65534::/var/lib/lxd/:/bin/false
+uuidd:x:106:110::/run/uuidd:/usr/sbin/nologin
+dnsmasq:x:107:65534:dnsmasq,,,:/var/lib/misc:/usr/sbin/nologin
+landscape:x:108:112::/var/lib/landscape:/usr/sbin/nologin
+sshd:x:109:65534::/run/sshd:/usr/sbin/nologin
+pollinate:x:110:1::/var/cache/pollinate:/bin/false
+----------------------------------------
+the /etc/passwd file tells me that. the cat command just conCATs things and since i haven't piped cat with any other command it just spits out the contents to STDOUT which is my login/interactive shell. there are different types of shells and that can get a bit confusing, but just know that when you run wsl.exe what is actually happening by default is you are put into a login and interactive shell that defaults to the bourne again shell (bash)
+i just did a quick google because i wasn't sure how to tell my terminal
+emulator (hyper) to launch wsl with a default user. its easy we can just run
+wsl --distribution Ubuntu --user jcaffey to tell hyper which distro and which
+user we want to login as. very cool. this is different from wsl1 and now im
+not dotfiles under hyper/.hyper.js
+
+quick note on login shells because WSL2 logged me in as root when I got
+started so it's worth mentioning this if you accidentally start running
+commands as root and not your user. you can run `su - jcaffey` to [s]witch
+[u]ser to jcaffey notice that i ran su (switch user) with the hyphen. that tells my shell that i want to run my default shell (still currently bash) as a LOGIN shell.
+i should be able to look at the current processes and grep or ag for bash and
+see a line with '-bash' to indicate that its a login shell and not a subshell.
+this is still a confusing topic to me, but just remember that a subshell is a
+child process and it can't do things like modify PATH so it's a good thing to
+atleast be aware of if you can't explain it in all its glorious details (like
+me).
+----------------------------------------
+jcaffey@TULLT033: ps aux | grep bash
+jcaffey         8  0.0  0.0  22976  4928 pts/0    Ss   07:33   0:00 -bash
+----------------------------------------
+yep. there it is. remember, that dash is important and can cause all kinds of annoying things to happen without it.
+i dont remember the arguments for chsh off the top of my head so i use `man chsh` to figure it out.
+----------------------------------------
+jcaffey@TULLT033: ~ chsh -s $(which zsh)
+in unix, no news is good news. if you execute a command and nothing seems to happen that means that it worked. 
+
+okay so we have zsh now, but we need to make the terminal pretty because we stare at it all day long and this is currently making my eye balls bleed.
+i just went to ohmyz.sh in my web browser to see what the install instructions
+are. the command tells my shell (sh) to execute the command after -c and that
+command is something like $(curl someurl.com/path/install.sh) curl will grab
+the contents of the shell script and then my shell will execute the command
+since it is wrapped in `$()`
+
+Looking for an existing zsh config...
+Using the Oh My Zsh template file and adding it to ~/.zshrc.
+Time to change your default shell to zsh:
+Do you want to change your default shell to zsh? [Y/n]
+jcaffey@TULLT033: y
+Changing the shell...
+Password:
+Shell successfully changed to '/usr/bin/zsh'.
+m         __                                     __
+  ____  / /_     ____ ___  __  __   ____  _____/ /_
+ / __ \/ __ \   / __ `__ \/ / / /  /_  / / ___/ __ \
+/ /_/ / / / /  / / / / / / /_/ /    / /_(__  ) / / /
+\____/_/ /_/  /_/ /_/ /_/\__, /    /___/____/_/ /_/
+                        /____/                       ....is now installed!
+Please look over the ~/.zshrc file to select plugins, themes, and options.
+p.s. Follow us on https://twitter.com/ohmyzsh
+p.p.s. Get stickers, shirts, and coffee mugs at https://shop.planetargon.com/collections/oh-my-zsh
+
+----------------------------------------
+yay! now my shell is zsh by default. if you want to be sure just run `echo $SHELL`
+
+you should read through the oh my zsh documentation as it has a lot of awesome features. i highly recommend using atleast two plugins: vi-mode to help get around the terminal with vim bindings and colored man pages so your eyes dont bleed. my dotfiles have these enabled along with other useful plugins. read the docs to learn more.
+
+I want to know what theme i am currently using in zsh, so I can check .zshrc
+file. You could open this in vim, nano, or just cat the entire file but i know
+that there is a theme line in there so I'm going to do this:
+
+----------------------------------------
+jcaffey@TULLT033: cat ~/.zshrc | ag zsh_theme
+----------------------------------------
+we just told linux to print the file .zshrc with cat and then pipe the output
+to the ag command (feel free to use grep). one thing that can be tricky to new
+linux users is regular expressions. regular expressions are the greatest thing
+in the world and the worst thing in the world at the same time. BUT, if you
+want to be effective in a *nix world you should probably learn some basics.
+
+I'd definitely bookmark this site to learn: https://www.regular-expressions.info/
+
+and this site to test your regex's before all the cursing at your computer
+turns into beating it with a baseball bat: https://regexr.com/
+
+back to themes: the default theme is robbyrussel, which is awesome but we need the spaceship prompt so we get awesome information about version control, the vi mode we are currently in, and lots of other cool nerd stuff listed here https://github.com/denysdovhan/spaceship-prompt
+
+----------------------------------------
+jcaffey@TULLT033: git clone https://github.com/denysdovhan/spaceship-prompt.git "$ZSH_CUSTOM/themes/spaceship-prompt"
+----------------------------------------
+lets explain what this command actually does. we just asked git to clone the
+repository at the given URL to a path at $ZSH_CUSTOM/themes/ ... well, whats
+the deal with the $ZSH_CUSTOM? it's just an environment variable. if we want
+to see where that goes we can just `echo $ZSH_CUSTOM`. Your shell is happy to
+accept the environment variable and append /themes/ to it. This is another
+important concept called shell expansion. Google it and learn it because I
+promise that this is going to bite you in the ass at some point.
+
+we need to create a symbolic link for the spaceship.zsh-theme that we just pulled down via get. symbolic links are like shortcuts in windows. there are symbolic links and hard links. you should learn about those, but basically you will almost always use a symbolic link with the -s flag. hard links keep data around until the last hard link is deleted, so do some reading on that. if you want to super nerd out lookup how inodes work on a nix filesystem
+----------------------------------------
+jcaffey@TULLT033:ln -s "$ZSH_CUSTOM/themes/spaceship-prompt/spaceship.zsh-theme" "$ZSH_CUSTOM/themes/spaceship.zsh-theme"
+----------------------------------------
+again, no news is good news in unix. so lets just double check that it's
+there.
+
+----------------------------------------
+jcaffey@TULLT033: ls -la $ZSH_CUSTOM/themes
+----------------------------------------
+total 20
+drwxr-xr-x  3 jcaffey jcaffey 4096 Jan 10 09:45 .
+drwxr-xr-x  4 jcaffey jcaffey 4096 Jan 10 09:30 ..
+-rw-r--r--  1 jcaffey jcaffey  147 Jan 10 09:30 example.zsh-theme
+drwxr-xr-x 11 jcaffey jcaffey 4096 Jan 10 09:41 spaceship-prompt
+lrwxrwxrwx  1 jcaffey jcaffey   75 Jan 10 09:45 spaceship.zsh-theme ->
+/home/jcaffey/.oh-my-zsh/custom/themes/spaceship-prompt/spaceship.zsh-theme
+
+cool, we have a symbolic link of spaceship.zsh-theme that points to the path after the arrow (->)
+
+im going to open that file with vim to edit the theme. so ill type vim ~/.
+then hit tab twice to let zsh tell me which files exist in my home directory
+(~) and also begin with a `.` because im looking for .zshrc. i can use tab,
+shift tab, and arrow keys to select the file i want. autocomplete rules.
+
+i just changed ZSH_THEME to `spaceship`. look at my vim guides or use nano to open the file if you are having a problem.
+
+we need to tell our shell to reload our zshrc since we changed it. we use the
+`source` command to do that and then our prompt will be enabled. lets check
+out my dotfiles and change to that directory so we can see how cool our new
+prompt is.
+ 
+----------------------------------------
+jcaffey@TULLT033: git clone https://github.com/jcaffey/dotfiles.git ~/dotfiles/
+jcaffey@TULLT033: cd ~/dotfiles
+----------------------------------------
+OH SWEET. now it shows me that im in the dotfiles directory on the master branch since this folder has a git repository.
+
+at this point you have an awesome working terminal, if you are seeing weird icons that dont make sense in your prompt then you probably need the powerline fonts and i highly reccomend choosing a nerd font so your eyes dont bleed. check it out here: https://github.com/ryanoasis/nerd-fonts
+----------------------------------------
+jcaffey@TULLT033: which tmux
+----------------------------------------
+OH DIP! we have tmux by default. sweet! 
+side note: we also have screen installed, but i reccomend tmux. theyre both terminal multiplexers and tmux actually uses screen internally but it has extra fancy stuff, so go with tmux.
+----------------------------------------
+jcaffey@TULLT033: ls -la ~/
+----------------------------------------
+total 140
+drwxr-xr-x  4 jcaffey jcaffey  4096 Jan 10 10:39 .
+drwxr-xr-x  3 jcaffey    jcaffey     4096 Jan 10 09:00 ..
+-rw-r--r--  1 jcaffey jcaffey   220 Jan 10 09:00 .bash_logout
+-rw-r--r--  1 jcaffey jcaffey  3792 Jan 10 09:22 .bashrc
+-rw-r--r--  1 jcaffey jcaffey  3771 Jan 10 09:20 .bashrc.bkp
+-rw-------  1 jcaffey jcaffey    44 Jan 10 09:15 .lesshst
+drwxr-xr-x 12 jcaffey jcaffey  4096 Jan 10 09:30 .oh-my-zsh
+-rw-r--r--  1 jcaffey jcaffey   807 Jan 10 09:00 .profile
+-rw-r--r--  1 jcaffey jcaffey    10 Jan 10 09:30 .shell.pre-oh-my-zsh
+-rw-------  1 jcaffey jcaffey   976 Jan 10 09:48 .viminfo
+-rw-rw-r--  1 jcaffey jcaffey 42324 Jan 10 09:13 .zcompdump
+-rw-r--r--  1 jcaffey jcaffey 42324 Jan 10 09:30 .zcompdump-TULLT033-5.4.2
+-rw-------  1 jcaffey jcaffey  3784 Jan 10 10:39 .zsh_history
+-rw-r--r--  1 jcaffey jcaffey  3558 Jan 10 09:48 .zshrc
+drwxr-xr-x 17 jcaffey jcaffey  4096 Jan 10 09:51 dotfiles
+
+i have dotfiles pulled down so i need to start using GNU stow to symlink the
+settings i have for each program i regularly use. note: stow will not
+overwrite any files you have unless you explicitly ask it to. see man page for
+how that works with `man stow`
+
+SIDE NOTE: if you find yourself in a position where you don't know what to do
+or even know what question to ask, you can always run `apropos something`
+where something is a topic you want to know about. apropos searches man pages. so if i want to understand file descriptors i would probably do this:
+
+----------------------------------------
+jcaffey@TULLT033: apropos descriptor
+----------------------------------------
+apropos descriptor
+peekfd (1)           - peek at file descriptors of running processes
+usbhid-dump (8)      - dump USB HID device report descriptors and streams
+
+BACK TO STOWING DOTFILES: each folder contains at least 1 file that stow will move to my home directory. im going to start with ack because the ag program reads the .ackrc configuration file for its settings. this is a bit confusing but ack is basically a faster version of grep that was developed for searching source code, and ag is just a faster version of ack so im just sticking with the ackrc
+lets look at the home directory as it is right now
+----------------------------------------
+jcaffey@TULLT033: ls -la ~
+----------------------------------------
+-rw-------  1 jcaffey jcaffey     878 Jan 10 10:46 .bash_history
+-rw-r--r--  1 jcaffey jcaffey     220 Jan 10 09:00 .bash_logout
+-rw-r--r--  1 jcaffey jcaffey    3792 Jan 10 09:22 .bashrc
+-rw-r--r--  1 jcaffey jcaffey    3771 Jan 10 09:20 .bashrc.bkp
+-rw-------  1 jcaffey jcaffey      50 Jan 10 11:13 .lesshst
+drwxr-xr-x 12 jcaffey jcaffey    4096 Jan 10 09:30 
+[01;34m.oh-my-zsh
+-rw-r--r--  1 jcaffey jcaffey     807 Jan 10 09:00 .profile
+-rw-r--r--  1 jcaffey jcaffey      10 Jan 10 09:30 .shell.pre-oh-my-zsh
+-rw-r--r--  1 jcaffey jcaffey       0 Jan 10 10:52 .sudo_as_admin_successful
+-rw-------  1 jcaffey jcaffey    9501 Jan 10 13:03 .viminfo
+-rw-rw-r--  1 jcaffey jcaffey   42324 Jan 10 09:13 .zcompdump
+-rw-r--r--  1 jcaffey jcaffey   42324 Jan 10 09:30 .zcompdump-TULLT033-5.4.2
+-rw-------  1 jcaffey jcaffey    6217 Jan 10 13:10 .zsh_history
+-rw-r--r--  1 jcaffey jcaffey    3558 Jan 10 09:48 .zshrc
+
+we already have some dot files in there from bash and zsh. we need to get
+.ackrc in there. ill cd into my dotfiles first (notice how I dont have to
+actually write cd)
+----------------------------------------
+jcaffey@TULLT033: ~/dotfiles
+----------------------------------------
+----------------------------------------
+jcaffey@TULLT033: stow -vn ack
+----------------------------------------
+stow takes the name of the directory so now i should just be able to stow -vn ack
+LINK: .ackrc => dotfiles/ack/.ackrc
+WARNING: in simulation mode so not modifying filesystem.
+
+-v is verbose mode, -n means run in simulation and dont actually do anything.
+we shouldnt see .ackrc in my home directory yet because of the n option.
+----------------------------------------
+jcaffey@TULLT033: ls -la ~
+----------------------------------------
+-rw-------  1 jcaffey jcaffey     878 Jan 10 10:46 .bash_history
+-rw-r--r--  1 jcaffey jcaffey     220 Jan 10 09:00 .bash_logout
+-rw-r--r--  1 jcaffey jcaffey    3792 Jan 10 09:22 .bashrc
+-rw-r--r--  1 jcaffey jcaffey    3771 Jan 10 09:20 .bashrc.bkp
+-rw-------  1 jcaffey jcaffey      50 Jan 10 11:13 .lesshst
+drwxr-xr-x 12 jcaffey jcaffey    4096 Jan 10 09:30 
+[01;34m.oh-my-zsh
+-rw-r--r--  1 jcaffey jcaffey     807 Jan 10 09:00 .profile
+-rw-r--r--  1 jcaffey jcaffey      10 Jan 10 09:30 .shell.pre-oh-my-zsh
+-rw-r--r--  1 jcaffey jcaffey       0 Jan 10 10:52 .sudo_as_admin_successful
+-rw-------  1 jcaffey jcaffey    9501 Jan 10 13:03 .viminfo
+-rw-rw-r--  1 jcaffey jcaffey   42324 Jan 10 09:13 .zcompdump
+-rw-r--r--  1 jcaffey jcaffey   42324 Jan 10 09:30 .zcompdump-TULLT033-5.4.2
+-rw-------  1 jcaffey jcaffey    6217 Jan 10 13:10 .zsh_history
+-rw-r--r--  1 jcaffey jcaffey    3558 Jan 10 09:48 .zshrc
+
+nope, no .ackrc yet. lets run without the n flag
+----------------------------------------
+jcaffey@TULLT033: ls -l | ag ack
+----------------------------------------
+
+sweet. now we have settings for ack and if we ever need to modify the way it works we just edit that file.
+
+I spent a lot of time getting WSL and zsh to behave the way I want it to, so
+you may be pissed off at this point because even doing something as simple as
+`ls` or `pwd` seems to be taking FOREVER.
+
+This is because file permissions between the windows filesystem and the unix
+filesystem are a little weird. By default WSL appends your windows path to
+your linux path. This causes things like the spaceship prompt in zsh to be
+absolutely useless unless we remove those paths. Don't worry though. That
+doesn't mean we can't access our C drive anymore, that just means that I don't
+want my linux operating system looking in a bunch of windows paths for
+programs im going to be using in WSL. WSL has a setting for this but I believe
+you have to reboot for it to take effect.
+
+At the time of this writing the contents of
+dotfiles/bin/bin/make_wsl_great_again has a script that you can COPY AND
+PASTE. You cannot just run the script because it's a pain in the ass to modify
+your path from withing a script. It currently looks like this:
+
+```shell
+#!/usr/bin/env bash
+echo $PATH >> path.bkp
+PATH=$(echo $PATH | sed 's\:/mnt/c[^:]*\\g')
+sudo echo "[interop]\nappendWindowsPath=false" >> /etc/wsl.conf
+```
+
+I'm going to explain this quickly because this is very fundamental and
+important to understanding unix. The first line echo's or prints the $PATH
+evnironment variable. That variable looks something like this:
+/path/1:/path/2:/path/3. It's just a list of paths separated by `:`. After the
+echo of the paths I'm telling unix to append that to a file called path.bkp.
+This is just so you have a backup of your original path. The >> operator
+appends and the > operator OVERWRITES a file. So be careful when using >.
+
+The second line sets the PATH environment variable (notice you set it without
+the dollar sign) to whatever the command outputs inside the `$()`. I could
+have written `PATH=$(echo "test")` to set my path to test. I don't reccomend
+doing that.
+
+Now lets understand what the command inside `$()` does. It echos the current
+path and pipes that to a program called sed. Sed is a [s]tream [ed]itor and
+it's INCREDIBLY useful. If you want to get into linux you need to understand
+regular expressions, sed, and awk. Awk is similar to sed but it's actually an
+entire languasge and I typically just use sed so I'd start with that.
+
+I'm not going to do a whole tutorial on sed, but here's what the string given
+to the sed command means in english: [s]ubstitute :mnt/c and anything after
+that which does not match a colon and replace it with nothing [g]lobally. That
+is a really weird statement, but once you understand sed and regular
+expressions it will make perfect sense.
+
+The last line just says append the text "[interop]\nappendWindowsPath=false"
+to the file /etc/wsl.conf and do it as a super user because we are working in
+/etc which we do not own. This is a good time to talk about ownership, but
+since I'm not writing a linux book, go look at how users and groups can be
+changed with chown: [ch]ange [own]er. `man chown`
+
+I want to tell stow to symlink my .zshrc in dotfiles, but I already have a
+.zshrc in my home directory. Is that a problem? Yes. Let's just backup the
+current .zshrc and stow the one from dotfiles so I get all the nifty
+preferences I need and deserve!
+
+----------------------------------------
+jcaffey@TULLT033: mv ~/.zshrc ~/.zshrc.bkp
+jcaffey@TULLT033: cd ~/dotfiles
+jcaffey@TULLT033: stow zsh
+----------------------------------------
+
+ _                        
+| |_ _ __ ___  _   ___  __
+| __| '_ ` _ \| | | \ \/ /
+| |_| | | | | | |_| |>  < 
+ \__|_| |_| |_|\__,_/_/\_\
+
+TODO:
