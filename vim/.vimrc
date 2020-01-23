@@ -81,7 +81,8 @@ let g:rainbow_active = 1
 
 " OmniSharp in WSL
 " TODO: update username to be whoami and test if WSL
-let g:OmniSharp_server_path = '/mnt/c/Users/jcaffey/omnisharp/OmniSharp.exe'
+let g:OmniSharp_server_stdio = 1
+"let g:OmniSharp_server_path = '/mnt/c/Users/jcaffey/omnisharp/OmniSharp.exe'
 let g:OmniSharp_translate_cygwin_wsl = 1
 let g:OmniSharp_highlight_types = 2
 
