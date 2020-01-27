@@ -1,7 +1,4 @@
-## dotfiles for an efficient and awesome terminal
-Did you know that most google apps use the vim keybindings? You can just open gmail and use j/k to move up and down!
-
-https://medium.com/@gregsramblings/gmail-keyboard-shortcuts-using-3c845bb77043
+# dotfiles for an efficient and awesome terminal
 
 ## usage with vagrant
 cd ~
@@ -12,9 +9,16 @@ vagrant up
 ```
 
 ## guided installation for WSL users
-`guides/wsl/setup.txt`
+guides/wsl/setup.txt
+
+## vim
+guides/vim/*
+
+## tmux
+guides/tmux/*
 
 ## TODO
+* [ ]  Did you know that most google apps use the vim keybindings? You can just open gmail and use j/k to move up and down! https://medium.com/@gregsramblings/gmail-keyboard-shortcuts-using-3c845bb77043
 * [ ] add examples for :0r %:h/darwin.conf with tmux darwin/wsl config in vim guide
 * [ ] rainbow is a shitty plugin but it's useful and can reset with `:e`
 * [ ] that last thing you copied as you get better with vim
