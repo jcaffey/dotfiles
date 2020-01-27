@@ -3,7 +3,7 @@ Did you know that most google apps use the vim keybindings? You can just open gm
 
 https://medium.com/@gregsramblings/gmail-keyboard-shortcuts-using-3c845bb77043
 
-## usage eith vagrant
+## usage with vagrant
 cd ~
 ```shell
 git clone https://github.com/jcaffey/dotfiles
