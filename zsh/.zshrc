@@ -166,5 +166,8 @@ fi
 # TODO: this is not working with the if above on wsl. fix me.
 [ -f $HOME/.fzf.zsh ] && source $HOME/.fzf.zsh
 
+# dotnet tools like dotnet-script
+export PATH="$PATH:/Users/jcaffey/.dotnet/tools"
+
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
