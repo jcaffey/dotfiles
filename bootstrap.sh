@@ -9,7 +9,8 @@ git clone https://github.com/zplug/zplug $VAGRANT_HOME/.zplug
 DOTFILES_HOME=$VAGRANT_HOME
 cd $VAGRANT_HOME/dotfiles
 stow -v ack bin git nvm tmux vim zsh
-NVM_PATH=$VAGRANT_HOME/.nvm
-mkdir -p $NVM_PATH
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.2/install.sh | NVM_DIR=$NVM_PATH zsh
-#source $VAGRANT_HOME/.zshrc
+# TODO: utilities like fzf, zplug addons, etc..
+#NVM_PATH=$VAGRANT_HOME/.nvm
+#mkdir -p $NVM_PATH
+#curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.2/install.sh | NVM_DIR=$NVM_PATH zsh
+##source $VAGRANT_HOME/.zshrc

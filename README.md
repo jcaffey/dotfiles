@@ -3,6 +3,17 @@ Did you know that most google apps use the vim keybindings? You can just open gm
 
 https://medium.com/@gregsramblings/gmail-keyboard-shortcuts-using-3c845bb77043
 
+## usage eith vagrant
+cd ~
+```shell
+git clone https://github.com/jcaffey/dotfiles
+cd dotfiles
+vagrant up
+```
+
+## guided installation for WSL users
+`guides/wsl/setup.txt`
+
 ## TODO
 * [ ] add examples for :0r %:h/darwin.conf with tmux darwin/wsl config in vim guide
 * [ ] rainbow is a shitty plugin but it's useful and can reset with `:e`
