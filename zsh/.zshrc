@@ -1,11 +1,13 @@
+HOME=${DOTFILES_HOME:-$HOME}
+
 # Get $DOTFILES_OS for darwin/wsl/linux
-source ~/dotfiles/.dotfiles_os
+source $HOME/dotfiles/.dotfiles_os
 
 # If you come from bash you might have to change your $PATH.
 export PATH=$PATH:$HOME/bin:/usr/local/bin:/usr/local/sbin
 
 # Path to your oh-my-zsh installation.
-export ZSH=~/.oh-my-zsh
+export ZSH=$HOME/.oh-my-zsh
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -116,24 +118,21 @@ source $ZSH/oh-my-zsh.sh
 export EDITOR='vim'
 
 # Aliases
-source ~/.zsh_aliases/common
-source ~/.zsh_aliases/ls
-source ~/.zsh_aliases/git
-source ~/.zsh_aliases/tmux
+source $HOME/.zsh_aliases/common
+source $HOME/.zsh_aliases/ls
+source $HOME/.zsh_aliases/git
+source $HOME/.zsh_aliases/tmux
 
 #zplug
-source ~/.zplug/init.zsh
+source $HOME/.zplug/init.zsh
 zplug 'wfxr/forgit'
 
-#Install plugins if there are plugins that have not been installed
+# Install plugins if there are plugins that have not been installed
 if ! zplug check --verbose; then
-printf "Install? [y/N]: "
-  if read -q; then
-      echo; zplug install
-  fi
+  zplug install
 fi
 
-#Then, source plugins and add commands to $PATH
+# Then, source plugins and add commands to $PATH
 zplug load
 
 # Syntax highlighting
@@ -160,12 +159,15 @@ if [ "$DOTFILES_OS" = "$DOTFILES_DARWIN" ]; then
   export PKG_CONFIG_PATH="/usr/local/opt/openssl@1.1/lib/pkgconfig"
 fi
 
-if [ "$DOTFILES_OS" = "$DOTFILES_GNU_LINUX_WSL" ]; then
-fi
+#if [ "$DOTFILES_OS" = "$DOTFILES_GNU_LINUX_WSL" ]; then
+#fi
 
 #fzf if installed via git
 # TODO: this is not working with the if above on wsl. fix me.
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+[ -f $HOME/.fzf.zsh ] && source $HOME/.fzf.zsh
+
+# dotnet tools like dotnet-script
+export PATH="$PATH:/Users/jcaffey/.dotnet/tools"
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
