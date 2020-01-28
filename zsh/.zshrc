@@ -119,8 +119,9 @@ export EDITOR='vim'
 
 # Aliases
 source $HOME/.zsh_aliases/common
-source $HOME/.zsh_aliases/ls
 source $HOME/.zsh_aliases/git
+source $HOME/.zsh_aliases/ls
+source $HOME/.zsh_aliases/dotnet
 source $HOME/.zsh_aliases/tmux
 
 #zplug
