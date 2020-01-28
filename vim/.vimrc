@@ -17,7 +17,6 @@ call vundle#begin()
   Plugin 'plasticboy/vim-markdown'
   Plugin 'luochen1990/rainbow'
   Plugin 'kien/ctrlp.vim'
-  " Plugin 'kristijanhusak/vim-hybrid-material'
   Plugin 'jlanzarotta/bufexplorer'
   Plugin 'mattn/webapi-vim'
   Plugin 'mattn/gist-vim'
@@ -25,10 +24,10 @@ call vundle#begin()
   Plugin 'neoclide/coc.nvim'
   Plugin 'preservim/nerdcommenter'
   Plugin 'OmniSharp/omnisharp-vim'
+  Plugin 'OrangeT/vim-csharp'
   Plugin 'roxma/vim-tmux-clipboard'
   Plugin 'scrooloose/nerdtree'
   Plugin 'scrooloose/syntastic'
-  " Plugin 'tpope/vim-obsession'
   Plugin 'tpope/vim-fugitive'
   Plugin 'tpope/vim-surround'
   Plugin 'vim-ruby/vim-ruby'
@@ -83,10 +82,14 @@ let g:rainbow_active = 1
 " OmniSharp in WSL
 " TODO: update username to be whoami and test if WSL
 let g:OmniSharp_server_stdio = 1
-"let g:OmniSharp_server_path = '/mnt/c/Users/jcaffey/omnisharp/OmniSharp.exe'
-let g:OmniSharp_server_use_mono = 0
-let g:OmniSharp_server_path = '/Users/jcaffey/.omnisharp/run'
-"let g:OmniSharp_translate_cygwin_wsl = 1
+" let g:OmniSharp_server_path = '/mnt/c/Users/jcaffey/omnisharp/OmniSharp.exe'
+" let g:OmniSharp_translate_cygwin_wsl = 1
+" TODO: dont set mono in WSL (I think it does use mono but the built in one
+" for roslyn)
+" let g:OmniSharp_server_use_mono = 1
+" TODO: /home/whoami for ubuntu
+"let g:OmniSharp_server_path = '/Users/jcaffey/.omnisharp/run'
+let g:OmniSharp_server_path = '/home/jcaffey/.omnisharp/run'
 let g:OmniSharp_highlight_types = 2
 
 " Get the defaults that most users want.
@@ -364,8 +367,23 @@ ca W w
 ca Q q
 
 " nord comments arent readable to me unless they are bold
-"highlight Comment cterm=bold
+" TODO: bold doesnt work in WSL for me
+" highlight Comment cterm=bold
 highlight Visual ctermbg=red
+
+" Templates
+if has("autocmd")
+  augroup templates
+    autocmd BufNewFile *.cs 0r ~/.vim/templates/csharp
+  augroup END
+endif
+
+" Tabs
+if has("autocmd")
+  augroup tabs
+    autocmd FileType *.cs set tabstop=4 shiftwidth=4 softtabstop=4 expandtab
+  augroup END
+endif
 
 " coc configuration
 " if hidden is not set, TextEdit might fail.
