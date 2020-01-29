@@ -80,16 +80,19 @@ let g:vroom_use_vimux = 1
 let g:rainbow_active = 1
 
 " OmniSharp in WSL
-" TODO: update username to be whoami and test if WSL
+" TODO: update PATH to be $HOME and test if WSL
 let g:OmniSharp_server_stdio = 1
 " let g:OmniSharp_server_path = '/mnt/c/Users/jcaffey/omnisharp/OmniSharp.exe'
 " let g:OmniSharp_translate_cygwin_wsl = 1
 " TODO: dont set mono in WSL (I think it does use mono but the built in one
 " for roslyn)
 " let g:OmniSharp_server_use_mono = 1
-" TODO: /home/whoami for ubuntu
-"let g:OmniSharp_server_path = '/Users/jcaffey/.omnisharp/run'
-let g:OmniSharp_server_path = '/home/jcaffey/.omnisharp/run'
+if system('uname -r') =~ "Microsoft"
+  let g:OmniSharp_server_path = '/home/jcaffey/.omnisharp/run'
+else
+  let g:OmniSharp_server_path = "/Users/jcaffey/.omnisharp/run"
+endif
+
 let g:OmniSharp_highlight_types = 2
 
 " Get the defaults that most users want.
