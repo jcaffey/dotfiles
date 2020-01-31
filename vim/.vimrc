@@ -52,6 +52,8 @@ filetype plugin indent on    " required
 " Plugin settings
 " CtrlP
 let g:ctrlp_working_path_mode = 0 " do not change working directory everytime ctrlp is opened
+" make ctrlp awesome and not annoying/slow
+let g:ctrlp_custom_ignore = '\v[\/](node_modules|target|dist|obj|bin)|(\.(swp|ico|git|svn))$'
 
 " nerdtree
 let NERDTreeQuitOnOpen=1 " close nerd tree when opening file
