@@ -88,8 +88,8 @@ let g:OmniSharp_server_stdio = 1
 " let g:OmniSharp_translate_cygwin_wsl = 1
 " TODO: dont set mono in WSL (I think it does use mono but the built in one
 " for roslyn)
-" let g:OmniSharp_server_use_mono = 1
-if system('uname -r') =~ "Microsoft"
+let g:OmniSharp_server_use_mono = 0
+if system('uname -r') =~ "microsoft"
   let g:OmniSharp_server_path = '/home/jcaffey/.omnisharp/run'
 else
   let g:OmniSharp_server_path = "/Users/jcaffey/.omnisharp/run"
