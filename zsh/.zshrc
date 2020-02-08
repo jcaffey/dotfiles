@@ -160,11 +160,10 @@ if [ "$DOTFILES_OS" = "$DOTFILES_DARWIN" ]; then
   export PKG_CONFIG_PATH="/usr/local/opt/openssl@1.1/lib/pkgconfig"
 fi
 
-#if [ "$DOTFILES_OS" = "$DOTFILES_GNU_LINUX_WSL" ]; then
-#fi
+# TODO: all this shit needs to be in modules
+# need a chef ticket.
 
-#fzf if installed via git
-# TODO: this is not working with the if above on wsl. fix me.
+# fzf if installed via git
 [ -f $HOME/.fzf.zsh ] && source $HOME/.fzf.zsh
 
 # dotnet tools like dotnet-script
