@@ -14,7 +14,7 @@ call vundle#begin()
   Plugin 'edkolev/tmuxline.vim'
   Plugin 'godlygeek/tabular'
   Plugin 'jlanzarotta/bufexplorer'
-  Plugin 'kien/ctrlp.vim'
+  Plugin 'ctrlp/ctrlp.vim'
   Plugin 'luochen1990/rainbow'
   Plugin 'mattn/gist-vim'
   Plugin 'mattn/webapi-vim'
