@@ -391,6 +391,94 @@ set imap_pass = "<app password>"
 # `di"` ... you get the idea.
 ```
 
+## bang is your best friend
+I've recently come to truly love and appreciate the Unix of "do one thing and do it well." The following are "vim tricks" using GNU/Linux tools that I think kick major ass.
+
+## sorting
+I have a private repository named "todo" that is just a collection of asciidoc files (because its better than markdown and vim is better than emacs and it's not even up for debate) that keep me sufficiently organized. This is what my repo currently looks like:
+
+```shell
+tree ~/repos/todo
+.
+├── crypto.adoc
+├── csharp.adoc
+├── dotfiles.md
+├── email.md
+├── repo.md
+├── sugar.adoc
+├── today.md
+├── tomorrow.md
+└── weekend.adoc
+```
+
+I'm still working out the kinks of my workflow with todo's, but let's take a look at email.md (still in the process of moving to adoc!) to see how this might work.
+
+```shell
+cat ~/repos/todo/email.md
+
+##email
+* [ ] add bin script for updating mbsync and msmtp password
+* [ ] update crontab to call mbsync
+* [ ] 3
+* [ ] 1
+* [ ] 4
+* [ ] 2
+```
+
+The todo's for 3,1,4, and 2 are contrived, but imagine you have a large list. I often find myself needing to prioritize and then re-prioritize each todo based on any number of factors. This helps me follow an iterative approach to development and the agile philosophy. That said, let's imagine that as I `j`/`k` up and down my document in the morning I realize that todo's 3 and 4 are now a much higher priority. I can `dd` then maybe `gg` to delete and then quickly get to the top of my document, but what I really want is to go through each line and assign them some priority.
+
+It turns out that computers are great at sorting things so what I typically do is modify my list to look like this:
+
+```md
+##email
+* [ ] add bin script for updating mbsync and msmtp password
+* [ ] update crontab to call mbsync
+* [ ] - 3
+* [ ] 1
+* [ ] - 4
+* [ ] 2
+```
+All I've done is added a `-` in front of the todo's that I know i want to get done today. Now I want those at the top of my list so it's as easy as `:%!sort`. Let's look at what that actually means.
+
+- `:` enter ex command mode
+- `%` current document (you can also use visual mode to select lines if you dont want to sort the entire document)
+- `!` execute a shell command and if there is anything before the `!` pipe that data to it.
+- `sort` the document. The output is automatically piped back in to vim. Very cool. Note: i also keep a cheat-sheets repository that comes in handy for common terminal commands that I can't keep in my head. See guides/cheat-sheets for more on that.
+
+The result is a nice clean list with my priorities on top. From here I usually just order them manually with `dd` and `p`.
+
+```shell
+##email
+* [ ] - 3
+* [ ] - 4
+* [ ] 1
+* [ ] 2
+* [ ] add bin script for updating mbsync and msmtp password
+* [ ] update crontab to call mbsync
+```
+But why not just use lists, evernote, jira, or any other number of applications? Because my brain has ideas flying through all the time. I call these thoughts threads because it's a lot like a processor context switching. The sooner I kill a thread (get a thought out) the sooner I'm allocating all my processing power to the main thread (whatever i was working on originally).
+
+For this idea to be effective I have to quickly get to my todo repository, insert an idea, and get back to whatever I was building. Doing that involved 3 tools: tmux, snip, and repo.
+
+Tmux is a terminal multiplexer that kicks major ass and everyone should know about it. It allows me to have multiple workspaces open at one time.
+
+Snip is just a simple ruby script that I have in my path under bin/snip that lets me add or show a snippet from my snippets repository.
+
+Repo is another ruby script that allows me to manage my repositories quickly. I have a lot of ideas floating around for repo, but it's useful in this context because it allows me to open a repository *the way i want it to be opened*. For example, when want to open my dotfiles repo I just type `repo o dotfiles` and I don't need to worry about if it's located in my home directory or under my ~/repos directory. More importantly, I can tell repo *which* editor i want to open the repository with -- which is vim 99% of the time, but if I have another project for work I may need to open it in vscode. Repo is cool because it additionally supports arguments for the editor per repository. The ctrlp plugin for vim usually ignores dotfiles, but i need it to care about .zhsrc, .vimrc, etc ONLY when ive opened dotfiles. It's basically middleware for your text editor of choice.
+
+Assuming that I am already in tmux working on a project, adding a todo to ~/repos/example.md would look like this:
+
+- `ctrl+space` always use space for leader/prefix when possible. it's big and easy to get to for both hands.
+- `c` to create a window in my tmux session
+- `repo o todo` to open vim with the settings i want for ~/repos/todo
+- select relevant document in nerdtree
+- `:r!snip s todo.md` to tell vim to `r`ead the output of `snip show todo.md` which is literally just a file that has the contents: "* [ ]"
+
+Most times I won't use snip and ill just `0yf]` to `0` go to beginning of line, `y`ank text until vim `f`inds the character `]` and then type `o<esc>p` to create a new line and `p`aste the "* [ ]" I just copied.
+
+Marking a todo as done is as easy as `f[` or `F[` to `f`ind forward or `find` backwards the character `[` then type `lrx` and you're done. `l` moves right `rx` `r`eplaces the character with `x`.
+
+
 ## Resources
 - vimtutor
 - [Vim](https://www.youtube.com/watch?v=1lzXr-MztOU&list=PLy7Kah3WzqrEjsuvhT46fr28Q11oa5ZoI)
