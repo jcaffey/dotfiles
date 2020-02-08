@@ -51,6 +51,11 @@ filetype plugin indent on    " required
 " Put your non-Plugin stuff after this linel plug#end()
 
 " Plugin settings
+" devicons
+if exists("g:loaded_webdevicons")
+  call webdevicons#refresh()
+endif
+
 " CtrlP
 let g:ctrlp_working_path_mode = 0 " do not change working directory everytime ctrlp is opened
 " make ctrlp awesome and not annoying/slow
@@ -84,11 +89,6 @@ let g:rainbow_active = 1
 
 " OmniSharp in WSL
 " TODO: update PATH to be $HOME and test if WSL
-let g:OmniSharp_server_stdio = 1
-" let g:OmniSharp_server_path = '/mnt/c/Users/jcaffey/omnisharp/OmniSharp.exe'
-" let g:OmniSharp_translate_cygwin_wsl = 1
-" TODO: dont set mono in WSL (I think it does use mono but the built in one
-" for roslyn)
 let g:OmniSharp_server_use_mono = 0
 if system('uname -r') =~ "microsoft"
   let g:OmniSharp_server_path = '/home/jcaffey/.omnisharp/run'
@@ -211,6 +211,9 @@ if system('uname -r') =~ "Microsoft"
     autocmd TextYankPost * :call system('clip.exe ',@")
   augroup END
 endif
+
+" Encoding
+set encoding=UTF-8
 
 " show current line cursor is on
 set cursorline
