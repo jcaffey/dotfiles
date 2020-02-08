@@ -5,40 +5,41 @@ filetype off                  " required
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
   " Plugins
-  Plugin 'VundleVim/Vundle.vim'
   Plugin 'airblade/vim-gitgutter'
   Plugin 'arcticicestudio/nord-vim'
   Plugin 'benmills/vimux'
   Plugin 'chrisbra/unicode.vim'
   Plugin 'christoomey/vim-tmux-navigator'
-  Plugin 'edkolev/tmuxline.vim'
   Plugin 'easymotion/vim-easymotion'
+  Plugin 'edkolev/tmuxline.vim'
   Plugin 'godlygeek/tabular'
-  Plugin 'plasticboy/vim-markdown'
-  Plugin 'luochen1990/rainbow'
-  Plugin 'kien/ctrlp.vim'
   Plugin 'jlanzarotta/bufexplorer'
-  Plugin 'mattn/webapi-vim'
+  Plugin 'kien/ctrlp.vim'
+  Plugin 'luochen1990/rainbow'
   Plugin 'mattn/gist-vim'
+  Plugin 'mattn/webapi-vim'
   Plugin 'mileszs/ack.vim'
   Plugin 'neoclide/coc.nvim'
-  Plugin 'preservim/nerdcommenter'
   Plugin 'OmniSharp/omnisharp-vim'
   Plugin 'OrangeT/vim-csharp'
+  Plugin 'plasticboy/vim-markdown'
+  Plugin 'preservim/nerdcommenter'
   Plugin 'roxma/vim-tmux-clipboard'
+  Plugin 'ryanoasis/vim-devicons'
   Plugin 'scrooloose/nerdtree'
   Plugin 'scrooloose/syntastic'
+  Plugin 'skalnik/vim-vroom'
   Plugin 'tpope/vim-fugitive'
   Plugin 'tpope/vim-surround'
-  Plugin 'vim-ruby/vim-ruby'
-  Plugin 'skalnik/vim-vroom'
   Plugin 'vim-airline/vim-airline'
   Plugin 'vim-airline/vim-airline-themes'
+  Plugin 'vim-ruby/vim-ruby'
+  Plugin 'VundleVim/Vundle.vim'
 call vundle#end()            " required
 
 filetype plugin indent on    " required
 " To ignore plugin indent changes, instead use:
-"filetype plugin on
+" filetype plugin on
 "
 " Brief help
 " :PluginList       - lists configured plugins
@@ -372,8 +373,7 @@ ca W w
 ca Q q
 
 " nord comments arent readable to me unless they are bold
-" TODO: bold doesnt work in WSL for me
-" highlight Comment cterm=bold
+highlight Comment cterm=bold
 highlight Visual ctermbg=red
 
 " Templates
@@ -508,7 +508,7 @@ nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
 " Manage extensions
 nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
 " Show commands
-nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
+" nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
 " Find symbol of current document
 nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
 " Search workspace symbols
