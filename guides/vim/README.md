@@ -335,7 +335,6 @@ IMPORTANT: Surround distinguishes between `{` and `}` (and all other brackets ex
   - `:Gblame` git blame on current buffer
   - `:Gcommit` git commit
   - `:Gpush` git push
-another change - test delete me
 
 * Gitgutter - more git awesomeness that compliments fugitive. See example below.
 
