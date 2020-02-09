@@ -58,6 +58,9 @@ if exists("g:loaded_webdevicons")
   call webdevicons#refresh()
 endif
 
+" Fugitive
+set diffopt+=vertical
+
 " CtrlP
 let g:ctrlp_working_path_mode = 0 " do not change working directory everytime ctrlp is opened
 " make ctrlp awesome and not annoying/slow
@@ -125,8 +128,11 @@ let g:NERDTrimTrailingWhitespace = 1
 " Enable NERDCommenterToggle to check all selected lines is commented or not 
 let g:NERDToggleCheckAllLines = 1
 
-" Get the defaults that most users want.
-source $VIMRUNTIME/defaults.vim
+" NEOVIM SPECIFIC CONFIG
+if !has('nvim')
+  " Get the defaults that most users want.
+  source $VIMRUNTIME/defaults.vim
+endif
 
 if has("vms")
   set nobackup		" do not keep a backup file, use versions instead
