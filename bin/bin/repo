@@ -1,6 +1,5 @@
 #!/usr/bin/env ruby
 require 'shellwords'
-require 'pry'
 
 Repo = Struct.new('Repo', :name, :path, :status) do
   def clean?
@@ -23,8 +22,8 @@ class Program
   def initialize(action:, set:)
     @editor         = ENV['EDITOR'] || ENV['VISUAL'] || 'vim' # TODO: need to be able to specify preferred option for terminal or not
     @editor_options = { # TODO: move this to ~/.reporc
-      'global'      => "${path};-c ':cd ${path}'",
-      'dotfiles'   => "-c ':let g:ctrlp_show_hidden=1'"
+      'global'   => "${path};-c ':cd ${path}'",
+      'dotfiles' => "-c ':let g:ctrlp_show_hidden=1'"
     }
     @path = ENV['REPOS_PATH'] || '~/repos' # TODO: rc
     @path = File.expand_path(@path)
@@ -102,7 +101,6 @@ class Program
 
     # /home/jcaffey/dotfiles :let g:ctrlp_show_hidden=1
     @editor_options = editor_options_for(@set.first).join(' ')
-    # binding.pry
     system([@editor, @editor_options].join(' '))
   end
   alias :o :open
