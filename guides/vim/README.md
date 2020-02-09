@@ -330,8 +330,13 @@ IMPORTANT: Surround distinguishes between `{` and `}` (and all other brackets ex
 * FZF - Using ag + fzf === unstoppable - TODO
 
 * Fugitive - git awesomeness from vim. Anything tpope makes is amazing.
+  - `:G` better git status view
+  - `:Gw` git add for the current buffer
+  - `:Gblame` git blame on current buffer
+  - `:Gcommit` git commit
+  - `:Gpush` git push
 
-* Gitgutter - more git awesomeness that compliments fugitive. See below.
+* Gitgutter - more git awesomeness that compliments fugitive. See example below.
 
 ## Fugitive + Gitgutter example
 I often find myself forgetting to create a git commit with a single unit of work. It's useful to be able to commit sections of a file all from vim. This is how: 
