@@ -266,7 +266,6 @@ Excellent article covering registers in detail:
   - `s` [s]earch forward and backward for 2 characters in the window.
   - See vimrc for all mappings
 
-
   * NerdTree - it is better than the default netrw plugin, so i use it, but i suggest configuring netrw as well so you can get comfortable with it when you SSH into a box that doesn't have plugins.
 
   - hjkl or arrows to navigate
@@ -328,7 +327,21 @@ IMPORTANT: Surround distinguishes between `{` and `}` (and all other brackets ex
   - `ctrl+x` open file in horizontal split. It's not mnemonic, but it's convenient.
   - `ctrl+n` and `ctrl+p` to cycle search history
 
+* FZF - Using ag + fzf === unstoppable - TODO
+
+* Fugitive - git awesomeness from vim. Anything tpope makes is amazing.
+
+* Gitgutter - more git awesomeness that compliments fugitive. See below.
+
+## Fugitive + Gitgutter example
+I often find myself forgetting to create a git commit with a single unit of work. It's useful to be able to commit sections of a file all from vim. This is how: 
+
+- install vim-gitgutter and vim-fugitive.
+- add lines to file (your gutter should have a green plus for lines added)
+- stage a "hunk" with git gutter with visual mode: `V<Leader>hs` in english thats: `V`isual line mode, `h`unk `s`tage
 - `:GStatus` to ask fugitive with gitgutter just staged for us
+- From here you can `:Gcommit` to commit or `<Leader>hu` to `h`unk `u`nstage
+
 ## Window management
 - `ctrl+w` {up|down|left|right} moves cursor to window in that direction
 - `ctrl+ww` move cursor to next window
