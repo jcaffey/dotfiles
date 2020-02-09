@@ -225,28 +225,45 @@ nnoremap <Leader>l :set nu! rnu!<CR>
 
 " Make ctrl/shift + arrow behave in gvim and other vims like macvim.
 " sequences for ctrl+arrow
-map <esc>b <C-Left>
-map <esc>f <C-Right>
-map <C-k> <C-Up>
-map <C-@> <C-Down>
+" map <esc>b <C-Left>
+" map <esc>f <C-Right>
+" map <C-k> <C-Up>
+" map <C-j> <C-Down>
+"
+" " sequences for shift+arrow
+" map <esc>[1;2D <S-Left>
+" map <esc>[1;2C <S-Right>
+" map <esc>[1;2A <S-Up>
+" map <esc>[1;2B <S-Down>
 
-" sequences for shift+arrow
-map <esc>[1;2D <S-Left>
-map <esc>[1;2C <S-Right>
-map <esc>[1;2A <S-Up>
-map <esc>[1;2B <S-Down>
+" SPLITS:
+" see: https://thoughtbot.com/blog/vim-splits-move-faster-and-more-naturally
+set splitbelow
+set splitright
 
-" Allow copy/paste between vims and system
-" NOTE: this wont work in WSL even with vim-gnome +clipboard
-" so just use ctrl+shift+c / ctrl+shift+v in hyper
-set clipboard=unnamed
-if system('uname -r') =~ "Microsoft"
-  augroup Yank
-    autocmd!
-    autocmd TextYankPost * :call system('clip.exe ',@")
-  augroup END
-endif
+" TODO: splits are wonky.
+" Set correct sequences
+set <C-Left>=^[[1;5D
+" set <C-Down>=^[[1;5B
+" set <C-Up>=^[[1;5A
+set <C-Right>=^[[1;5C
 
+" navigate with ctrl+hjkl
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+
+" navigate with ctrl+arrows
+nnoremap <C-Left> <C-w>h
+nnoremap <C-Down> <C-w>j
+nnoremap <C-Up> <C-w>k
+nnoremap <C-Right> <C-w>l
+
+" make splits work the same as in tmux
+nnoremap <Leader>x :q<CR>
+nnoremap <Leader>\ :vsp<CR>
+nnoremap <Leader>- :sp<CR>
 " Encoding
 set encoding=UTF-8
 
@@ -388,24 +405,8 @@ set undodir=.undo/,~/.vim/.undo/,/tmp//
 " hi VertSplit ctermfg=65
 set fillchars+=vert:│
 
-" SPLITS:
-" see: https://thoughtbot.com/blog/vim-splits-move-faster-and-more-naturally
-set splitbelow
-set splitright
-
-" navigate with ctrl+hjkl
-nnoremap <C-J> <C-W><C-J>
-nnoremap <C-K> <C-W><C-K>
-nnoremap <C-L> <C-W><C-L>
-nnoremap <C-H> <C-W><C-H>
-
-" make splits work the same as in tmux
-nnoremap <Leader>x :q<CR>
-nnoremap <Leader>\ :vsp<CR>
-nnoremap <Leader>- :sp<CR>
-
 " Ex commands
-" command abbreviations for typos: 
+" command abbreviations for typos:
 ca Wq wq
 ca W w
 ca Q q
