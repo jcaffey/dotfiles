@@ -446,7 +446,7 @@ cat ~/repos/todo/email.md
 
 ##email
 * [ ] add bin script for updating mbsync and msmtp password
-* [ ] update crontab to call mbsync
+* [x] update crontab to call mbsync
 * [ ] 3
 * [ ] 1
 * [ ] 4
@@ -460,7 +460,7 @@ It turns out that computers are great at sorting things so what I typically do i
 ```md
 ##email
 * [ ] add bin script for updating mbsync and msmtp password
-* [ ] update crontab to call mbsync
+* [x] update crontab to call mbsync
 * [ ] - 3
 * [ ] 1
 * [ ] - 4
@@ -473,7 +473,7 @@ All I've done is added a `-` in front of the todo's that I know i want to get do
 - `!` execute a shell command and if there is anything before the `!` pipe that data to it.
 - `sort` the document. The output is automatically piped back in to vim. Very cool. Note: i also keep a cheat-sheets repository that comes in handy for common terminal commands that I can't keep in my head. See guides/cheat-sheets for more on that.
 
-The result is a nice clean list with my priorities on top. From here I usually just order them manually with `dd` and `p`.
+The result is a nice clean list with my priorities on top, completed tasks on bottom, and a happy me. From here I usually just order  todo's marked with `-` manually with `dd` and `p`.
 
 ```shell
 ##email
@@ -482,7 +482,7 @@ The result is a nice clean list with my priorities on top. From here I usually j
 * [ ] 1
 * [ ] 2
 * [ ] add bin script for updating mbsync and msmtp password
-* [ ] update crontab to call mbsync
+* [x] update crontab to call mbsync
 ```
 But why not just use lists, evernote, jira, or any other number of applications? Because my brain has ideas flying through all the time. I call these thoughts threads because it's a lot like a processor context switching. The sooner I kill a thread (get a thought out) the sooner I'm allocating all my processing power to the main thread (whatever i was working on originally).
 
