@@ -341,11 +341,20 @@ IMPORTANT: Surround distinguishes between `{` and `}` (and all other brackets ex
 ## Fugitive + Gitgutter example
 I often find myself forgetting to create a git commit with a single unit of work. It's useful to be able to commit sections of a file all from vim. This is how: 
 
-- install vim-gitgutter and vim-fugitive.
-- add lines to file (your gutter should have a green plus for lines added)
-- stage a "hunk" with git gutter with visual mode: `V<Leader>hs` in english thats: `V`isual line mode, `h`unk `s`tage
-- `:GStatus` to ask fugitive with gitgutter just staged for us
-- From here you can `:Gcommit` to commit or `<Leader>hu` to `h`unk `u`nstage
+  - install vim-gitgutter and vim-fugitive.
+  - add lines to file (your gutter should have a green plus for lines added)
+  - stage a "hunk" with git gutter with visual mode: `V<Leader>hs` in english thats: `V`isual line mode, `h`unk `s`tage
+  - `:GStatus` to ask fugitive with gitgutter just staged for us
+  - From here you can `:Gcommit` to commit or `<Leader>hu` to `h`unk `u`nstage
+
+## Fun with fugitive
+  - make change
+  - `:Gw`
+  - `:Gcommit`
+  - `:0r!curl whatthecommit.com/index.txt`
+  - `:wq`
+  - `:Gpush`
+  - giggle.
 
 ## Window management
 - `ctrl+w` {up|down|left|right} moves cursor to window in that direction
