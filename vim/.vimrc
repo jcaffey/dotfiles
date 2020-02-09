@@ -89,7 +89,10 @@ let g:vroom_use_vimux = 1
 " only turn this on if using nord colorscheme.
 " i find it quite annoying in other colorschemes, but nord
 " is clearly the best colorscheme ever, so just use nord. duh.
-let g:rainbow_active = 1
+if !exists('g:vscode')
+  " broken in neovim + vscode
+  let g:rainbow_active = 1
+endif
 
 " OmniSharp in WSL
 " TODO: update PATH to be $HOME and test if WSL

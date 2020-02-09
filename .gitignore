@@ -14,7 +14,8 @@
 !bin/bin/repo
 !bin/bin/snip
 !bin/bin/snipi
-!config/.config/**
+!config/.config/nvim/init.vim
+!config/.config/Code/User/settings.json
 !git/**/.gitkeep
 !guides/**
 !hyper/.hyper.js
