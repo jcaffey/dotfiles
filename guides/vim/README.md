@@ -328,6 +328,7 @@ IMPORTANT: Surround distinguishes between `{` and `}` (and all other brackets ex
   - `ctrl+x` open file in horizontal split. It's not mnemonic, but it's convenient.
   - `ctrl+n` and `ctrl+p` to cycle search history
 
+- `:GStatus` to ask fugitive with gitgutter just staged for us
 ## Window management
 - `ctrl+w` {up|down|left|right} moves cursor to window in that direction
 - `ctrl+ww` move cursor to next window
