@@ -24,7 +24,6 @@ call vundle#begin()
   Plugin 'neoclide/coc.nvim'
   Plugin 'OmniSharp/omnisharp-vim'
   Plugin 'OrangeT/vim-csharp'
-  Plugin 'plasticboy/vim-markdown'
   Plugin 'preservim/nerdcommenter'
   Plugin 'roxma/vim-tmux-clipboard'
   Plugin 'ryanoasis/vim-devicons'
@@ -368,9 +367,9 @@ set linespace=0       " No extra spaces between rows
 set showmatch         " Show matching brackets/parenthesis
 set scrolljump=5      " Lines to scroll when cursor leaves screen
 set scrolloff=3       " Minimum lines to keep above and below cursor
-set foldenable        " Auto fold code
-set foldmethod=indent " fold based on indent level
-set foldlevelstart=20
+set nofoldenable        " Auto fold code
+" set foldmethod=indent " fold based on indent level
+" set foldlevelstart=20
 
 set list
 set listchars=tab:›\ ,trail:•,extends:#,nbsp:. " Highlight problematic whitespace
@@ -530,7 +529,7 @@ xmap <silent> <TAB> <Plug>(coc-range-select)
 command! -nargs=0 Format :call CocAction('format')
 
 " Use `:Fold` to fold current buffer
-command! -nargs=? Fold :call     CocAction('fold', <f-args>)
+" command! -nargs=? Fold :call     CocAction('fold', <f-args>)
 
 " use `:OR` for organize import of current buffer
 command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
