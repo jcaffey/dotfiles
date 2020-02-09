@@ -351,7 +351,7 @@ I often find myself forgetting to create a git commit with a single unit of work
   - make change
   - `:Gw`
   - `:Gcommit`
-  - `:0r!curl whatthecommit.com/index.txt`
+  - `:0r!curl -s whatthecommit.com/index.txt`
   - `:wq`
   - `:Gpush`
   - giggle.
