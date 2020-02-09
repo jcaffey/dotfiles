@@ -14,6 +14,7 @@
 !bin/bin/repo
 !bin/bin/snip
 !bin/bin/snipi
+!config/.config/**
 !git/**/.gitkeep
 !guides/**
 !hyper/.hyper.js
