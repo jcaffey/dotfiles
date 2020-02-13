@@ -10,7 +10,7 @@ call vundle#begin()
   Plugin 'benmills/vimux'
   Plugin 'chrisbra/unicode.vim'
   Plugin 'christoomey/vim-tmux-navigator'
-  Plugin 'ctrlp/ctrlp.vim'
+  Plugin 'ctrlpvim/ctrlp.vim'
   Plugin 'easymotion/vim-easymotion'
   Plugin 'edkolev/tmuxline.vim'
   Plugin 'godlygeek/tabular'
