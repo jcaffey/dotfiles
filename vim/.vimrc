@@ -5,6 +5,9 @@ filetype off                  " required
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
   " Plugins
+  Plugin 'OmniSharp/omnisharp-vim'
+  Plugin 'OrangeT/vim-csharp'
+  Plugin 'VundleVim/Vundle.vim'
   Plugin 'airblade/vim-gitgutter'
   Plugin 'arcticicestudio/nord-vim'
   Plugin 'benmills/vimux'
@@ -22,20 +25,18 @@ call vundle#begin()
   Plugin 'mattn/webapi-vim'
   Plugin 'mileszs/ack.vim'
   Plugin 'neoclide/coc.nvim'
-  Plugin 'OmniSharp/omnisharp-vim'
-  Plugin 'OrangeT/vim-csharp'
   Plugin 'preservim/nerdcommenter'
   Plugin 'roxma/vim-tmux-clipboard'
   Plugin 'ryanoasis/vim-devicons'
   Plugin 'scrooloose/nerdtree'
   Plugin 'scrooloose/syntastic'
   Plugin 'skalnik/vim-vroom'
+  Plugin 'tmux-plugins/vim-tmux-focus-events'
   Plugin 'tpope/vim-fugitive'
   Plugin 'tpope/vim-surround'
   Plugin 'vim-airline/vim-airline'
   Plugin 'vim-airline/vim-airline-themes'
   Plugin 'vim-ruby/vim-ruby'
-  Plugin 'VundleVim/Vundle.vim'
 call vundle#end()            " required
 
 filetype plugin indent on    " required
