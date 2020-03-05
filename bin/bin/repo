@@ -52,7 +52,7 @@ class Program
         build_repo(name)
       end
     end
-    
+
     @set.flatten!
     if self.respond_to?(action)
       self.send(action)
