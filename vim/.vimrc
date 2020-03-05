@@ -32,6 +32,7 @@ call vundle#begin()
   Plugin 'scrooloose/syntastic'
   Plugin 'skalnik/vim-vroom'
   Plugin 'tmux-plugins/vim-tmux-focus-events'
+  Plugin 'tpope/vim-eunuch'
   Plugin 'tpope/vim-fugitive'
   Plugin 'tpope/vim-surround'
   Plugin 'vim-airline/vim-airline'
