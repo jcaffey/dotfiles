@@ -34,12 +34,13 @@ class Program
     # ex: repo o g => repo o global only when g is not specified!
     # also, add method to build this list and reindex the repo path
     @sets = {
-      'g' => ['cheat-sheets', 'dotfiles', 'notes', 'scripts', 'snippets', 'todo']
+      'g' => ['cheat-sheets', 'dotfiles', 'notes', 'pass', 'scripts', 'snippets', 'todo']
     }
 
     # hardcode path for now
     @paths = {
-      'dotfiles' => '~/dotfiles'
+      'dotfiles' => '~/dotfiles',
+      'pass' => '~/.password-store'
     }
 
     @action = action
