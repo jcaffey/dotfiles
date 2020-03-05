@@ -37,7 +37,7 @@ class Program
       'g' => ['cheat-sheets', 'dotfiles', 'notes', 'snippets', 'todo']
     }
 
-    # hardcore path for now
+    # hardcode path for now
     @paths = {
       'dotfiles' => '~/dotfiles'
     }
