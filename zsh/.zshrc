@@ -115,7 +115,7 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 # vimmm
-export EDITOR='nvim'
+export EDITOR='vim'
 
 # Aliases
 source $HOME/.zsh_aliases/common
