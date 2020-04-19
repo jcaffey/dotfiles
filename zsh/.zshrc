@@ -169,5 +169,11 @@ fi
 # dotnet tools like dotnet-script
 export PATH="$PATH:/Users/jcaffey/.dotnet/tools"
 
+# python2 / pip2
+# export PATH="$PATH:/Users/jcaffey/Library/Python/2.7/bin"
+
+# Arduino
+alias arduino="arduino-cli"
+
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
