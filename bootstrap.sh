@@ -1,5 +1,6 @@
-sudo apt-get update
-sudo apt-get install --yes build-essential cmake curl wget git gnupg2 python3-dev silversearcher-ag stow vim-gtk3 zsh
+sudo add-apt-repository ppa:longsleep/golang-backports
+sudo apt update
+sudo apt-get install --yes build-essential cmake curl wget git gnupg2 golang-go mono-complete python3-dev silversearcher-ag stow vim-gtk3 zsh
 
 VAGRANT_HOME="/home/vagrant"
 DOTFILES=$VAGRANT_HOME/dotfiles
@@ -54,12 +55,12 @@ yarn global add diff-so-fancy
 # vundle
 git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 
-# install plugins
-vim +PluginInstall +qall
-
 # YCM
 cd ~/.vim/bundle/YouCompleteMe
 python3 install.py --all
+
+# install plugins
+vim +PluginInstall +qall
 
 # backup vimrc and uncomment nord color scheme
 sed -i.bak 's/" colorscheme nord/colorscheme nord/' ~/.vimrc
