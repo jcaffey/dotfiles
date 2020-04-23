@@ -55,8 +55,11 @@ yarn global add diff-so-fancy
 git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 
 # install plugins
-# vim +PluginInstall +qall
-#
+vim +PluginInstall +qall
+
 # YCM
-# cd ~/.vim/bundle/YouCompleteMe
-# python3 install.py --all
+cd ~/.vim/bundle/YouCompleteMe
+python3 install.py --all
+
+# backup vimrc and uncomment nord color scheme
+sed -i.bak 's/" colorscheme nord/colorscheme nord/' ~/.vimrc
