@@ -272,7 +272,8 @@ set cursorline
 
 " nord colors
 " set background=dark
-colorscheme nord
+" uncomment after :PluginInstall
+" colorscheme nord
 
 "let g:enable_bold_font = 1
 "let g:enable_italic_font = 1
