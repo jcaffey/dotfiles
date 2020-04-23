@@ -160,7 +160,7 @@ if [ "$DOTFILES_OS" = "$DOTFILES_DARWIN" ]; then
   export PKG_CONFIG_PATH="/usr/local/opt/openssl@1.1/lib/pkgconfig"
 fi
 
-# TODO: all this shit needs to be in modules
+# TODO: all this stuff needs to be in modules
 # need a chef ticket.
 
 # fzf if installed via git
