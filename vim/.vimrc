@@ -273,7 +273,7 @@ set cursorline
 " nord colors
 " set background=dark
 " uncomment after :PluginInstall
-" colorscheme nord
+colorscheme nord
 
 "let g:enable_bold_font = 1
 "let g:enable_italic_font = 1
@@ -411,6 +411,7 @@ set fillchars+=vert:│
 ca Wq wq
 ca W w
 ca Q q
+cnoreabbrev lc lclose
 
 " nord comments arent readable to me unless they are bold
 highlight Comment cterm=bold
