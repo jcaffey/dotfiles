@@ -168,6 +168,9 @@ You try. If you've pulled this repo and want to learn vim I suggest you use `:r`
 TODO: todo lists in vim using `0r !head -n1 README.md`
 
 ## Buffers are better than tabs. I promise.
+
+UPDATE: this takes about 20 seconds before you realize you need the BufExplorer plugin. `:BufExplorer` then go nuts.
+
   Buffers are just files that vim has in memory. Any file you open will be listed in buffers unless you ask vim to get rid of it with `:bd{buffer-number}`. Here are the common buffer commands I use all the time.
   - `:ls` list buffers
   - `:b{buffer-number}` switch to that buffer. IMPORTANT: vim will ask if you want to save your changes to the file (if it has changed), press y or your changes are gone. You have been warned.
@@ -203,6 +206,7 @@ TODO: todo lists in vim using `0r !head -n1 README.md`
 - In insert mode you can `ctrl+r "` to paste from default register
 - In normal mode you can `"1p` which means grab register 1 and paste
 - `ayiw` yank in word to the a register
+- Copy text from register " (default) to + (system) `:let @+=@"`
 
 - Update .vimrc with the following:
 " Allow copy/paste between vims and system by setting the clipboard to be unnamed register.
