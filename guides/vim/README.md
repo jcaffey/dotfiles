@@ -541,6 +541,13 @@ There are various fold methods, but I don't find this particularly interesting, 
 
 [Folds](https://gist.github.com/lestoni/8c74da455cce3d36eb68)
 
+## File management
+
+### Moving files
+`:NerdTreeFind` on open buffer will locate the document within nerdtree and give you the option to (m)ove file / update buffer.
+`:Gmove` in a git repository
+`:saveas` in plain old vim but you have to delete the other file!
+
 ## TODO
 * [ ] indentation + tabularize
 * [ ] color scheme
