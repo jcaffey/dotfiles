@@ -42,6 +42,10 @@ call vundle#begin()
 call vundle#end()            " required
 
 filetype plugin indent on    " required
+
+" Disabled plugins
+set runtimepath-=~/.vim/bundle/omnisharp-vim " disabled because it breaks when opening Pyrometry
+
 " To ignore plugin indent changes, instead use:
 " filetype plugin on
 "

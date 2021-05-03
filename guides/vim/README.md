@@ -548,6 +548,13 @@ There are various fold methods, but I don't find this particularly interesting, 
 `:Gmove` in a git repository
 `:saveas` in plain old vim but you have to delete the other file!
 
+### Searching files / project
+`:Ag` search in files
+`:FZF`/`:Files` find files by name
+
+### Selection tricks
+`gv` reselect last selection
+
 ## TODO
 * [ ] indentation + tabularize
 * [ ] color scheme
