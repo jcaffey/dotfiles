@@ -26,6 +26,7 @@ call vundle#begin()
   Plugin 'mileszs/ack.vim'
   " Plugin 'neoclide/coc.nvim'
   Plugin 'preservim/nerdcommenter'
+  Plugin 'prettier/vim-prettier', { 'do': 'yarn install' }
   Plugin 'roxma/vim-tmux-clipboard'
   Plugin 'ryanoasis/vim-devicons'
   Plugin 'scrooloose/nerdtree'
@@ -38,7 +39,7 @@ call vundle#begin()
   Plugin 'vim-airline/vim-airline'
   Plugin 'vim-airline/vim-airline-themes'
   Plugin 'vim-ruby/vim-ruby'
-  Plugin 'ycm-core/YouCompleteMe'
+  " Plugin 'ycm-core/YouCompleteMe'
 call vundle#end()            " required
 
 filetype plugin indent on    " required
