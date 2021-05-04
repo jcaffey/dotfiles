@@ -554,6 +554,7 @@ There are various fold methods, but I don't find this particularly interesting, 
 
 ### Selection tricks
 `gv` reselect last selection
+`o` while in visual mode will move to the `o`pposite side of the selection. This allows you to add previous line(s) to your selection.
 
 ## TODO
 * [ ] indentation + tabularize
