@@ -124,7 +124,7 @@ source $HOME/.zsh_aliases/ls
 source $HOME/.zsh_aliases/dotnet
 source $HOME/.zsh_aliases/tmux
 
-#zplug
+# zplug
 source $HOME/.zplug/init.zsh
 zplug 'wfxr/forgit'
 
