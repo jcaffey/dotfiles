@@ -9,7 +9,6 @@ call vundle#begin()
   Plugin 'dracula/vim', { 'name': 'dracula' }
   Plugin 'lifepillar/vim-colortemplate'
   Plugin 'cocopon/iceberg.vim'
-  Plugin 'airblade/vim-gitgutter'
   Plugin 'arcticicestudio/nord-vim'
   Plugin 'benmills/vimux'
   Plugin 'bluz71/vim-nightfly-guicolors'
