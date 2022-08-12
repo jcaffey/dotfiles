@@ -43,7 +43,10 @@ module.exports = {
 
     // terminal background color
     // opacity is only supported on macOS
-    backgroundColor: '#2F343F',
+    // NORD:
+    // backgroundColor: '#2F343F',
+    // ondark
+    backgroundColor: '#252525',
 
     // terminal selection color
     selectionColor: 'rgba(248,28,229,0.3)',
@@ -67,7 +70,7 @@ module.exports = {
     showWindowControls: '',
 
     // custom padding (CSS format, i.e.: `top right bottom left`)
-    padding: '12px 14px',
+    padding: '0px',
 
     // the full list. if you're going to provide the full color palette,
     // including the 6 x 6 color cubes and the grayscale map, just provide
@@ -146,11 +149,9 @@ module.exports = {
   //   `hyperpower`
   //   `@company/project`
   //   `project#1.0.1`
+  // "nord-hyper"
   plugins: [
-    "hyperpower",
-    "hypercwd",
-    "hyper-tab-icons",
-    "nord-hyper"
+    "hyperpower"
   ],
 
   // in development, you can create a directory under
