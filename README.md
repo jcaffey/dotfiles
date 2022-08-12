@@ -1,4 +1,17 @@
+                                           
+     8          o   d'b  o 8               
+     8          8   8      8               
+.oPYo8 .oPYo.  o8P o8P  o8 8 .oPYo. .oPYo. 
+8    8 8    8   8   8    8 8 8oooo8 Yb..   
+8    8 8    8   8   8    8 8 8.       'Yb. 
+`YooP' `YooP'   8   8    8 8 `Yooo' `YooP' 
+:.....::.....:::..::..:::....:.....::.....:
+:::::::::::::::::::::::::::::::::::::::::::
+:::::::::::::::::::::::::::::::::::::::::::
+
+
 # dotfiles for an efficient and awesome terminal
+
 
 ## NOAH, MAY THE VIM FORCE BE WITH YOU.
 Oh, it is
