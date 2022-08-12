@@ -33,6 +33,8 @@ guides/vim/*
 ## tmux
 guides/tmux/*
 
+## don't forget the power of z.sh
+
 ## TODO
 * [ ] ag, tig, fpp, urlviewer, tmux-copycat|yank|open
 * [ ] seems like we need a git section since fpp, tig, git gutter, and fugitive kick so much ass
@@ -93,3 +95,6 @@ by simply putting `let g:vroom_map_keys = 0` in your vimrc.
 * [ ] create setup guide: fonts, terminal emulator, gotchas, etc...
 * [ ] install script
   - zsh, ohmyzsh, git, bash, spaceship, rvm, ruby, yarn, nvm, node 12, gpg, mutt, figlet, vifm, vim/macvim/gvim, tmux, vundle, tpm, pass, curl, wget, brew, apt, monoid nerd font, powerline symbols, ag, ack, fzf
+* [ ] fix tmux + vim arrow keys between panes and windows
+* [ ] fix status bar color in tmux + vim
+8 [ ] netrw `i` cycle views
