@@ -1,0 +1,7 @@
+# Figlet font selector => copy to clipboard
+fgl() (
+  [ $# -eq 0 ] && return
+  cd /usr/local/Cellar/figlet/*/share/figlet/fonts
+  local font=$(ls *.flf | sort | fzf --no-multi --reverse --preview "figlet -f {} -w \$FZF_PREVIEW_COLUMNS $@" --preview-window up) &&
+  figlet -f "$font" "$@" | pbcopy
+)
