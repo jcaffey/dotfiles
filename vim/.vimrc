@@ -5,47 +5,50 @@ filetype off                  " required
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
   " Plugins
-  " Plugin 'OmniSharp/omnisharp-vim'
-  " Plugin 'OrangeT/vim-csharp'
   Plugin 'VundleVim/Vundle.vim'
+  Plugin 'dracula/vim', { 'name': 'dracula' }
+  Plugin 'lifepillar/vim-colortemplate'
+  Plugin 'cocopon/iceberg.vim'
   Plugin 'airblade/vim-gitgutter'
   Plugin 'arcticicestudio/nord-vim'
   Plugin 'benmills/vimux'
+  Plugin 'bluz71/vim-nightfly-guicolors'
   Plugin 'chrisbra/unicode.vim'
   Plugin 'christoomey/vim-tmux-navigator'
-  " Plugin 'ctrlpvim/ctrlp.vim'
   Plugin 'easymotion/vim-easymotion'
   Plugin 'edkolev/tmuxline.vim'
+  Plugin 'ervandew/supertab'
   Plugin 'godlygeek/tabular'
+  Plugin 'honza/vim-snippets'
   Plugin 'jlanzarotta/bufexplorer'
   Plugin 'junegunn/fzf', { 'do': './install --bin' }
   Plugin 'junegunn/fzf.vim'
-  " Plugin 'luochen1990/rainbow'
-  " Plugin 'mattn/gist-vim'
-  " Plugin 'mattn/webapi-vim'
+  Plugin 'luochen1990/rainbow'
   Plugin 'mileszs/ack.vim'
-  " Plugin 'neoclide/coc.nvim'
-  Plugin 'preservim/nerdcommenter'
+  Plugin 'morhetz/gruvbox'
+  Plugin 'NLKNguyen/papercolor-theme'
+  Plugin 'pineapplegiant/spaceduck', { 'branch': 'main' }
   Plugin 'prettier/vim-prettier', { 'do': 'yarn install' }
+  Plugin 'rafi/awesome-vim-colorschemes'
+  Plugin 'sainnhe/everforest'
   Plugin 'roxma/vim-tmux-clipboard'
   Plugin 'ryanoasis/vim-devicons'
-  Plugin 'scrooloose/nerdtree'
   Plugin 'scrooloose/syntastic'
+  Plugin 'SirVer/ultisnips'
   Plugin 'skalnik/vim-vroom'
   Plugin 'tmux-plugins/vim-tmux-focus-events'
   Plugin 'tpope/vim-eunuch'
+  Plugin 'tpope/vim-commentary'
   Plugin 'tpope/vim-fugitive'
   Plugin 'tpope/vim-surround'
+  Plugin 'tpope/vim-vinegar'
   Plugin 'vim-airline/vim-airline'
   Plugin 'vim-airline/vim-airline-themes'
   Plugin 'vim-ruby/vim-ruby'
-  " Plugin 'ycm-core/YouCompleteMe'
+  Plugin 'ycm-core/YouCompleteMe'
 call vundle#end()            " required
 
 filetype plugin indent on    " required
-
-" Disabled plugins
-set runtimepath-=~/.vim/bundle/omnisharp-vim " disabled because it breaks when opening Pyrometry
 
 command! PrettyPrintJSON %!python -m json.tool
 command! PrettyPrintHTML !tidy -mi -html -wrap 0 %
@@ -64,6 +67,25 @@ command! PrettyPrintXML !tidy -mi -xml -wrap 0 %
 " Put your non-Plugin stuff after this linel plug#end()
 
 " Plugin settings
+
+" make YCM compatible with UltiSnips (using supertab)
+let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
+let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+let g:SuperTabDefaultCompletionType = '<C-n>'
+
+" better key bindings for UltiSnipsExpandTrigger
+let g:UltiSnipsExpandTrigger = "<tab>"
+let g:UltiSnipsJumpForwardTrigger = "<tab>"
+let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
+
+" Ultisnips
+" let g:UltiSnipsExpandTrigger="<S-tab>"
+" let g:UltiSnipsJumpForwardTrigger="<C-l>"
+" let g:UltiSnipsJumpBackwardTrigger="<c-K>"
+
+" If you want :UltiSnipsEdit to split your window.
+let g:UltiSnipsEditSplit="vertical"
+
 " devicons
 if exists("g:loaded_webdevicons")
   call webdevicons#refresh()
@@ -72,27 +94,8 @@ endif
 " Fugitive
 set diffopt+=vertical
 
-" CtrlP
-let g:ctrlp_working_path_mode = 0 " do not change working directory everytime ctrlp is opened
-" make ctrlp awesome and not annoying/slow
-let g:ctrlp_custom_ignore = '\v[\/](node_modules|target|dist|obj|bin)|(\.(swp|ico|git|svn))$'
-
-" nerdtree
-let NERDTreeQuitOnOpen=1 " close nerd tree when opening file
-
-" Syntastic
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 0
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-let g:syntastic_ruby_checkers = ['rubocop', 'mri'] 
-
 " Use ag instead of ack
-let g:ackprg = 'ag --nogroup --nocolor --column'
+let g:ackprg = 'ag --hidden'
 
 " vroom
 let g:vroom_use_vimux = 1
@@ -102,42 +105,6 @@ let g:vroom_use_vimux = 1
 " i find it quite annoying in other colorschemes, but nord
 " is clearly the best colorscheme ever, so just use nord. duh.
 let g:rainbow_active = 1
-
-" OmniSharp in WSL
-" TODO: update PATH to be $HOME and test if WSL
-let g:OmniSharp_server_use_mono = 0
-if system('uname -r') =~ "microsoft"
-  let g:OmniSharp_server_path = '/home/jcaffey/.omnisharp/run'
-else
-  let g:OmniSharp_server_path = "/Users/jcaffey/.omnisharp/run"
-endif
-
-let g:OmniSharp_highlight_types = 2
-
-" NerdCommenter settings
-" Add spaces after comment delimiters by default
-let g:NERDSpaceDelims = 1
-
-" Use compact syntax for prettified multi-line comments
-let g:NERDCompactSexyComs = 1
-
-" Align line-wise comment delimiters flush left instead of following code indentation
-let g:NERDDefaultAlign = 'left'
-
-" Set a language to use its alternate delimiters by default
-let g:NERDAltDelims_java = 1
-
-" Add your own custom formats or override the defaults
-let g:NERDCustomDelimiters = { 'c': { 'left': '/**','right': '*/' } }
-
-" Allow commenting and inverting empty lines (useful when commenting a region)
-let g:NERDCommentEmptyLines = 1
-
-" Enable trimming of trailing whitespace when uncommenting
-let g:NERDTrimTrailingWhitespace = 1
-
-" Enable NERDCommenterToggle to check all selected lines is commented or not 
-let g:NERDToggleCheckAllLines = 1
 
 " NEOVIM SPECIFIC CONFIG
 if !has('nvim')
@@ -194,7 +161,7 @@ set wildmenu
 " FILE BROWSING:
 " Tweaks for browsing
 let g:netrw_banner=0        " disable annoying banner
-let g:netrw_browse_split=4  " open in prior window
+" let g:netrw_browse_split=4  " open in prior window
 let g:netrw_altv=1          " open splits to the right
 let g:netrw_liststyle=3     " tree view
 let g:netrw_list_hide=netrw_gitignore#Hide()
@@ -210,18 +177,28 @@ let g:netrw_list_hide.=',\(^\|\s\s\)\zs\.\S\+'
 noremap <Space> <Nop>
 map <Space> <Leader>
 
+" file explorer
+nnoremap <c-e> :Lexplore<CR>
+
+" preview files - equivalent of Ctrl+p in other editors
+nnoremap <C-f> :Files<CR>
 " Disable arrow keys to get used to hjkl movement
-nnoremap <Left> :echo "don't be stupid."<CR>
-vnoremap <Left> :<C-u>echo "don't be stupid."<CR>
+" Make this optional
+" nnoremap <Left> :echo "don't be stupid."<CR>
+" vnoremap <Left> :<C-u>echo "don't be stupid."<CR>
+"
+" nnoremap <Right> :echo "don't be stupid."<CR>
+" vnoremap <Right> :<C-u>echo "don't be stupid."<CR>
+"
+" nnoremap <Up> :echo "don't be stupid."<CR>
+" vnoremap <Up> :<C-u>echo "don't be stupid."<CR>
+"
+" nnoremap <Down> :echo "don't be stupid."<CR>
+" vnoremap <Down> :<C-u>echo "don't be stupid."<CR>
+"
 
-nnoremap <Right> :echo "don't be stupid."<CR>
-vnoremap <Right> :<C-u>echo "don't be stupid."<CR>
-
-nnoremap <Up> :echo "don't be stupid."<CR>
-vnoremap <Up> :<C-u>echo "don't be stupid."<CR>
-
-nnoremap <Down> :echo "don't be stupid."<CR>
-vnoremap <Down> :<C-u>echo "don't be stupid."<CR>
+" completion
+set complete=".,w,b,u,t,i"
 
 " Call noh on esc+esc because just escape causes vim bugs
 " like starting in replace mode.
@@ -232,57 +209,29 @@ nnoremap <esc><esc> :noh<CR>
 " while using tmux and you don't want lines.
 nnoremap <Leader>l :set nu! rnu!<CR>
 
-" Make ctrl/shift + arrow behave in gvim and other vims like macvim.
-" sequences for ctrl+arrow
-" map <esc>b <C-Left>
-" map <esc>f <C-Right>
-" map <C-k> <C-Up>
-" map <C-j> <C-Down>
-"
-" " sequences for shift+arrow
-" map <esc>[1;2D <S-Left>
-" map <esc>[1;2C <S-Right>
-" map <esc>[1;2A <S-Up>
-" map <esc>[1;2B <S-Down>
 
 " SPLITS:
 " see: https://thoughtbot.com/blog/vim-splits-move-faster-and-more-naturally
 set splitbelow
 set splitright
 
-" TODO: splits are wonky.
-" Set correct sequences
-set <C-Left>=^[[1;5D
-" set <C-Down>=^[[1;5B
-" set <C-Up>=^[[1;5A
-set <C-Right>=^[[1;5C
 
-" navigate with ctrl+hjkl
-nnoremap <C-h> <C-w>h
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <C-l> <C-w>l
-
-" navigate with ctrl+arrows
-nnoremap <C-Left> <C-w>h
-nnoremap <C-Down> <C-w>j
-nnoremap <C-Up> <C-w>k
-nnoremap <C-Right> <C-w>l
+" navigate panes with arrows
+nnoremap <Left> <C-w><Left>
+nnoremap <Right> <C-w><Right>
+nnoremap <Up> <C-w><Up>
+nnoremap <Down> <C-w><Down>
 
 " make splits work the same as in tmux
 nnoremap <Leader>x :q<CR>
 nnoremap <Leader>\ :vsp<CR>
 nnoremap <Leader>- :sp<CR>
+
 " Encoding
 set encoding=UTF-8
 
 " show current line cursor is on
 set cursorline
-
-" nord colors
-" set background=dark
-" uncomment after :PluginInstall
-colorscheme nord
 
 "let g:enable_bold_font = 1
 "let g:enable_italic_font = 1
@@ -303,7 +252,7 @@ augroup END
 
 " Easy Motion
 " ----------------------------------------
-let g:EasyMotion_do_mapping = 1 " Enable default mappings
+let g:EasyMotion_do_mapping = 1 " disable default mappings
 map <Leader> <Plug>(easymotion-prefix)
 
 " This is the 'minimal' easymotion config, I like `s` for {char}{char} searches as 1 char tends to make me type longer anchors like ';f' and i'd rather just type 2 chars im looking for. s is also mnemonic for search or seek and I don't mind using x and i to do a character substituion + insert mode.
@@ -313,7 +262,7 @@ map <Leader> <Plug>(easymotion-prefix)
 " or
 " `s{char}{char}{label}`
 " Need one more keystroke, but on average, it may be more comfortable.
-nmap s <Plug>(easymotion-overwin-f2)
+nmap <Leader>s <Plug>(easymotion-overwin-f2)
 
 " Turn on case-insensitive feature
 let g:EasyMotion_smartcase = 1
@@ -336,7 +285,7 @@ let g:EasyMotion_smartcase = 1
 "   <Leader>k            | Line upward. See |k|.
 "   <Leader>n            | Jump to latest "/" or "?" forward. See |n|.
 "   <Leader>N            | Jump to latest "/" or "?" backward. See |N|.
-"   s                    | Find(Search) {char}{char} forward and backward.
+"   <Leader>s                    | Find(Search) {char}{char} forward and backward.
 "                        | See |f| and |F|.
 
 " Indent automatically depending on filetype
@@ -350,9 +299,6 @@ set tabstop=2
 set shiftwidth=2
 set softtabstop=2
 set expandtab
-
-" csharp
-autocmd Filetype cs setlocal tabstop=4
 
 " Set syntax on
 syntax on
@@ -440,132 +386,20 @@ if has("autocmd")
   augroup END
 endif
 
-" " coc configuration
-" " if hidden is not set, TextEdit might fail.
-" set hidden
-"
-" " Some servers have issues with backup files, see #649
-" set nobackup
-" set nowritebackup
-"
-" " Better display for messages
-" set cmdheight=2
-"
-" " You will have bad experience for diagnostic messages when it's default 4000.
-" set updatetime=300
-"
-" " don't give |ins-completion-menu| messages.
-" set shortmess+=c
-"
-" " always show signcolumns
-" set signcolumn=yes
-"
-" " Use tab for trigger completion with characters ahead and navigate.
-" " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
-" inoremap <silent><expr> <TAB>
-"       \ pumvisible() ? "\<C-n>" :
-"       \ <SID>check_back_space() ? "\<TAB>" :
-"       \ coc#refresh()
-" inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-"
-" function! s:check_back_space() abort
-"   let col = col('.') - 1
-"   return !col || getline('.')[col - 1]  =~# '\s'
-" endfunction
-"
-" " Use <c-space> to trigger completion.
-" " inoremap <silent><expr> <c-space> coc#refresh()
-"
-" " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
-" " Coc only does snippet and additional edit on confirm.
-" inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-" " Or use `complete_info` if your vim support it, like:
-" " inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
-"
-" " Use `[g` and `]g` to navigate diagnostics
-" nmap <silent> [g <Plug>(coc-diagnostic-prev)
-" nmap <silent> ]g <Plug>(coc-diagnostic-next)
-"
-" " Remap keys for gotos
-" nmap <silent> gd <Plug>(coc-definition)
-" nmap <silent> gy <Plug>(coc-type-definition)
-" nmap <silent> gi <Plug>(coc-implementation)
-" nmap <silent> gr <Plug>(coc-references)
-"
-" " Use K to show documentation in preview window
-" nnoremap <silent> K :call <SID>show_documentation()<CR>
-"
-" function! s:show_documentation()
-"   if (index(['vim','help'], &filetype) >= 0)
-"     execute 'h '.expand('<cword>')
-"   else
-"     call CocAction('doHover')
-"   endif
-" endfunction
-"
-" " Highlight symbol under cursor on CursorHold
-" autocmd CursorHold * silent call CocActionAsync('highlight')
-"
-" " Remap for rename current word
-" nmap <leader>rn <Plug>(coc-rename)
-"
-" " Remap for format selected region
-" xmap <leader>/  <Plug>(coc-format-selected)
-" nmap <leader>/  <Plug>(coc-format-selected)
-"
-" augroup mygroup
-"   autocmd!
-"   " Setup formatexpr specified filetype(s).
-"   autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
-"   " Update signature help on jump placeholder
-"   autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
-" augroup end
-"
-" " Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
-" xmap <leader>a  <Plug>(coc-codeaction-selected)
-" nmap <leader>a  <Plug>(coc-codeaction-selected)
-"
-" " Remap for do codeAction of current line
-" nmap <leader>ac  <Plug>(coc-codeaction)
-" " Fix autofix problem of current line
-" nmap <leader>qf  <Plug>(coc-fix-current)
-"
-" " Create mappings for function text object, requires document symbols feature of languageserver.
-" xmap if <Plug>(coc-funcobj-i)
-" xmap af <Plug>(coc-funcobj-a)
-" omap if <Plug>(coc-funcobj-i)
-" omap af <Plug>(coc-funcobj-a)
-"
-" " Use <TAB> for select selections ranges, needs server support, like: coc-tsserver, coc-python
-" nmap <silent> <TAB> <Plug>(coc-range-select)
-" xmap <silent> <TAB> <Plug>(coc-range-select)
-"
-" " Use `:Format` to format current buffer
-" command! -nargs=0 Format :call CocAction('format')
-"
-" " Use `:Fold` to fold current buffer
-" " command! -nargs=? Fold :call     CocAction('fold', <f-args>)
-"
-" " use `:OR` for organize import of current buffer
-" command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
-"
-" " Add status line support, for integration with other plugin, checkout `:h coc-status`
-" set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
-"
-" " Using CocList
-" " Show all diagnostics
-" nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
-" " Manage extensions
-" nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
-" " Show commands
-" " nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
-" " Find symbol of current document
-" nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
-" " Search workspace symbols
-" nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
-" " Do default action for next item.
-" nnoremap <silent> <space>j  :<C-u>CocNext<CR>
-" " Do default action for previous item.
-" nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
-" " Resume latest coc list
-" nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
+" colors
+set background=dark
+" colorscheme nord
+colorscheme dracula
+" colorscheme iceberg
+" colorscheme onedark
+" colorscheme everforest
+" colorscheme nightfly
+" colorscheme Tomorrow-Night
+" colorscheme spaceduck
+set t_Co=256
+" if exists('+termguicolors')
+"   let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+"   let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+"   set termguicolors
+" endif
+
