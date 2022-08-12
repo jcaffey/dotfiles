@@ -135,6 +135,9 @@ source $HOME/.zsh_aliases/ls
 source $HOME/.zsh_aliases/dotnet
 source $HOME/.zsh_aliases/tmux
 
+# z.sh
+. $HOME/bin/z.sh
+
 # zplug
 source $HOME/.zplug/init.zsh
 zplug 'wfxr/forgit'
