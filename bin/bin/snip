@@ -43,7 +43,14 @@ end
 # usage:
 # snip action name
 begin
-  action, name, *options= ARGV
+  action, name, *options = ARGV
+
+  if ARGV.length == 1
+    # default to show if only 1 argument is given. example: snip test => show test.md
+    name   = action
+    action = "show"
+  end
+
 
   if action.nil? || name.nil?
     puts "Usage: snip action name"
@@ -59,9 +66,10 @@ begin
       options[:stdin] = STDIN.read
     end
 
-    Program.new(options)
+    Program.new(**options)
     exit(0)
   end
-rescue
+rescue => e
+  puts "oops! #{e}"
   exit(47)
 end
