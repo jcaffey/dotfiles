@@ -97,4 +97,5 @@ by simply putting `let g:vroom_map_keys = 0` in your vimrc.
   - zsh, ohmyzsh, git, bash, spaceship, rvm, ruby, yarn, nvm, node 12, gpg, mutt, figlet, vifm, vim/macvim/gvim, tmux, vundle, tpm, pass, curl, wget, brew, apt, monoid nerd font, powerline symbols, ag, ack, fzf
 * [ ] fix tmux + vim arrow keys between panes and windows
 * [ ] fix status bar color in tmux + vim
-8 [ ] netrw `i` cycle views
+* [ ] netrw `i` cycle views
+* [ ] remove hyper in favor of alacritty and add alacritty yml
