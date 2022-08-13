@@ -1,5 +1,5 @@
 # install
-TODO: add chmod u+x to bin* files
+TODO: add chmod u+x to bin files
 
 In MacOS you need to disable shortcuts for ctrl+arrows in System Preferences -> Keyboard -> Shortcuts. Uncheck the boxes for mission control labeled `^->`, `^<-`, etc...
 
