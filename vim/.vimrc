@@ -46,8 +46,8 @@ call vundle#begin()
   Plugin 'vim-ruby/vim-ruby'
   Plugin 'ycm-core/YouCompleteMe'
 call vundle#end()            " required
-
 filetype plugin indent on    " required
+set omnifunc=syntaxcomplete#Complete
 
 command! PrettyPrintJSON %!python -m json.tool
 command! PrettyPrintHTML !tidy -mi -html -wrap 0 %

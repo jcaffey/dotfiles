@@ -99,3 +99,4 @@ by simply putting `let g:vroom_map_keys = 0` in your vimrc.
 * [ ] fix status bar color in tmux + vim
 * [ ] netrw `i` cycle views
 * [ ] remove hyper in favor of alacritty and add alacritty yml
+* [ ] aliases using exa with ls - TODO: install exa
