@@ -1,6 +1,0 @@
-{
-    "vscode-neovim.neovimPath": "/usr/local/bin/nvim",
-    "vscode-neovim.neovimInitPath": "/Users/jcaffey/.config/nvim/init.vim",
-    "workbench.colorTheme": "Nord",
-    "window.zoomLevel": 1
-}
