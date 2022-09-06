@@ -6,6 +6,11 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
   " Plugins
   Plugin 'VundleVim/Vundle.vim'
+  Plugin 'colepeters/spacemacs-theme.vim'
+  Plugin 'pablopunk/sunset.vim'
+  Plugin 'sunaku/vim-dasht'
+  Plugin 'preservim/tagbar'
+  Plugin 'rust-lang/rust.vim'
   Plugin 'dracula/vim', { 'name': 'dracula' }
   Plugin 'lifepillar/vim-colortemplate'
   Plugin 'cocopon/iceberg.vim'
@@ -32,7 +37,6 @@ call vundle#begin()
   Plugin 'sainnhe/everforest'
   Plugin 'roxma/vim-tmux-clipboard'
   Plugin 'ryanoasis/vim-devicons'
-  Plugin 'scrooloose/syntastic'
   Plugin 'SirVer/ultisnips'
   Plugin 'skalnik/vim-vroom'
   Plugin 'tmux-plugins/vim-tmux-focus-events'
@@ -44,10 +48,53 @@ call vundle#begin()
   Plugin 'vim-airline/vim-airline'
   Plugin 'vim-airline/vim-airline-themes'
   Plugin 'vim-ruby/vim-ruby'
+  " Plugin 'dense-analysis/ale'
   Plugin 'ycm-core/YouCompleteMe'
 call vundle#end()            " required
 filetype plugin indent on    " required
+
+" Tagbar
+nmap <F8> :TagbarToggle<CR>
+
+" ALE
+"" Enable completion where available.
+" This setting must be set before ALE is loaded.
+"
+" You should not turn this setting on if you wish to use ALE as a completion
+" source for other completion plugins, like Deoplete.
+" let g:ale_completion_enabled = 1
+
+" use ALE
+" set omnifunc=ale#completion#OmniFunc
+" let g:ale_linters = {'rust': ['cargo']}
+
+" YCM
 set omnifunc=syntaxcomplete#Complete
+nnoremap <F5> :YcmForceCompileAndDiagnostics<CR>
+nmap <leader>fsw <Plug>(YCMFindSymbolInWorkspace)
+nmap <leader>fsd <Plug>(YCMFindSymbolInDocument)
+nnoremap <leader>gt :YcmCompleter GoTo<CR>
+nnoremap <leader>gd :YcmCompleter GoToDefinition<CR>
+nnoremap <leader>gD :YcmCompleter GoToDeclaration<CR>
+
+let g:ycm_auto_hover = "off"
+let g:ycm_add_preview_to_completeopt = 1
+let g:ycm_autoclose_preview_window_after_insertion = 1
+let g:ycm_key_list_select_completion = ['<Enter>', '<TAB>', '<Down>']
+let g:ycm_key_list_stop_completion = ['<C-y>']
+
+" inc/dec numbers and chars
+set nrformats+=alpha
+
+" build tags
+set tags=./tags;/
+
+" disable ycm
+let g:ycm_show_diagnostics_ui = 0
+
+" better tab bindings
+nnoremap tk :tabnext<cr>
+nnoremap tj :tabprev<cr>
 
 command! PrettyPrintJSON %!python -m json.tool
 command! PrettyPrintHTML !tidy -mi -html -wrap 0 %
@@ -171,16 +218,28 @@ let g:netrw_list_hide.=',\(^\|\s\s\)\zs\.\S\+'
 " - <CR>/v/t to open in an h-split/v-split/tab
 " - check |netrw-browse-maps| for more mappings
 
+
+"  __  __    _    ____  ____
+" |  \/  |  / \  |  _ \/ ___|
+" | |\/| | / _ \ | |_) \___ \
+" | |  | |/ ___ \|  __/ ___) |
+" |_|  |_/_/   \_\_|   |____/
+
 " I'm using space as the leader key because it's hard to miss, doesn't do
 " anything useful in normal/visual mode and both hands can reach it easily
 noremap <Space> <Nop>
 map <Space> <Leader>
 
-" file explorer
-nnoremap <c-e> :Lexplore<CR>
+" buffers
+nnoremap <c-b> :BufExplorer<cr>
 
 " preview files - equivalent of Ctrl+p in other editors
 nnoremap <C-f> :Files<CR>
+
+" <Leader> o and O to open line above/below without insert mode
+nnoremap <Leader>o o<esc>
+nnoremap <Leader>O O<esc>
+
 " Disable arrow keys to get used to hjkl movement
 " Make this optional
 " nnoremap <Left> :echo "don't be stupid."<CR>
@@ -208,6 +267,27 @@ nnoremap <esc><esc> :noh<CR>
 " while using tmux and you don't want lines.
 nnoremap <Leader>l :set nu! rnu!<CR>
 
+" toggle netrw
+let g:NetrwIsOpen=0
+function! ToggleNetrw()
+    if g:NetrwIsOpen
+        let i = bufnr("$")
+        while (i >= 1)
+            if (getbufvar(i, "&filetype") == "netrw")
+                silent exe "bwipeout " . i 
+            endif
+            let i-=1
+        endwhile
+        let g:NetrwIsOpen=0
+    else
+        let g:NetrwIsOpen=1
+        silent Lexplore
+    endif
+endfunction
+
+" file explorer
+nnoremap <c-e> :call ToggleNetrw()<cr>
+nnoremap <Leader>e  :call ToggleNetrw()<cr>
 
 " SPLITS:
 " see: https://thoughtbot.com/blog/vim-splits-move-faster-and-more-naturally
@@ -387,18 +467,22 @@ endif
 
 " colors
 set background=dark
+" this is great with monokai theme for status
+" colorscheme sunset
+colorscheme everforest
 " colorscheme nord
-colorscheme dracula
+" colorscheme dracula
+" colorscheme monokai
+" colorscheme sunset
 " colorscheme iceberg
 " colorscheme onedark
-" colorscheme everforest
 " colorscheme nightfly
 " colorscheme Tomorrow-Night
 " colorscheme spaceduck
-set t_Co=256
-" if exists('+termguicolors')
-"   let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-"   let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-"   set termguicolors
-" endif
+" set t_Co=256
+if exists('+termguicolors')
+  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+  set termguicolors
+endif
 

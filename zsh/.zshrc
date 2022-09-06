@@ -1,19 +1,13 @@
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-
 # Fig pre block. Keep at the top of this file.
 [[ -f "$HOME/.fig/shell/zshrc.pre.zsh" ]] && . "$HOME/.fig/shell/zshrc.pre.zsh"
-HOME=${DOTFILES_HOME:-$HOME}
 
+# sugarterm
 # Get $DOTFILES_OS for darwin/wsl/linux
 source $HOME/dotfiles/.dotfiles_os
 
 # If you come from bash you might have to change your $PATH.
-export PATH=$PATH:$HOME/bin:/usr/local/bin:/usr/local/sbin
+# export PATH=$PATH:$HOME/bin:/usr/local/bin:/usr/local/sbin
+export PATH=$HOME/bin:$HOME/dasht/bin:$PATH
 
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
@@ -23,7 +17,7 @@ export ZSH=$HOME/.oh-my-zsh
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 # ZSH_THEME="robbyrussell"
-ZSH_THEME="spaceship"
+# ZSH_THEME="spaceship"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -60,7 +54,7 @@ ZSH_THEME="spaceship"
 # ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
-COMPLETION_WAITING_DOTS="true"
+# COMPLETION_WAITING_DOTS="true"
 
 # Uncomment the following line if you want to disable marking untracked files
 # under VCS as dirty. This makes repository status check for large repositories
@@ -95,11 +89,16 @@ plugins=(
   vi-mode
 )
 
+# load ohmyzsh
 source $ZSH/oh-my-zsh.sh
+
+# load starship
+eval "$(starship init zsh)"
 
 # User configuration
 
-# export MANPATH="/usr/local/man:$MANPATH"
+# ripgrep config
+export RIPGREP_CONFIG_PATH=$HOME/ripgrep.rc
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
@@ -139,17 +138,16 @@ source $HOME/.zsh_aliases/tmux
 . $HOME/bin/z.sh
 
 # zplug
-source $HOME/.zplug/init.zsh
-zplug 'wfxr/forgit'
-zplug romkatv/powerlevel10k, as:theme, depth:1
+# source $HOME/.zplug/init.zsh
+# zplug 'wfxr/forgit'
 
 # Install plugins if there are plugins that have not been installed
-if ! zplug check --verbose; then
-  zplug install
-fi
+# if ! zplug check --verbose; then
+#   zplug install
+# fi
 
-# Then, source plugins and add commands to $PATH
-zplug load
+# # Then, source plugins and add commands to $PATH
+# zplug load
 
 # Syntax highlighting
 if [ "$DOTFILES_OS" = "$DOTFILES_DARWIN" ]; then
@@ -158,9 +156,9 @@ if [ "$DOTFILES_OS" = "$DOTFILES_DARWIN" ]; then
 fi
 
 # NVM
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# export NVM_DIR="$HOME/.nvm"
+# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 # yarn globals
 export PATH="$PATH:$(yarn global bin)"
@@ -181,9 +179,6 @@ fi
 # fzf if installed via git
 [ -f $HOME/.fzf.zsh ] && source $HOME/.fzf.zsh
 
-# dotnet tools like dotnet-script
-export PATH="$PATH:/Users/jcaffey/.dotnet/tools"
-
 # python2 / pip2
 # export PATH="$PATH:/Users/jcaffey/Library/Python/2.7/bin"
 
@@ -193,12 +188,8 @@ alias arduino="arduino-cli"
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
 
-autoload -U +X bashcompinit && bashcompinit
-complete -o nospace -C /usr/local/bin/packer packer
+# autoload -U +X bashcompinit && bashcompinit
+# complete -o nospace -C /usr/local/bin/packer packer
 
 # Fig post block. Keep at the bottom of this file.
 [[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && . "$HOME/.fig/shell/zshrc.post.zsh"
-
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-typeset -g POWERLEVEL9K_INSTANT_PROMPT=off

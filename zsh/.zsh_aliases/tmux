@@ -1,4 +1,5 @@
 # tmux aliases and functions
+alias tmux="TERM=screen-256color tmux"
 alias tl="tmux ls"
 alias td="tmux detach"
 
