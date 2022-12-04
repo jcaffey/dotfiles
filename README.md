@@ -36,6 +36,7 @@ guides/tmux/*
 ## don't forget the power of z.sh
 
 ## TODO
+* [ ] vim context (so dope)
 * [ ] ag, tig, fpp, urlviewer, tmux-copycat|yank|open
 * [ ] seems like we need a git section since fpp, tig, git gutter, and fugitive kick so much ass
 * [ ] vim git gutter
