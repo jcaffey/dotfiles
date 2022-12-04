@@ -50,11 +50,16 @@ call vundle#begin()
   Plugin 'vim-ruby/vim-ruby'
   " Plugin 'dense-analysis/ale'
   Plugin 'ycm-core/YouCompleteMe'
+  Plugin 'wellle/context.vim'
 call vundle#end()            " required
 filetype plugin indent on    " required
 
 " Tagbar
 nmap <F8> :TagbarToggle<CR>
+
+" context
+let g:context_border_char = ''
+let g:context_highlight_border = '<hide>'
 
 " ALE
 "" Enable completion where available.
