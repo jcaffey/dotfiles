@@ -191,5 +191,7 @@ export PATH="$PATH:$HOME/.rvm/bin"
 # autoload -U +X bashcompinit && bashcompinit
 # complete -o nospace -C /usr/local/bin/packer packer
 
+source /Users/jcaffey/.config/broot/launcher/bash/br
+
 # Fig post block. Keep at the bottom of this file.
-[[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && . "$HOME/.fig/shell/zshrc.post.zsh"
+[[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.post.zsh"
