@@ -12,9 +12,15 @@
 
 # dotfiles for an efficient and awesome terminal
 
+## omggg switching to neovim
+nvim has lsp support, better file management via shada, and the source is much more readable and easier to build. so, sorry vim.
 
-## NOAH, MAY THE VIM FORCE BE WITH YOU.
-Oh, it is
+- i want lua
+- i want harpoon / telescope / other nvim plugins - this started when i found oil.nvim
+- vimscript is silly
+- gives me an opportunity to audit my plugins
+- im a distro-hopper. sue me.
+
 
 ## usage with vagrant
 NOTE: this is probably broken at the moment. I don't know. #todo
