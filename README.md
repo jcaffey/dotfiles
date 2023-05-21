@@ -19,7 +19,7 @@ nvim has lsp support, better file management via shada, and the source is much m
 - i want harpoon / telescope / other nvim plugins - this started when i found oil.nvim
 - vimscript is silly
 - gives me an opportunity to audit my plugins
-- im a distro-hopper. sue me.
+- im a distro-hopper chasing the hype dragon. it's fun.
 
 
 ## usage with vagrant
