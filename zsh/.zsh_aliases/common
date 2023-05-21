@@ -4,3 +4,6 @@ alias rc="vim ~/.zshrc"
 
 # reload .zshrc
 alias reload="source ~/.zshrc"
+
+# neovim
+alias nv="nvim"

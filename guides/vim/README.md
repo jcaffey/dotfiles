@@ -319,6 +319,48 @@ IMPORTANT: Surround distinguishes between `{` and `}` (and all other brackets ex
   
   https://github.com/tpope/vim-surround/blob/master/doc/surround.txt
 
+* vim-Emmett
+
+This plugin is awesomre for quickly generating html
+
+`div>ul>li*5` `<ctrl+y>,`
+
+outputs:
+```html
+<div>
+    <ul>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+</div>
+```
+
+Wrap lines with tag like this..
+
+```
+test1
+test2
+test3
+```
+
+Then do visual select(line wise) and type '<c-y>,'.
+Once you get to the 'Tag:' prompt, type 'ul>li*'.
+
+```html
+  <ul>
+      <li>test1</li>
+      <li>test2</li>
+      <li>test3</li>
+  </ul>
+```
+
+https://raw.githubusercontent.com/mattn/emmet-vim/master/TUTORIAL
+https://github.com/mattn/emmet-vim
+
+
 * Airline - Every vim user has this. It's pretty and it displays useful info. My .vimrc also has tmuxline installed which uses the theme from airline.
 
 * CtrlP - Fuzzy find your files

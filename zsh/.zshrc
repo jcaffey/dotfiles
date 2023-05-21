@@ -1,6 +1,5 @@
 # Fig pre block. Keep at the top of this file.
-[[ -f "$HOME/.fig/shell/zshrc.pre.zsh" ]] && . "$HOME/.fig/shell/zshrc.pre.zsh"
-
+[[ -f "$HOME/.fig/shell/zshrc.pre.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.pre.zsh"
 # sugarterm
 # Get $DOTFILES_OS for darwin/wsl/linux
 source $HOME/dotfiles/.dotfiles_os
@@ -123,7 +122,7 @@ export RIPGREP_CONFIG_PATH=$HOME/ripgrep.rc
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 # vimmm
-export EDITOR='vim'
+export EDITOR='nvim'
 
 # Aliases
 source $HOME/.zsh_aliases/common
@@ -195,3 +194,6 @@ source /Users/jcaffey/.config/broot/launcher/bash/br
 
 # Fig post block. Keep at the bottom of this file.
 [[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.post.zsh"
+
+# heroku autocomplete setup
+HEROKU_AC_ZSH_SETUP_PATH=/Users/jcaffey/Library/Caches/heroku/autocomplete/zsh_setup && test -f $HEROKU_AC_ZSH_SETUP_PATH && source $HEROKU_AC_ZSH_SETUP_PATH;

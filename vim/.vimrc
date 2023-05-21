@@ -6,6 +6,8 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
   " Plugins
   Plugin 'VundleVim/Vundle.vim'
+  " Plugin 'alvan/vim-closetag'
+  " Plugin 'andrewradev/tagalong.vim'
   Plugin 'colepeters/spacemacs-theme.vim'
   Plugin 'pablopunk/sunset.vim'
   Plugin 'sunaku/vim-dasht'
@@ -25,9 +27,11 @@ call vundle#begin()
   Plugin 'godlygeek/tabular'
   Plugin 'honza/vim-snippets'
   Plugin 'jlanzarotta/bufexplorer'
+  Plugin 'junegunn/vim-peekaboo'
   Plugin 'junegunn/fzf', { 'do': './install --bin' }
   Plugin 'junegunn/fzf.vim'
   Plugin 'luochen1990/rainbow'
+  Plugin 'mattn/emmet-vim'
   Plugin 'mileszs/ack.vim'
   Plugin 'morhetz/gruvbox'
   Plugin 'NLKNguyen/papercolor-theme'
@@ -43,6 +47,7 @@ call vundle#begin()
   Plugin 'tpope/vim-eunuch'
   Plugin 'tpope/vim-commentary'
   Plugin 'tpope/vim-fugitive'
+  Plugin 'tpope/vim-rails'
   Plugin 'tpope/vim-surround'
   Plugin 'tpope/vim-vinegar'
   Plugin 'vim-airline/vim-airline'
@@ -258,7 +263,6 @@ nnoremap <Leader>O O<esc>
 "
 " nnoremap <Down> :echo "don't be stupid."<CR>
 " vnoremap <Down> :<C-u>echo "don't be stupid."<CR>
-"
 
 " completion
 set complete=".,w,b,u,t,i"
@@ -272,27 +276,9 @@ nnoremap <esc><esc> :noh<CR>
 " while using tmux and you don't want lines.
 nnoremap <Leader>l :set nu! rnu!<CR>
 
-" toggle netrw
-let g:NetrwIsOpen=0
-function! ToggleNetrw()
-    if g:NetrwIsOpen
-        let i = bufnr("$")
-        while (i >= 1)
-            if (getbufvar(i, "&filetype") == "netrw")
-                silent exe "bwipeout " . i 
-            endif
-            let i-=1
-        endwhile
-        let g:NetrwIsOpen=0
-    else
-        let g:NetrwIsOpen=1
-        silent Lexplore
-    endif
-endfunction
-
 " file explorer
-nnoremap <c-e> :call ToggleNetrw()<cr>
-nnoremap <Leader>e  :call ToggleNetrw()<cr>
+nnoremap <c-e> :Explore<CR>
+nnoremap <Leader>e :Explore<CR>
 
 " SPLITS:
 " see: https://thoughtbot.com/blog/vim-splits-move-faster-and-more-naturally
@@ -404,7 +390,7 @@ set showcmd  " Show partial commands in the last line of the screen
 
 " Use case insensitive search, except when using capital letters
 set ignorecase
-set smartcase
+" set smartcase
 
 " Allow backspacing over autoindent, line breaks and start of insert action
 set backspace=indent,eol,start
