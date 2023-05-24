@@ -3,11 +3,11 @@ require 'shellwords'
 
 Repo = Struct.new('Repo', :name, :path, :status) do
   def clean?
-    status == Repo::CLEAN 
+    status == Repo::CLEAN
   end
 
   def dirty?
-    status == Repo::DIRTY 
+    status == Repo::DIRTY
   end
 
   def to_s
@@ -32,7 +32,7 @@ class Program
     # hardcore set with an alias as g for now.
     # TODO: have smart defaults and use first letter in the list if the actual name doesnt exist
     # ex: repo o g => repo o global only when g is not specified!
-    # also, add method to build this list and reindex the repo path
+    # also, add method to build this list from config/.repo and reindex the repo path
     @sets = {
       'g' => ['cheat-sheets', 'dotfiles', 'notes', 'pass', 'scripts', 'snippets', 'todo']
     }
