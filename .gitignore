@@ -17,7 +17,7 @@
 !bin/bin/snipi
 !bootstrap.sh
 !config/.config/Code/User/settings.json
-!config/.config/nvim/init.vim
+!config/.config/nvim/init.lua
 !git/**/.gitkeep
 !guides/**
 !hyper/.hyper.js

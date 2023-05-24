@@ -240,15 +240,24 @@ let g:netrw_list_hide.=',\(^\|\s\s\)\zs\.\S\+'
 noremap <Space> <Nop>
 map <Space> <Leader>
 
+" source this file
+nnoremap <leader><CR> :source ~/.vimrc<CR>
+
 " buffers
 nnoremap <c-b> :BufExplorer<cr>
 
 " preview files - equivalent of Ctrl+p in other editors
-nnoremap <C-f> :Files<CR>
+" this hangs ... fixme
+nnoremap <Leader>f :Files<CR>
+nnoremap <Leader>gf :GFiles<CR>
 
-" <Leader> o and O to open line above/below without insert mode
-nnoremap <Leader>o o<esc>
-nnoremap <Leader>O O<esc>
+
+" quick fix lists
+nnoremap <Leader>qf :copen<cr>
+" todo: i want these to be <C-K> and <C-J>
+" figure out whats going on
+nnoremap <leader>k :cprev<cr>
+nnoremap <leader>j :cnext<cr>
 
 " Disable arrow keys to get used to hjkl movement
 " Make this optional
@@ -320,22 +329,22 @@ augroup numbertoggle
   autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
 augroup END
 
-" Easy Motion
+" Easy Motion - todo: remove it
 " ----------------------------------------
-let g:EasyMotion_do_mapping = 1 " disable default mappings
-map <Leader> <Plug>(easymotion-prefix)
+" let g:EasyMotion_do_mapping = 1 " disable default mappings
+" map <Leader> <Plug>(easymotion-prefix)
 
-" This is the 'minimal' easymotion config, I like `s` for {char}{char} searches as 1 char tends to make me type longer anchors like ';f' and i'd rather just type 2 chars im looking for. s is also mnemonic for search or seek and I don't mind using x and i to do a character substituion + insert mode.
-" Jump to anywhere you want with minimal keystrokes, with just one key binding.
-" `s{char}{label}`
-" nmap s <Plug>(easymotion-overwin-f)
-" or
-" `s{char}{char}{label}`
-" Need one more keystroke, but on average, it may be more comfortable.
-nmap <Leader>s <Plug>(easymotion-overwin-f2)
+" " This is the 'minimal' easymotion config, I like `s` for {char}{char} searches as 1 char tends to make me type longer anchors like ';f' and i'd rather just type 2 chars im looking for. s is also mnemonic for search or seek and I don't mind using x and i to do a character substituion + insert mode.
+" " Jump to anywhere you want with minimal keystrokes, with just one key binding.
+" " `s{char}{label}`
+" " nmap s <Plug>(easymotion-overwin-f)
+" " or
+" " `s{char}{char}{label}`
+" " Need one more keystroke, but on average, it may be more comfortable.
+" nmap <Leader>s <Plug>(easymotion-overwin-f2)
 
 " Turn on case-insensitive feature
-let g:EasyMotion_smartcase = 1
+" let g:EasyMotion_smartcase = 1
 
 "   Mapping              | Details
 " ----------------------------------------
