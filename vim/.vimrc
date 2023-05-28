@@ -254,8 +254,6 @@ nnoremap <Leader>gf :GFiles<CR>
 
 " quick fix lists
 nnoremap <Leader>qf :copen<cr>
-" todo: i want these to be <C-K> and <C-J>
-" figure out whats going on
 nnoremap <leader>k :cprev<cr>
 nnoremap <leader>j :cnext<cr>
 

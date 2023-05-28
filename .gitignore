@@ -32,7 +32,7 @@
 !tmux/.tmux/hybrid-theme.tmuxline
 !tmux/.tmux/nord-theme.tmuxline
 !tmux/.tmux/ubuntu_wsl.conf
-!vifm/.vifm/.zenburn_1.vifm
+!vifm/.vifm/colors/**
 !vifm/vifmrc/.gitkeep
 !vim/.vim/.backup/.gitkeep
 !vim/.vim/.swp/.gitkeep
