@@ -1,3 +1,39 @@
+
+"        _             _
+"  _ __ | |_   _  __ _(_)_ __  ___
+" | '_ \| | | | |/ _` | | '_ \/ __|
+" | |_) | | |_| | (_| | | | | \__ \
+" | .__/|_|\__,_|\__, |_|_| |_|___/
+" |_|            |___/
+"
+call plug#begin()
+" The default plugin directory will be as follows:
+"   - Vim (Linux/macOS): '~/.vim/plugged'
+"   - Vim (Windows): '~/vimfiles/plugged'
+"   - Neovim (Linux/macOS/Windows): stdpath('data') . '/plugged'
+" You can specify a custom plugin directory by passing it as the argument
+"   - e.g. `call plug#begin('~/.vim/plugged')`
+"   - Avoid using standard Vim directory names like 'plugin'
+
+" Make sure you use single quotes
+Plug 'BurntSushi/ripgrep'
+Plug 'jremmen/vim-ripgrep'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.1' }
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-surround'
+Plug 'sainnhe/everforest'
+
+" Initialize plugin system
+" - Automatically executes `filetype plugin indent on` and `syntax enable`.
+call plug#end()
+" You can revert the settings after the call like so:
+"   filetype indent off   " Disable file-type-specific indentation
+"   syntax off            " Disable syntax highlighting
+
+
 "  __  __    _    ____  ____
 " |  \/  |  / \  |  _ \/ ___|
 " | |\/| | / _ \ | |_) \___ \
@@ -26,8 +62,8 @@ vnoremap K :m '<-2<cr>gv=gv
 
 " quickfix list
 nnoremap <leader>qf :copen<cr>
-nnoremap <leader>k :cprev<cr>
 nnoremap <leader>j :cnext<cr>
+nnoremap <leader>k :cprev<cr>
 
 " Telescope
 nnoremap <leader>ff <cmd>Telescope find_files<cr>
@@ -55,31 +91,8 @@ nnoremap <Leader>x :q<CR>
 nnoremap <Leader>\ :vsp<CR>
 nnoremap <Leader>- :sp<CR>
 
-
-" Plugins
-call plug#begin()
-" The default plugin directory will be as follows:
-"   - Vim (Linux/macOS): '~/.vim/plugged'
-"   - Vim (Windows): '~/vimfiles/plugged'
-"   - Neovim (Linux/macOS/Windows): stdpath('data') . '/plugged'
-" You can specify a custom plugin directory by passing it as the argument
-"   - e.g. `call plug#begin('~/.vim/plugged')`
-"   - Avoid using standard Vim directory names like 'plugin'
-
-" Make sure you use single quotes
-Plug 'nvim-lua/plenary.nvim'
-Plug 'BurntSushi/ripgrep'
-Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.1' }
-Plug 'sainnhe/everforest'
-Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-fugitive'
-
-" Initialize plugin system
-" - Automatically executes `filetype plugin indent on` and `syntax enable`.
-call plug#end()
-" You can revert the settings after the call like so:
-"   filetype indent off   " Disable file-type-specific indentation
-"   syntax off            " Disable syntax highlighting
+" get rid of highlights with <esc><esc>
+nnoremap <esc><esc> :nohl<cr>
 
 "           _
 "  ___ ___ | | ___  _ __ ___
@@ -136,7 +149,7 @@ set laststatus=2
 set confirm
 
 " Enable use of the mouse for all modes
-" set mouse=a
+set mouse=a
 
 " Quickly time out on keycodes, but never time out on mappings
 set notimeout ttimeout ttimeoutlen=200
