@@ -1,9 +1,10 @@
 # edit rc files
-alias vimrc="vim ~/.vimrc"
-alias rc="vim ~/.zshrc"
+alias vimrc="nvim ~/.vimrc"
+alias rc="nvim ~/.zshrc"
 
 # reload .zshrc
 alias reload="source ~/.zshrc"
 
 # neovim
 alias nv="nvim"
+alias vim="nvim"

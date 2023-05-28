@@ -1,4 +1,4 @@
-# Fig pre block. Keep at the top of this file.
+#li Fig pre block. Keep at the top of this file.
 [[ -f "$HOME/.fig/shell/zshrc.pre.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.pre.zsh"
 # sugarterm
 # Get $DOTFILES_OS for darwin/wsl/linux
@@ -121,7 +121,7 @@ export RIPGREP_CONFIG_PATH=$HOME/ripgrep.rc
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-# vimmm
+# neovimmm
 export EDITOR='nvim'
 
 # Aliases
