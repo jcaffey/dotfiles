@@ -26,6 +26,7 @@
 !msmtp/**
 !nvm/.nvm/.npmrc
 !repo.md
+!ripgrep/ripgrep.rc
 !sup/**
 !tmux/.tmux.conf
 !tmux/.tmux/darwin.conf
