@@ -1,4 +1,5 @@
-                                           
+````meta
+
      8          o   d'b  o 8               
      8          8   8      8               
 .oPYo8 .oPYo.  o8P o8P  o8 8 .oPYo. .oPYo. 
@@ -8,6 +9,7 @@
 :.....::.....:::..::..:::....:.....::.....:
 :::::::::::::::::::::::::::::::::::::::::::
 :::::::::::::::::::::::::::::::::::::::::::
+````
 
 # dotfiles for an efficient and awesome terminal
 
@@ -18,6 +20,54 @@ git clone https://github.com/jcaffey/dotfiles
 cd dotfiles
 vagrant up
 ```
+
+## nvim-cmp
+
+## luasnip
+
+## friendly-snippets
+
+## mini.ai - this is what you use for tags
+{( abc )}
+"stringinsidequotes"
+
+- VAT - VISUAL AROUND TAG
+- vit - visual IN tag
+
+try it...
+````html
+<div>contnt</div>
+````
+
+- vatat - visual AROUND tag 2 levels up
+- vitit - visual IN tag 2 levels up
+
+try it...
+````html
+<div>
+  <p>
+    content
+  </p>
+</div>
+````
+- use a for argument motion
+function (a, b, c)
+
+this deserves more understanding for sure.
+https://github.com/echasnovski/mini.ai
+
+## neotest
+
+## leap and flit
+- im not sure about this.. we will try
+`s` two characters to search forward and jump to label
+`f` or `t` and 1 char to search forward and jump to label
+
+## dap
+* [ ] todo the voodoo baby yeahhhh
+
+## undotree
+- :UndotreeToggle - never lose changes - even outside of git
 
 ## spectre is awesome
 - <leader>sr for spectre search/Replace
