@@ -9,6 +9,7 @@
 !README.md
 !Vagrantfile
 !ack/.ackrc
+!alacritty/**
 !bash/.bashrc
 !bin/bin/cheat
 !bin/bin/email
@@ -16,8 +17,7 @@
 !bin/bin/snip
 !bin/bin/snipi
 !bootstrap.sh
-!config/.config/Code/User/settings.json
-!config/.config/nvim/init.vim
+!nvim/**
 !git/**/.gitkeep
 !guides/**
 !hyper/.hyper.js

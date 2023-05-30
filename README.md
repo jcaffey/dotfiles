@@ -9,6 +9,10 @@
 :::::::::::::::::::::::::::::::::::::::::::
 :::::::::::::::::::::::::::::::::::::::::::
 
+### lazy vim changes todo
+* [ ] split bindings
+* [ ] add nv alias
+
 
 # dotfiles for an efficient and awesome terminal
 
