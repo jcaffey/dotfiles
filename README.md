@@ -9,22 +9,7 @@
 :::::::::::::::::::::::::::::::::::::::::::
 :::::::::::::::::::::::::::::::::::::::::::
 
-### lazy vim changes todo
-* [ ] split bindings
-* [ ] add nv alias
-
-
 # dotfiles for an efficient and awesome terminal
-
-## omggg switching to neovim
-nvim has lsp support, better file management via shada, and the source is much more readable and easier to build. so, sorry vim.
-
-- i want lua
-- i want harpoon / telescope / other nvim plugins - this started when i found oil.nvim
-- vimscript is silly
-- gives me an opportunity to audit my plugins
-- im a distro-hopper chasing the hype dragon. it's fun.
-
 
 ## usage with vagrant
 NOTE: this is probably broken at the moment. I don't know. #todo
@@ -33,6 +18,31 @@ git clone https://github.com/jcaffey/dotfiles
 cd dotfiles
 vagrant up
 ```
+
+## spectre is awesome
+- <leader>sr for spectre search/Replace
+- enter search and narrow by file glob
+- <leader>q to send all files to qf list
+- <leader>rc to Replace Current
+
+## mini surround
+* [ ] todo: go back to tpope's surround - need tag support at least
+- gza	Add surrounding	n, v
+- gzd	Delete surrounding	n
+- gzf	Find right surrounding	n
+- gzF	Find left surrounding	n
+- gzh	Highlight surrounding	n
+- gzr	Replace surrounding	n ... this one kinda sucks...
+
+```text
+surroundme
+surround me
+other text "surround me" more text
+fn t: i32 (a: i32, b: i32) {
+  // make me a different scope - surround me
+  surround me
+}
+````
 
 ## guided installation for WSL users
 guides/wsl/setup.txt
