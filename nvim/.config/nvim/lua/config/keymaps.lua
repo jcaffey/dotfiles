@@ -75,44 +75,23 @@ vim.keymap.set({ "n", "v" }, "<leader>\\", ":vsplit<cr>", {
   desc = "vertical split",
 })
 
+-- quickfix list
+vim.keymap.set("n", "<leader>qf", ":copen<cr>", {
+  noremap = true,
+  desc = "quick fix list",
+})
+
+vim.keymap.set("n", "<leader>j", ":cnext<cr>", {
+  noremap = true,
+  desc = "quick fix next",
+})
+
+vim.keymap.set("n", "<leader>k", ":cprev<cr>", {
+  noremap = true,
+  desc = "quick fix prev",
+})
+
 -- TODO: lots more!
--- " paste multiple times
--- vnoremap <leader>p "_dP
---
---
--- " quickfix list
--- nnoremap <leader>qf :copen<cr>
--- nnoremap <leader>j :cnext<cr>
--- nnoremap <leader>k :cprev<cr>
---
--- " Telescope
--- nnoremap <leader>ff <cmd>Telescope find_files<cr>
--- nnoremap <leader>gf <cmd>Telescope git_files<cr>
--- nnoremap <leader>fg <cmd>Telescope live_grep<cr>
--- nnoremap <leader>fb <cmd>Telescope buffers<cr>
--- nnoremap <leader>fh <cmd>Telescope help_tags<cr>
---
--- " Explore
--- nnoremap <leader>e :Vex<cr>
---
--- " Use <Leader>l to toggle line numbers. This is useful when copying something from vim
--- " while using tmux and you don't want lines.
--- nnoremap <leader>l :set nu! rnu!<CR>
---
---
--- " navigate panes with arrows
--- nnoremap <Left> <C-w><Left>
--- nnoremap <Right> <C-w><Right>
--- nnoremap <Up> <C-w><Up>
--- nnoremap <Down> <C-w><Down>
---
--- " make splits work the same as in tmux
--- nnoremap <Leader>x :q<CR>
--- nnoremap <Leader>\ :vsp<CR>
--- nnoremap <Leader>- :sp<CR>
---
--- " get rid of highlights with <esc><esc>
--- nnoremap <leader>h :nohl<cr>
 --
 -- " buffers
 -- nnoremap <leader>] :bnext<cr>

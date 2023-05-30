@@ -3,8 +3,8 @@
 -- Add any additional options here
 
 local vim = vim
-local opt = vim.opt
 
+local opt = vim.opt
 opt.foldlevel = 99
 opt.foldmethod = "expr"
 opt.foldexpr = "nvim_treesitter#foldexpr()"
