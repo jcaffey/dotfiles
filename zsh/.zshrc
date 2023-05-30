@@ -184,9 +184,6 @@ fi
 # Arduino
 alias arduino="arduino-cli"
 
-# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
-export PATH="$PATH:$HOME/.rvm/bin"
-
 # autoload -U +X bashcompinit && bashcompinit
 # complete -o nospace -C /usr/local/bin/packer packer
 
@@ -195,5 +192,11 @@ source /Users/jcaffey/.config/broot/launcher/bash/br
 # Fig post block. Keep at the bottom of this file.
 [[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.post.zsh"
 
+# autocomplete expand on hidden
+setopt globdots
+
 # heroku autocomplete setup
 HEROKU_AC_ZSH_SETUP_PATH=/Users/jcaffey/Library/Caches/heroku/autocomplete/zsh_setup && test -f $HEROKU_AC_ZSH_SETUP_PATH && source $HEROKU_AC_ZSH_SETUP_PATH;
+
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export PATH="$PATH:$HOME/.rvm/bin"
