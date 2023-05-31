@@ -91,26 +91,12 @@ vim.keymap.set("n", "<leader>k", ":cprev<cr>", {
   desc = "quick fix prev",
 })
 
+-- aliases for my bad typing habits
+vim.cmd("ca Wq wq")
+vim.cmd("ca W w")
+vim.cmd("ca Q q")
+
 -- TODO: lots more!
---
--- " buffers
--- nnoremap <leader>] :bnext<cr>
--- nnoremap <leader>[ :bprev<cr>
---
--- "           _
--- "  ___ ___ | | ___  _ __ ___
--- " / __/ _ \| |/ _ \| '__/ __|
--- "| (_| (_) | | (_) | |  \__ \
--- " \___\___/|_|\___/|_|  |___/
--- "
--- set background=dark
--- colorscheme everforest
---
--- if exists('+termguicolors')
---   let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
---   let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
---   set termguicolors
--- endif
 --
 -- "       _   _
 -- "  ___ | |_| |__   ___ _ __
