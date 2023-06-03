@@ -62,11 +62,13 @@ vim.keymap.set({ "n", "v" }, "<leader>k", ":m '<-2<cr>gv=gv", {
 -- use tab and shift-tab to cycle tabs
 vim.keymap.set({ "n", "v" }, "<tab>", ":BufferLineCycleNext<cr>", {
   noremap = true,
+  silent = true,
   desc = "next tab",
 })
 
 vim.keymap.set({ "n", "v" }, "<S-Tab>", ":BufferLineCyclePrev<cr>", {
   noremap = true,
+  silent = true,
   desc = "previous tab",
 })
 

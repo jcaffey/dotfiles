@@ -121,6 +121,9 @@ export RIPGREP_CONFIG_PATH=$HOME/ripgrep.rc
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+# configs
+export XDG_CONFIG_HOME=~/.config
+
 # neovimmm
 export EDITOR='nvim'
 
