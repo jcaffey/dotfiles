@@ -1,0 +1,18 @@
+#!/usr/bin/env ruby
+require 'uri'
+
+def google(q)
+  parser = URI::Parser.new
+  url = "https://www.google.com?q=#{parser.escape(q)}"
+  `open #{url}`
+end
+
+if ARGV.length > 0
+  ARGV.each do |q|
+    google(q)
+  end
+else
+  ARGF.each_line do |q|
+    google(q)
+  end
+end

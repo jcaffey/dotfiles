@@ -11,11 +11,7 @@
 !ack/.ackrc
 !alacritty/**
 !bash/.bashrc
-!bin/bin/cheat
-!bin/bin/email
-!bin/bin/repo
-!bin/bin/snip
-!bin/bin/snipi
+!bin/**
 !bootstrap.sh
 !nvim/**
 !git/**/.gitkeep

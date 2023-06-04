@@ -135,6 +135,7 @@ source $HOME/.zsh_aliases/git
 source $HOME/.zsh_aliases/ls
 source $HOME/.zsh_aliases/dotnet
 source $HOME/.zsh_aliases/tmux
+source $HOME/.zsh_aliases/zellij
 
 # z.sh
 . $HOME/bin/z.sh
