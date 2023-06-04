@@ -40,6 +40,7 @@
 !vim/.vim/.undo/.gitkeep
 !vim/.vim/templates
 !vim/.vimrc
+!zellij/**
 !zsh/**
 tmux/.tmux/**
 vim/.vim/**
