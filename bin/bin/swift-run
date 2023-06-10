@@ -1,0 +1,8 @@
+#!/bin/zsh
+# important!
+# xcode needs to be set to build relative to the project path
+# and xcode sucks so i have no idea where that setting lives
+# preferences -> location should get you close
+local name=$(basename $PWD)
+eval "xcodebuild -scheme $name build"
+eval "./Build/Products/Debug/$name"

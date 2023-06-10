@@ -8,3 +8,5 @@ local opt = vim.opt
 opt.foldlevel = 99
 opt.foldmethod = "expr"
 opt.foldexpr = "nvim_treesitter#foldexpr()"
+
+opt.clipboard = "" -- do NOT share clipboard with system

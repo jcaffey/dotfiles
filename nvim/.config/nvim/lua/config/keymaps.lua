@@ -51,11 +51,13 @@ vim.keymap.set({ "n", "v" }, "<leader>Y", '"*y', {
 -- move selected lines up and down with j/k
 vim.keymap.set({ "n", "v" }, "<leader>j", ":m '>+1<cr>gv=gv", {
   noremap = true,
+  silent = true,
   desc = "move selected line down",
 })
 
 vim.keymap.set({ "n", "v" }, "<leader>k", ":m '<-2<cr>gv=gv", {
   noremap = true,
+  silent = true,
   desc = "move selected line up",
 })
 
