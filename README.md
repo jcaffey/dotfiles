@@ -13,6 +13,69 @@
 
 # dotfiles for an efficient and awesome terminal
 
+## going to nvchad
+- [x] j and k are slow - default mapping has this to work with j/k in wrapped lines
+- [x] add mappings for window movement with arrow keys
+- [x] alias :W because you cant type apparently
+- [x] add neovim yank autocommand to highlight yanked section
+- [x] get tailwind support back - see how lazyvim does this - its in lspconfig
+- [x] separate clipboards...
+- [x] add lazy git
+
+## buffers
+<leaderl>b new buffer
+<leader>x close buffer
+
+## comments
+<leader>/ works in both normal and insert
+
+## lsp
+gd goto definition
+gD goto declaration
+
+## telescope
+<leader>ff find files
+<leader>fa find all
+<leader>fw find word (live grep)
+<leader>fb find buffer
+<leader>fh find help tags
+<leader>fo find old files - whats this?
+<leader>fz find in buffer - LOVE THIS
+
+## git
+<leader>cm telescope git commits
+<leader>gt telescope git status
+
+## terminal
+<leader>pt telescope terminals
+TODO: alacritty isnt sending alt with option key
+<A-i> floating terminal
+<A-h> horizontal terminal
+<A-v> vertical terminal
+
+## bookmarks
+`m R` to mark file under R then...
+<leader>ma telescope bookmarks
+
+## keymaps
+<leader>wK - which key to view all keymaps
+
+## todo:
+hows <leader>cc work? cc is current context
+
+## lsp servers
+TODO:
+ruby lsp
+rubyfmt
+rustfmt
+
+## linters
+null-ls - https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md
+swiftlint
+eslint
+etc...
+
+
 ## usage with vagrant
 
 NOTE: this is probably broken at the moment. I don't know. #todo
