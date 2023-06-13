@@ -18,6 +18,7 @@
 !guides/**
 !hyper/.hyper.js
 !install.md
+!lazy-vim/**
 !mbsync/**
 !msmtp/**
 !nvm/.nvm/.npmrc
