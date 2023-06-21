@@ -13,6 +13,9 @@
 
 # dotfiles for an efficient and awesome terminal
 
+## todo
+- [ ] set cursorline
+
 ## going to nvchad
 - [x] j and k are slow - default mapping has this to work with j/k in wrapped lines
 - [x] add mappings for window movement with arrow keys
