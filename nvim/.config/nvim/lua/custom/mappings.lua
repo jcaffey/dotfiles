@@ -29,10 +29,10 @@ M.general = {
     ["<leader>tx"] = { ':=require("nvchad_ui.tabufline").closeAllBufs()<cr>', "close all tabs" },
 
     -- close all tabs to left
-    ["<leader>tl"] = { ':=require("nvchad_ui.tabufline").closeBufs_at_direction("left")<cr>', "close all tabs" },
+    ["<leader>tl"] = { ':=require("nvchad_ui.tabufline").closeBufs_at_direction("left")<cr>', "close tabs to left" },
 
     -- close all tabs to right
-    ["<leader>tr"] = { ':=require("nvchad_ui.tabufline").closeBufs_at_direction("right")<cr>', "close all tabs" },
+    ["<leader>tr"] = { ':=require("nvchad_ui.tabufline").closeBufs_at_direction("right")<cr>', "close tabs to right" },
   },
   v = {
     ["<leader>P"] = { '"*p', "Paste from * register" },
