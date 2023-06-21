@@ -24,6 +24,15 @@ M.general = {
     ["<leader>k"] = { ":cprev<cr>", "prev quick fix" },
     ["<leader>xx"] = { "<cmd>TroubleToggle<cr>", "toggle trouble list" },
     ["<leader>gg"] = { "<cmd>LazyGit<cr>", "lazy git" },
+
+    -- close all tabs
+    ["<leader>tx"] = { ':=require("nvchad_ui.tabufline").closeAllBufs()<cr>', "close all tabs" },
+
+    -- close all tabs to left
+    ["<leader>tl"] = { ':=require("nvchad_ui.tabufline").closeBufs_at_direction("left")<cr>', "close all tabs" },
+
+    -- close all tabs to right
+    ["<leader>tr"] = { ':=require("nvchad_ui.tabufline").closeBufs_at_direction("right")<cr>', "close all tabs" },
   },
   v = {
     ["<leader>P"] = { '"*p', "Paste from * register" },
