@@ -1,6 +1,3 @@
-# Fig pre block. Keep at the top of this file.
-[[ -f "$HOME/.fig/shell/zshrc.pre.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.pre.zsh"
-#li Fig pre block. Keep at the top of this file.
 # sugarterm
 # Get $DOTFILES_OS for darwin/wsl/linux
 source $HOME/dotfiles/.dotfiles_os
@@ -141,6 +138,9 @@ source $HOME/.zsh_aliases/zellij
 # z.sh
 . $HOME/bin/z.sh
 
+# export FZF_DEFAULT_COMMAND="find . -maxdepth 1"
+# export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+
 # zplug
 # source $HOME/.zplug/init.zsh
 # zplug 'wfxr/forgit'
@@ -180,11 +180,6 @@ fi
 # TODO: all this stuff needs to be in modules
 # need a chef ticket.
 
-# fzf if installed via git
-[ -f $HOME/.fzf.zsh ] && source $HOME/.fzf.zsh
-export FZF_DEFAULT_COMMAND="find . -maxdepth 1"
-export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-
 # python2 / pip2
 # export PATH="$PATH:/Users/jcaffey/Library/Python/2.7/bin"
 
@@ -197,10 +192,53 @@ alias arduino="arduino-cli"
 source /Users/jcaffey/.config/broot/launcher/bash/br
 
 # autocomplete expand on hidden
-setopt globdots
+# setopt globdots
 
 # heroku autocomplete setup
 HEROKU_AC_ZSH_SETUP_PATH=/Users/jcaffey/Library/Caches/heroku/autocomplete/zsh_setup && test -f $HEROKU_AC_ZSH_SETUP_PATH && source $HEROKU_AC_ZSH_SETUP_PATH;
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
+
+unset **<TAB>
+export **<TAB>
+unalias **<TAB>
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+source /usr/local/opt/fzf/shell/key-bindings.zsh
+source /usr/local/opt/fzf/shell/completion.zsh
+
+# Use ~~ as the trigger sequence instead of the default **
+# export FZF_COMPLETION_TRIGGER='~~'
+
+# Options to fzf command
+export FZF_COMPLETION_OPTS='--border --info=inline'
+
+# Use fd (https://github.com/sharkdp/fd) instead of the default find
+# command for listing path candidates.
+# - The first argument to the function ($1) is the base path to start traversal
+# - See the source code (completion.{bash,zsh}) for the details.
+_fzf_compgen_path() {
+  fd --hidden --follow --exclude ".git" . "$1"
+}
+
+# Use fd to generate the list for directory completion
+_fzf_compgen_dir() {
+  fd --type d --hidden --follow --exclude ".git" . "$1"
+}
+
+# Advanced customization of fzf options via _fzf_comprun function
+# - The first argument to the function is the name of the command.
+# - You should make sure to pass the rest of the arguments to fzf.
+_fzf_comprun() {
+  local command=$1
+  shift
+
+  case "$command" in
+    cd)           fzf --preview 'tree -C {} | head -200'   "$@" ;;
+    export|unset) fzf --preview "eval 'echo \$'{}"         "$@" ;;
+    ssh)          fzf --preview 'dig {}'                   "$@" ;;
+    *)            fzf --preview 'bat -n --color=always {}' "$@" ;;
+  esac
+}
+
