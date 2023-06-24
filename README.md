@@ -13,8 +13,28 @@
 
 # dotfiles for an efficient and awesome terminal
 
+## MAGIC OF Z
+i hate using ^ to get to the beginning of a line because i always hit the wrong key.
+use `z.`!!!
+
 ## todo
+- [ ] fzf from command line
+- [x] enable stage manager to hide desktop icons and rice out vim with transparency
 - [ ] set cursorline
+- [x] caps lock as escape
+- [x] terminal key map?
+- [x] focus vim window fullscreen - <c-w>o
+- [ ] why are my spectre paths not working?
+- [x] moving on terminal line more efficiently
+- [ ] telescope selections - can i close multiple buffers with this?
+- [x] floating terminals? ... i like those. - alt+i
+- [x] use alt-h to toggle horizontal term. i like this better.
+- [x] <leader>fh is a blessing for finding help tags!!!
+- [x] keymap to escape terminal mode? - <Ctrl-x>
+- [ ] learn how to use gitsigns
+- [ ] workspaces?
+- [x] <leader>x not closing buffer :(
+- [x] ctrl-b and ctrl-e for beginning/end of line
 
 ## going to nvchad
 - [x] j and k are slow - default mapping has this to work with j/k in wrapped lines

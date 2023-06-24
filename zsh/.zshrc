@@ -1,5 +1,6 @@
-#li Fig pre block. Keep at the top of this file.
+# Fig pre block. Keep at the top of this file.
 [[ -f "$HOME/.fig/shell/zshrc.pre.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.pre.zsh"
+#li Fig pre block. Keep at the top of this file.
 # sugarterm
 # Get $DOTFILES_OS for darwin/wsl/linux
 source $HOME/dotfiles/.dotfiles_os
@@ -181,6 +182,8 @@ fi
 
 # fzf if installed via git
 [ -f $HOME/.fzf.zsh ] && source $HOME/.fzf.zsh
+export FZF_DEFAULT_COMMAND="find . -maxdepth 1"
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
 # python2 / pip2
 # export PATH="$PATH:/Users/jcaffey/Library/Python/2.7/bin"
@@ -192,9 +195,6 @@ alias arduino="arduino-cli"
 # complete -o nospace -C /usr/local/bin/packer packer
 
 source /Users/jcaffey/.config/broot/launcher/bash/br
-
-# Fig post block. Keep at the bottom of this file.
-[[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.post.zsh"
 
 # autocomplete expand on hidden
 setopt globdots

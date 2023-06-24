@@ -26,3 +26,12 @@ vim.api.nvim_create_autocmd("TextYankPost", {
     vim.highlight.on_yank()
   end,
 })
+
+-- neovide settings
+if vim.g.neovide then
+  vim.g.neovide_transparency = 0.1
+  vim.g.neovide_fullscreen = false -- no transparency on macosx when fullscreen mode
+  vim.g.neovide_floating_blur_amount_x = 5.0
+  vim.g.neovide_floating_blur_amount_y = 5.0
+  -- vim.g.neovide_background_color = "#333"
+end
