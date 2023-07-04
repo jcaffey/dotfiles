@@ -19,6 +19,10 @@ config.default_prog = { '/usr/local/bin/fish', '-l' }
 -- For example, changing the color scheme:
 config.color_scheme = 'AdventureTime'
 
+config.colors = {
+  cursor_bg = "#FCEE0C"
+}
+
 -- transparency
 config.window_background_opacity = 0.3
 config.macos_window_background_blur = 60
