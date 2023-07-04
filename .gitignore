@@ -13,7 +13,7 @@
 !bash/.bashrc
 !bin/**
 !bootstrap.sh
-!nvim/**
+!fish/**
 !git/**/.gitkeep
 !guides/**
 !hyper/.hyper.js
@@ -21,6 +21,7 @@
 !lazy-vim/**
 !mbsync/**
 !msmtp/**
+!nvim/**
 !nvm/.nvm/.npmrc
 !repo.md
 !ripgrep/ripgrep.rc
@@ -37,6 +38,7 @@
 !vim/.vim/.undo/.gitkeep
 !vim/.vim/templates
 !vim/.vimrc
+!wezterm/**
 !zellij/**
 !zsh/**
 tmux/.tmux/**

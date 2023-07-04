@@ -13,6 +13,15 @@
 
 # dotfiles for an efficient and awesome terminal
 
+## switching to wezterm
+- [x] configure!
+
+## switching to fish
+- [x] move rest of zsh aliases
+- [x] rewrite functions in fish
+- [ ] check to see if cargo is working properly under fish - if not look at ~/.cargo/env
+- [x] tmux craps the bed when starting in fish :(
+
 ## MAGIC OF Z
 i hate using ^ to get to the beginning of a line because i always hit the wrong key.
 use `z.`!!!
