@@ -47,8 +47,8 @@ window:
   # Blank space added around the window in pixels. This padding is scaled
   # by DPI and the specified value is always added at both opposing sides.
   padding:
-   x: 10
-   y: 10
+   x: 5
+   y: 5
 
 # Spread additional padding evenly around the terminal content.
 #dynamic_padding: false
@@ -120,8 +120,8 @@ font:
     #   - (Windows) Consolas
     #family: monospace
     # family: "Monoid Nerd Font Mono", "mononoki Nerd Font Mono", Menlo, "DejaVu Sans Mono", Consolas, "Lucida Console", monospace
-    # family: "MonoLisa Nerd Font Mono"
-    family: "Monoid Nerd Font Mono"
+    family: "MonoLisa Nerd Font Mono"
+    # family: "Monoid Nerd Font Mono"
     # family: "MesloLGL Nerd Font"
     # family: "FiraCode Nerd Font"
     # family: "Hack Nerd Font Mono"
@@ -164,7 +164,7 @@ font:
   #style: Bold Italic
 
   # Point size
-  size: 16.0
+  size: 18.0
 
   # Offset is the extra space around each character. `offset.y` can be thought
   # of as modifying the line spacing, and `offset.x` as modifying the letter
@@ -223,7 +223,7 @@ colors:
   #  text: CellBackground
   #  cursor: CellForeground
   cursor:
-    cursor: "#FF69B4"
+    cursor: "#AAFFFF"
 
   # Vi mode cursor colors
   #
@@ -299,9 +299,15 @@ colors:
 selection:
   save_to_clipboard: true
 
+shell:
+  program: /usr/local/bin/fish
+  args:
+    - --login
+
 cursor:
   style:
-    blinking: Always
+    shape: Beam
+    blinking: Never
   blink_interval: 500
 
 key_bindings:
