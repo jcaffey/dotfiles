@@ -24,7 +24,7 @@ config.colors = {
 }
 
 -- transparency
-config.window_background_opacity = 0.3
+config.window_background_opacity = 0.4
 config.macos_window_background_blur = 60
 config.text_background_opacity = 0.3
 
@@ -38,7 +38,7 @@ config.window_decorations = "RESIZE"
 config.native_macos_fullscreen_mode = true
 config.tab_bar_at_bottom = true
 config.enable_tab_bar = false
-config.enable_scroll_bar = true
+config.enable_scroll_bar = false
 
 config.keys = {
   -- Turn off the default CMD-m Hide action, allowing CMD-m to
