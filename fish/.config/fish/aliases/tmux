@@ -1,4 +1,6 @@
 # tmux aliases and functions
+#
+abbr --add tmux TERM=screen-256color tmux
 abbr --add tl tmux ls
 abbr --add td tmux detach
 

@@ -16,7 +16,7 @@ end
 config.default_prog = { '/usr/local/bin/fish', '-l' }
 
 -- For example, changing the color scheme:
-config.color_scheme = 'AdventureTime'
+-- config.color_scheme = 'AdventureTime'
 
 -- transparency
 config.window_background_opacity = 0.3
@@ -31,6 +31,7 @@ config.window_decorations = "RESIZE"
 config.native_macos_fullscreen_mode = true
 config.tab_bar_at_bottom = true
 config.enable_tab_bar = false
+config.enable_scroll_bar = true
 
 -- and finally, return the configuration to wezterm
 return config
