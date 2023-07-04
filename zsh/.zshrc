@@ -200,13 +200,11 @@ HEROKU_AC_ZSH_SETUP_PATH=/Users/jcaffey/Library/Caches/heroku/autocomplete/zsh_s
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
 
-unset **<TAB>
-export **<TAB>
-unalias **<TAB>
+# unset **<TAB>
+# export **<TAB>
+# unalias **<TAB>
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-source /usr/local/opt/fzf/shell/key-bindings.zsh
-source /usr/local/opt/fzf/shell/completion.zsh
 
 # Use ~~ as the trigger sequence instead of the default **
 # export FZF_COMPLETION_TRIGGER='~~'
