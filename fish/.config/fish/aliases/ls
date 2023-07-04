@@ -1,0 +1,3 @@
+abbr --add la exa -la
+abbr --add ll exa -lahB --icons
+abbr --add lld exa -dlahG .*

@@ -1,0 +1,5 @@
+abbr --add gc git commit -m
+abbr --add gs git status
+
+abbr --add push git push
+abbr --add pull git pull

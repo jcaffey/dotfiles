@@ -1,0 +1,15 @@
+#!/bin/bash
+# zellij aliases and functions
+alias zl="zellij list-sessions"
+
+function zn {
+  readonly s=${1:? "Must provide session"}
+  zellij -s "$s"
+}
+
+function za {
+  readonly t=${1:? "Must provide session"}
+  zellij attach "$t"
+}
+
+alias zs=zellij-switch

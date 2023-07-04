@@ -1,0 +1,11 @@
+# tmux aliases and functions
+abbr --add tl tmux ls
+abbr --add td tmux detach
+
+function tn
+  tmux new -s $argv
+end
+
+function ta
+  tmux attach -t $argv
+end
