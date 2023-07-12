@@ -5,6 +5,7 @@ M.disabled = {
   n = {
     ["j"] = "",
     ["k"] = "",
+    ["<leader>n"] = "",
   }
 }
 
@@ -50,6 +51,9 @@ M.general = {
 
     -- close all tabs to right
     ["<leader>tr"] = { ':=require("nvchad_ui.tabufline").closeBufs_at_direction("right")<cr>', "close tabs to right" },
+
+    -- nnn picker
+    ["<leader>n"] = { ':NnnPicker<cr>', "nnn picker" },
   },
   v = {
     ["<leader>P"] = { '"*p', "Paste from * register" },
@@ -58,6 +62,8 @@ M.general = {
     ["K"] = { ":m '<-2<cr>gv=gv", "move selected line up" },
     ["<leader>\\"] = { ":vsplit<cr>", "vertical split" },
     ["<leader>-"] = { ":hsplit<cr>", "horizontal split" },
+    -- nnn picker
+    ["<leader>n"] = { ':NnnPicker<cr>', "nnn picker" },
   }
 }
 

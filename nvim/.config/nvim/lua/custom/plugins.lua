@@ -107,6 +107,12 @@ local plugins = {
    lazy = false,
   },
 
+  -- nnn
+  {
+   "luukvbaal/nnn.nvim",
+   lazy = false,
+   config = function() require("nnn").setup() end
+  },
   -- To make a plugin not be loaded
   -- {
   --   "NvChad/nvim-colorizer.lua",

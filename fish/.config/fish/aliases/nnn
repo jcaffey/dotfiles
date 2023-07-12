@@ -1,0 +1,8 @@
+alias nnn "nnn -e"
+alias n "nnn -e"
+
+# alias ls? ... maybe later
+export NNN_PLUG=''
+# export NNN_FCOLORS=''
+
+set --export NNN_FIFO "/tmp/nnn.fifo"
