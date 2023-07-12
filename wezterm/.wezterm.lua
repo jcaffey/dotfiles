@@ -29,9 +29,9 @@ config.macos_window_background_blur = 60
 config.text_background_opacity = 0.3
 
 -- font
--- TODO: monolisa breaks previews for some reason...
--- config.font = wezterm.font 'MonoLisa Nerd Font Mono'
-config.font_size = 23.0
+config.font = wezterm.font 'JetBrains Mono'
+-- config.font = wezterm.font 'MonoLisa'
+config.font_size = 18.0
 
 -- window options
 config.window_decorations = "RESIZE"
