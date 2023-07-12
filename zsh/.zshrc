@@ -1,3 +1,5 @@
+# Fig pre block. Keep at the top of this file.
+[[ -f "$HOME/.fig/shell/zshrc.pre.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.pre.zsh"
 # sugarterm
 # Get $DOTFILES_OS for darwin/wsl/linux
 source $HOME/dotfiles/.dotfiles_os
@@ -240,3 +242,5 @@ _fzf_comprun() {
   esac
 }
 
+# Fig post block. Keep at the bottom of this file.
+[[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.post.zsh"
