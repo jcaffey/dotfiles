@@ -13,6 +13,16 @@
 
 # dotfiles for an efficient and awesome terminal
 
+- [ ] nnn vs neotree?
+- [ ] nnn vs vifm?
+- [ ] learn nnn an alias to n
+
+##todo: repo completion please
+
+## null-ls is frozen.consider ALE
+
+## bash 2 basics debugui and DAP
+
 ## switching to wezterm
 - [x] configure!
 
