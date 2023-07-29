@@ -1,7 +1,8 @@
 local on_attach = require("plugins.configs.lspconfig").on_attach
 local capabilities = require("plugins.configs.lspconfig").capabilities
+local util = require("lspconfig.util")
+local lspconfig = require("lspconfig")
 
-local lspconfig = require "lspconfig"
 
 -- if you just want default config for the servers then put them in a table
 local servers = {
@@ -24,6 +25,38 @@ for _, lsp in ipairs(servers) do
 end
 
 -- manually setup
+-- dart
+lspconfig.dartls.setup(
+{
+  default_config = {
+    cmd = { 'dart', 'language-server', '--protocol=lsp' },
+    filetypes = { 'dart' },
+    root_dir = util.root_pattern 'pubspec.yaml',
+    init_options = {
+      onlyAnalyzeProjectsWithOpenFiles = true,
+      suggestFromUnimportedLibraries = true,
+      closingLabels = true,
+      outline = true,
+      flutterOutline = true,
+    },
+    settings = {
+      dart = {
+        completeFunctionCalls = true,
+        showTodos = true,
+      },
+    },
+  },
+  docs = {
+    description = [[
+https://github.com/dart-lang/sdk/tree/master/pkg/analysis_server/tool/lsp_spec
+
+Language server for dart.
+]],
+    default_config = {
+      root_dir = [[root_pattern("pubspec.yaml")]],
+    },
+  },
+})
 --
 -- lspconfig.pyright.setup { blabla}
 --
@@ -41,7 +74,6 @@ end
 --
 
 local configs = require("lspconfig.configs")
-local util = require("lspconfig.util")
 
 if not configs.ruby_lsp then
 	local enabled_features = {

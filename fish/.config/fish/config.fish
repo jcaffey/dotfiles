@@ -7,6 +7,7 @@ starship init fish | source
 # PATH
 fish_add_path ~/bin
 fish_add_path (yarn global bin)
+fish_add_path ~/flutter/bin
 
 # environment variables
 set -gx RIPGREP_CONFIG_PATH $HOME/ripgrep.rc

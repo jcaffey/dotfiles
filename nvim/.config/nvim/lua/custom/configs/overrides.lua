@@ -22,6 +22,7 @@ M.treesitter = {
     "json",
     "yaml",
     "toml",
+    "dart",
   },
   indent = {
     enable = true,
