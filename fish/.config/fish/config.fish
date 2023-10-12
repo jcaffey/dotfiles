@@ -54,5 +54,4 @@ export NNN_PLUG='f:finder;o:fzopen;p:mocq;d:diffs;t:nmount;v:imgview'
 # TODO: use BASS and fisher for install
 # source $HOME/.config/fish/nnn.sh
 
-# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
-fish_add_path "$HOME/.rvm/bin" 
+rvm default
