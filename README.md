@@ -10,12 +10,18 @@
 :::::::::::::::::::::::::::::::::::::::::::
 :::::::::::::::::::::::::::::::::::::::::::
 ```
+# todo - eslint-lsp doesnt seem to ensure installed!
+# todo - freaking setup nnn plugins for preview and opening text files!!! - also set default to -la
+# todo - install a freaking align plugin for especially for terraform!
+
+# Fish setup
+don't forget to add /usr/local/bin/fish to /etc/shells and then chsh -s /usr/local/bin/fish
 
 # dotfiles for an efficient and awesome terminal
 
-- [ ] nnn vs neotree?
-- [ ] nnn vs vifm?
-- [ ] learn nnn an alias to n
+- [x] nnn vs neotree?
+- [x] nnn vs vifm?
+- [x] learn nnn an alias to n
 
 ##todo: repo completion please
 

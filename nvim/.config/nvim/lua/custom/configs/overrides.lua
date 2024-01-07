@@ -23,6 +23,9 @@ M.treesitter = {
     "yaml",
     "toml",
     "dart",
+    "go",
+    "python",
+    "terraform",
   },
   indent = {
     enable = true,
@@ -44,13 +47,17 @@ M.mason = {
     "typescript-language-server",
     "deno",
     "prettier",
+    "eslint-lsp",
 
     -- c/cpp stuff
     "clangd",
     "clang-format",
 
     -- mine
+    "gopls",
+    "pyright",
     "tailwindcss-language-server",
+    "terraformls",
     "rust-analyzer",
     "markdownlint",
     "ruby_lsp",

@@ -8,6 +8,7 @@ starship init fish | source
 fish_add_path ~/bin
 fish_add_path (yarn global bin)
 fish_add_path ~/flutter/bin
+fish_add_path ~/.cargo/bin
 
 # environment variables
 set -gx RIPGREP_CONFIG_PATH $HOME/ripgrep.rc
@@ -19,8 +20,11 @@ set -g fish_greeting "all your base are belong to us"
 source $HOME/.config/fish/aliases/common
 source $HOME/.config/fish/aliases/git
 source $HOME/.config/fish/aliases/ls
+source $HOME/.config/fish/aliases/terraform
 source $HOME/.config/fish/aliases/tmux
 source $HOME/.config/fish/aliases/nnn
+
+abbr --add python python3
 
 # jump
 jump shell fish | source

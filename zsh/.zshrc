@@ -244,3 +244,5 @@ _fzf_comprun() {
 
 # Fig post block. Keep at the bottom of this file.
 [[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.post.zsh"
+
+[[ -s "/Users/jcaffey/.gvm/scripts/gvm" ]] && source "/Users/jcaffey/.gvm/scripts/gvm"

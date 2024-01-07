@@ -19,6 +19,9 @@ vim.cmd("ca Qa qa")
 -- do not share clipboard with system
 vim.o.clipboard = ""
 
+-- default to relative line numbers
+vim.wo.relativenumber = true
+
 -- Highlight on yank
 vim.api.nvim_create_autocmd("TextYankPost", {
   group = augroup("highlight_yank"),

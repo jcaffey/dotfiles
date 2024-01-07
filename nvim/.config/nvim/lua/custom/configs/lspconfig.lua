@@ -3,18 +3,21 @@ local capabilities = require("plugins.configs.lspconfig").capabilities
 local util = require("lspconfig.util")
 local lspconfig = require("lspconfig")
 
-
 -- if you just want default config for the servers then put them in a table
 local servers = {
   "html",
   "cssls",
+  "eslint",
   "tsserver",
   "clangd",
+  "gopls",
  -- "ruby_ls", - use custom config below... this one is broken
   "tailwindcss",
   "csharp_ls",
   "sourcekit",
+  "terraformls",
   "rust_analyzer",
+  "pyright",
 }
 
 for _, lsp in ipairs(servers) do

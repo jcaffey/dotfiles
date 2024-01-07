@@ -38,7 +38,10 @@ local plugins = {
     opts = overrides.nvimtree,
   },
 
-  -- Install a plugin
+  -- Custom plugins to install start here. Always try to lazy load them for performance reasons.
+
+
+  -- better espace
   {
     "max397574/better-escape.nvim",
     event = "InsertEnter",
@@ -114,6 +117,8 @@ local plugins = {
    config = function() require("nnn").setup() end
   },
 
+
+  -- TODO: are we done with flutter?
   {
     'akinsho/flutter-tools.nvim',
     lazy = false,
