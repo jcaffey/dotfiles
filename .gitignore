@@ -7,6 +7,8 @@
 !.dotfiles_os
 !.gitignore
 !README.md
+!ansible.md
+!local.yml
 !Vagrantfile
 !ack/.ackrc
 !alacritty/**

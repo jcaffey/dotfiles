@@ -12,7 +12,8 @@
 ```
 # todo - eslint-lsp doesnt seem to ensure installed!
 # todo - freaking setup nnn plugins for preview and opening text files!!! - also set default to -la
-# todo - install a freaking align plugin for especially for terraform!
+# todo - install a freaking align plugin for especially for terraform! - tabular
+# todo - add n
 
 # Fish setup
 don't forget to add /usr/local/bin/fish to /etc/shells and then chsh -s /usr/local/bin/fish
