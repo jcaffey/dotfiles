@@ -7,6 +7,7 @@
     ansible.builtin.apt:
       name:
         - git
+        - stow
         - tmux
       state: present
     when: ansible_distribution == "Ubuntu"
@@ -15,14 +16,22 @@
   - name: Install packages with brew
     community.general.homebrew:
       name:
+        - docker
         - fish
         - fzf
         - git
         - lazygit
         - neovim
+        - n
+        - node
         - nnn
         - rg
+        - rustup
+        - spaceship
+        - stow
+        - terraform
         - tmux
         - wezterm
+        - yarn
       state: present
     when: ansible_distribution == "MacOSX"

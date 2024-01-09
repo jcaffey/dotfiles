@@ -24,7 +24,7 @@ don't forget to add /usr/local/bin/fish to /etc/shells and then chsh -s /usr/loc
 - [x] nnn vs vifm?
 - [x] learn nnn an alias to n
 
-##todo: repo completion please
+## todo: repo completion please - rewrite in rust
 
 ## null-ls is frozen.consider ALE
 

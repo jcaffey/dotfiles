@@ -9,6 +9,14 @@ ansible-galaxy collection install community.general
 ansible-playbook --ask-become-pass local.yml
 ```
 
+# todo's
+- rvm and ruby
+- split up install packages
+- clone dotfiles and run stow
+- run rustup
+- go
+- typescript
+
 ## ubuntu container
 
 apt update
