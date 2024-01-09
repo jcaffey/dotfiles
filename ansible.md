@@ -16,6 +16,10 @@ ansible-playbook --ask-become-pass local.yml
 - run rustup
 - go
 - typescript
+- SSH keys and passwords
+- arc
+- doppler
+- github cli
 
 ## ubuntu container
 

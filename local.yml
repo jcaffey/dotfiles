@@ -12,12 +12,28 @@
       state: present
     when: ansible_distribution == "Ubuntu"
  
+# see: https://github.com/ThePrimeagen/ansible/blob/master/local.yml
+# and: https://phelipetls.github.io/posts/introduction-to-ansible/
+#
+# update this to use:
+# tasks:
+# - include: ansible/node
+# - include: ansible/rust
+# - include: ansible/other
+#
+# make sure playbook is local.yml
+# and ansible-pull -U github.com/jcaffey/dotfiles
+# should automatically run
+# ansible-playbook -K local.yml
+
   tasks:
   - name: Install packages with brew
     community.general.homebrew:
       name:
+        - cowsay
         - docker
         - fish
+        - figlet
         - fzf
         - git
         - lazygit

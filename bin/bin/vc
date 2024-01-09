@@ -1,2 +1,3 @@
 #!/bin/sh
-exec node ~/repos/vc/bin/index.js "$@"
+# uncomment after fixing node
+# exec node ~/repos/vc/bin/index.js "$@"

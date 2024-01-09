@@ -103,7 +103,10 @@ class Program
 
     # /home/jcaffey/dotfiles :let g:ctrlp_show_hidden=1
     @editor_options = editor_options_for(@set.first).join(' ')
+    puts @editor_options
+    puts "----"
     system([@editor, @editor_options].join(' '))
+    puts "sys done"
   end
   alias :o :open
 
