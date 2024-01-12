@@ -14,7 +14,7 @@ end
 -- ================================
 
 -- Spawn a fish shell in login mode
--- config.default_prog = { '/usr/local/bin/fish', '-l' }
+config.default_prog = { '/opt/homebrew/bin/fish', '-l' }
 
 -- For example, changing the color scheme:
 config.color_scheme = 'AdventureTime'

@@ -9,12 +9,15 @@ fish_add_path ~/bin
 fish_add_path (yarn global bin)
 fish_add_path ~/flutter/bin
 fish_add_path ~/.cargo/bin
+fish_add_path ~/.n/bin
+fish_add_path ~/.rvm/bin
 
 # environment variables
 set -gx RIPGREP_CONFIG_PATH $HOME/ripgrep.rc
 set -gx XDG_CONFIG_HOME ~/.config
 set -gx EDITOR 'nvim'
 set -g fish_greeting "all your base are belong to us"
+set -gx N_PREFIX $HOME/.n
 
 # Aliases
 source $HOME/.config/fish/aliases/common
@@ -53,9 +56,10 @@ end
 complete --command j --exclusive --arguments '(__jump_hint)'
 
 # nnn
-export NNN_PLUG='f:finder;o:fzopen;p:mocq;d:diffs;t:nmount;v:imgview'
+export NNN_PLUG='o:fzopen'
 
 # TODO: use BASS and fisher for install
 # source $HOME/.config/fish/nnn.sh
 
-rvm default
+# TODO: setup rvm ... it complains that wezterm isnt a login shell
+# rvm default

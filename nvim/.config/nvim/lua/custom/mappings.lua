@@ -27,7 +27,7 @@ M.general = {
 
     -- splits
     ["<leader>\\"] = { ":vsplit<cr>", "vertical split" },
-    ["<leader>-"] = { ":hsplit<cr>", "horizontal split" },
+    ["<leader>-"] = { ":split<cr>", "horizontal split" },
 
     -- quickfix
     ["<leader>qf"] = { ":copen<cr>", "quick fix list" },
@@ -44,7 +44,15 @@ M.general = {
     ["<leader>tt"] = { ':=require("base46").toggle_transparency()<cr>', "toggle transparency" },
 
     -- close all tabs
-    ["<leader>tx"] = { ':=require("nvchad_ui.tabufline").closeAllBufs()<cr>', "close all tabs" },
+    -- ["<leader>tx"] = { ':=require("nvchad_ui.tabufline").closeAllBufs()<cr>', "close all tabs" },
+
+    -- cycle through buffers
+    ["<leader>tx"] = {
+      function()
+        require("nvchad_ui.tabufline").closeAllBufs()
+      end,
+      "Close all tabs",
+    },
 
     -- close all tabs to left
     ["<leader>tl"] = { ':=require("nvchad_ui.tabufline").closeBufs_at_direction("left")<cr>', "close tabs to left" },
@@ -61,7 +69,7 @@ M.general = {
     ["J"] = { ":m '>+1<cr>gv=gv", "move selected line down" },
     ["K"] = { ":m '<-2<cr>gv=gv", "move selected line up" },
     ["<leader>\\"] = { ":vsplit<cr>", "vertical split" },
-    ["<leader>-"] = { ":hsplit<cr>", "horizontal split" },
+    ["<leader>-"] = { ":split<cr>", "horizontal split" },
     -- nnn picker
     ["<leader>n"] = { ':NnnPicker<cr>', "nnn picker" },
   }
