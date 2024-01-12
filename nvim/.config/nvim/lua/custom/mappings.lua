@@ -43,23 +43,6 @@ M.general = {
     -- toggle transparency
     ["<leader>tt"] = { ':=require("base46").toggle_transparency()<cr>', "toggle transparency" },
 
-    -- close all tabs
-    -- ["<leader>tx"] = { ':=require("nvchad_ui.tabufline").closeAllBufs()<cr>', "close all tabs" },
-
-    -- cycle through buffers
-    ["<leader>tx"] = {
-      function()
-        require("nvchad_ui.tabufline").closeAllBufs()
-      end,
-      "Close all tabs",
-    },
-
-    -- close all tabs to left
-    ["<leader>tl"] = { ':=require("nvchad_ui.tabufline").closeBufs_at_direction("left")<cr>', "close tabs to left" },
-
-    -- close all tabs to right
-    ["<leader>tr"] = { ':=require("nvchad_ui.tabufline").closeBufs_at_direction("right")<cr>', "close tabs to right" },
-
     -- nnn picker
     ["<leader>n"] = { ':NnnPicker<cr>', "nnn picker" },
   },
@@ -75,8 +58,90 @@ M.general = {
   }
 }
 
+M.tabufline = {
+  plugin = true,
 
--- more keybinds!
+  n = {
+    -- cycle through buffers
+    ["<tab>"] = {
+      function()
+        require("nvchad.tabufline").tabuflineNext()
+      end,
+      "Goto next buffer",
+    },
+
+    ["<S-tab>"] = {
+      function()
+        require("nvchad.tabufline").tabuflinePrev()
+      end,
+      "Goto prev buffer",
+    },
+
+    -- cycle through buffers
+    ["b]"] = {
+      function()
+        require("nvchad.tabufline").tabuflineNext()
+      end,
+      "Goto next buffer",
+    },
+
+    ["b["] = {
+      function()
+        require("nvchad.tabufline").tabuflinePrev()
+      end,
+      "Goto prev buffer",
+    },
+
+    -- close buffer + hide terminal buffer
+    ["<leader>x"] = {
+      function()
+        require("nvchad.tabufline").close_buffer()
+      end,
+      "Close buffer",
+    },
+
+    -- close all buffers to left
+    ["<leader>bl"] = {
+      function()
+        require("nvchad.tabufline").closeBufs_at_direction("left")
+      end,
+      "Close buffers to left"
+    },
+
+    -- close all buffers to right
+    ["<leader>br"] = {
+      function()
+        require("nvchad.tabufline").closeBufs_at_direction("right")
+      end,
+      "Close buffers to right"
+    },
+
+    -- new tab
+    ["<leader>tn"] = {
+      ":tabnew<cr>",
+      "New tab",
+    },
+
+    -- close tab
+    ["<leader>tx"] = {
+      function()
+        require('nvchad.tabufline').closeAllBufs('closeTab')
+      end,
+      "Close tab",
+    },
+
+    -- cycle through tabs
+    ["t]"] = {
+      ":tabnext<cr>",
+      "Goto next tab",
+    },
+
+    ["t["] = {
+      ":tabprevious<cr>",
+      "Goto previous tab",
+    },
+  },
+}
 
 return M
 

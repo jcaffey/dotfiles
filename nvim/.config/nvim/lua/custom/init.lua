@@ -16,6 +16,9 @@ vim.cmd("ca W w")
 vim.cmd("ca Q q")
 vim.cmd("ca Qa qa")
 
+-- nowrap
+vim.wo.wrap = false
+
 -- do not share clipboard with system
 vim.o.clipboard = ""
 
