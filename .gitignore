@@ -25,6 +25,7 @@
 !msmtp/**
 !nvim/**
 !nvm/.nvm/.npmrc
+!repo/.config/repo/config.json
 !repo.md
 !ripgrep/ripgrep.rc
 !sup/**

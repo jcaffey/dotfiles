@@ -1,0 +1,17 @@
+{
+  "repo": {
+    "aliases": {
+      "dotfiles": "/Users/jcaffey/dotfiles"
+    },
+    "editor": {
+      "command": "nvim",
+      "args": ["-c", ":cd {{target}}"]
+    },
+    "sets": {
+      "home": ["/Users/jcaffey/dotfiles", "/Users/jcaffey/repos/notes", "/Users/jcaffey/repos/cheat-sheets", "/Users/jcaffey/repos/pass", "/Users/jcaffey/repos/snippets", "/Users/jcaffey/repos/todo"]
+    },
+    "settings": {
+      "root": "/Users/jcaffey/repos"
+    }
+  }
+}
