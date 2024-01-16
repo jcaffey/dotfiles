@@ -55,8 +55,6 @@ end
 
 complete --command j --exclusive --arguments '(__jump_hint)'
 
-# nnn
-export NNN_PLUG='o:fzopen'
 
 # TODO: use BASS and fisher for install
 # source $HOME/.config/fish/nnn.sh
