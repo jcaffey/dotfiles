@@ -11,6 +11,7 @@ fish_add_path ~/flutter/bin
 fish_add_path ~/.cargo/bin
 fish_add_path ~/.n/bin
 fish_add_path ~/.rvm/bin
+fish_add_path /opt/homebrew/opt/go@1.20/bin
 
 # environment variables
 set -gx RIPGREP_CONFIG_PATH $HOME/ripgrep.rc
