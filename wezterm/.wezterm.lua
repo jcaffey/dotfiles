@@ -37,7 +37,7 @@ config.font_size = 18.0
 config.window_decorations = "RESIZE"
 config.native_macos_fullscreen_mode = true
 config.tab_bar_at_bottom = true
-config.enable_tab_bar = false
+config.enable_tab_bar = true
 config.enable_scroll_bar = false
 
 config.keys = {
