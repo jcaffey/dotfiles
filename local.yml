@@ -36,11 +36,13 @@
         - figlet
         - fzf
         - git
+        - jq
         - lazygit
         - neovim
         - n
         - node
         - nnn
+        - nmap
         - rg
         - rustup
         - spaceship
