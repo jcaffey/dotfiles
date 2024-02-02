@@ -22,8 +22,8 @@ M.general = {
     ["<C-e>"] = { "$", "end of line" },
 
     -- yank/paste to system register
-    ["<leader>P"] = { '"*p', "Paste from * register" },
-    ["<leader>Y"] = { '"*y', "Yank to * register" },
+    ["<leader>p"] = { '"*p', "Paste from * register" },
+    ["<leader>y"] = { '"*y', "Yank to * register" },
 
     -- splits
     ["<leader>\\"] = { ":vsplit<cr>", "vertical split" },
