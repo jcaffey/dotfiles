@@ -45,5 +45,11 @@
 !wezterm/**
 !zellij/**
 !zsh/**
+
+fish/.config/jump/scores.json
+fish/.config/fish/fish_variables
+fish/.config/lazygit/state.yml
 tmux/.tmux/**
 vim/.vim/**
+
+
