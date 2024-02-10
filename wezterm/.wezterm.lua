@@ -50,6 +50,9 @@ config.keys = {
   },
 }
 
+-- scrollback history per tab
+config.scrollback_lines = 3500
+
 -- and finally, return the configuration to wezterm
 return config
 

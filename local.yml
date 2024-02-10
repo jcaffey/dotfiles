@@ -33,6 +33,8 @@
         - cowsay
         - diff-so-fancy
         - docker
+        - eza
+        - fd
         - fish
         - figlet
         - fzf
@@ -44,6 +46,7 @@
         - node
         - nnn
         - nmap
+        - reattach-to-user-namespace
         - rg
         - rustup
         - spaceship
