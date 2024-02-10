@@ -44,7 +44,6 @@
         - neovim
         - n
         - node
-        - nnn
         - nmap
         - reattach-to-user-namespace
         - rg
@@ -55,5 +54,6 @@
         - tmux
         - wezterm
         - yarn
+        - yazi
       state: present
     when: ansible_distribution == "MacOSX"
