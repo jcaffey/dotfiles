@@ -60,6 +60,19 @@ local plugins = {
     },
   },
 
+  -- yazi
+  {
+    "DreamMaoMao/yazi.nvim",
+    dependencies = {
+      "nvim-telescope/telescope.nvim",
+      "nvim-lua/plenary.nvim",
+    },
+
+    keys = {
+      { "<leader>n", "<cmd>Yazi<CR>", desc = "Toggle Yazi" },
+    },
+  },
+
   -- ripgrep
   {
     "jremmen/vim-ripgrep",

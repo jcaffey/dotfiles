@@ -42,9 +42,6 @@ M.general = {
 
     -- toggle transparency
     ["<leader>tt"] = { ':=require("base46").toggle_transparency()<cr>', "toggle transparency" },
-
-    -- nnn picker
-    ["<leader>n"] = { ':NnnPicker<cr>', "nnn picker" },
   },
   v = {
     ["<leader>P"] = { '"*p', "Paste from * register" },
@@ -53,8 +50,6 @@ M.general = {
     ["K"] = { ":m '<-2<cr>gv=gv", "move selected line up" },
     ["<leader>\\"] = { ":vsplit<cr>", "vertical split" },
     ["<leader>-"] = { ":split<cr>", "horizontal split" },
-    -- nnn picker
-    ["<leader>n"] = { ':NnnPicker<cr>', "nnn picker" },
   }
 }
 
