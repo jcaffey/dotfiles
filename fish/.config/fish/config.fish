@@ -34,6 +34,16 @@ abbr --add python python3
 # functions
 source $HOME/.config/fish/functions/yazi.fish
 
+# cd to parent dir of git repo (git parengit parenet)
+function gp
+	while test $PWD != "/"
+		if test -d .git
+			break
+		end
+		cd ..
+	end
+end
+
 # zoxide
 zoxide init fish | source
 
