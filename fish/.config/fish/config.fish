@@ -12,6 +12,8 @@ fish_add_path ~/.cargo/bin
 fish_add_path ~/.n/bin
 fish_add_path ~/.rvm/bin
 fish_add_path /opt/homebrew/opt/go@1.20/bin
+fish_add_path ~/.ebcli-virtual-env/executables # elastic beanstalk cli
+fish_add_path ~/jcaffey/.local/share/nvim/mason/bin # mason install path for nvim tools
 
 # environment variables
 set -gx RIPGREP_CONFIG_PATH $HOME/ripgrep.rc
@@ -19,7 +21,9 @@ set -gx XDG_CONFIG_HOME ~/.config
 set -gx EDITOR 'nvim'
 set -g fish_greeting "all your base are belong to us"
 set -gx N_PREFIX $HOME/.n
-set -gx TARGET_CC x86_64-linux-musl-gcc
+
+# cross compile to linux-musl
+# set -gx TARGET_CC x86_64-linux-musl-gcc
 
 # Aliases
 source $HOME/.config/fish/aliases/common
@@ -28,8 +32,6 @@ source $HOME/.config/fish/aliases/ls
 source $HOME/.config/fish/aliases/terraform
 source $HOME/.config/fish/aliases/tmux
 source $HOME/.config/fish/aliases/yazi.fish
-
-abbr --add python python3
 
 # functions
 source $HOME/.config/fish/functions/yazi.fish
