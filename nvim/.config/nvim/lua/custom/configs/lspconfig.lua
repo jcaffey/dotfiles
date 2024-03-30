@@ -16,7 +16,7 @@ local servers = {
   "csharp_ls",
   "sourcekit",
   "terraformls",
-  "rust_analyzer",
+  -- "rust_analyzer", -- rustaceanvim handles this for me
   "pyright",
 }
 

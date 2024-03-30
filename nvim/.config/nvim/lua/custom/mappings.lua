@@ -1,6 +1,135 @@
 ---@type MappingsTable
 local M = {}
 
+-- TODO: these are copied from nvchad's default mappings - i don't know why they
+-- arent working without being delcared here.
+M.lspconfig = {
+  plugin = true,
+
+  -- See `<cmd> :help vim.lsp.*` for documentation on any of the below functions
+
+  n = {
+    ["gD"] = {
+      function()
+        vim.lsp.buf.declaration()
+      end,
+      "LSP declaration",
+    },
+
+    ["gd"] = {
+      function()
+        vim.lsp.buf.definition()
+      end,
+      "LSP definition",
+    },
+
+    ["K"] = {
+      function()
+        vim.lsp.buf.hover()
+      end,
+      "LSP hover",
+    },
+
+    ["gi"] = {
+      function()
+        vim.lsp.buf.implementation()
+      end,
+      "LSP implementation",
+    },
+
+    ["<leader>ls"] = {
+      function()
+        vim.lsp.buf.signature_help()
+      end,
+      "LSP signature help",
+    },
+
+    ["<leader>D"] = {
+      function()
+        vim.lsp.buf.type_definition()
+      end,
+      "LSP definition type",
+    },
+
+    ["<leader>ra"] = {
+      function()
+        require("nvchad_ui.renamer").open()
+      end,
+      "LSP rename",
+    },
+
+    ["<leader>ca"] = {
+      function()
+        vim.lsp.buf.code_action()
+      end,
+      "LSP code action",
+    },
+
+    ["gr"] = {
+      function()
+        vim.lsp.buf.references()
+      end,
+      "LSP references",
+    },
+
+    ["<leader>f"] = {
+      function()
+        vim.diagnostic.open_float { border = "rounded" }
+      end,
+      "Floating diagnostic",
+    },
+
+    ["[d"] = {
+      function()
+        vim.diagnostic.goto_prev({ float = { border = "rounded" }})
+      end,
+      "Goto prev",
+    },
+
+    ["]d"] = {
+      function()
+        vim.diagnostic.goto_next({ float = { border = "rounded" }})
+      end,
+      "Goto next",
+    },
+
+    ["<leader>q"] = {
+      function()
+        vim.diagnostic.setloclist()
+      end,
+      "Diagnostic setloclist",
+    },
+
+    ["<leader>fm"] = {
+      function()
+        vim.lsp.buf.format { async = true }
+      end,
+      "LSP formatting",
+    },
+
+    ["<leader>wa"] = {
+      function()
+        vim.lsp.buf.add_workspace_folder()
+      end,
+      "Add workspace folder",
+    },
+
+    ["<leader>wr"] = {
+      function()
+        vim.lsp.buf.remove_workspace_folder()
+      end,
+      "Remove workspace folder",
+    },
+
+    ["<leader>wl"] = {
+      function()
+        print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+      end,
+      "List workspace folders",
+    },
+  },
+}
+
 M.disabled = {
   n = {
     ["j"] = "",
@@ -11,6 +140,11 @@ M.disabled = {
 
 M.general = {
   n = {
+    -- DAP debugging
+    ["<leader>dk"] = { function() require('dap').continue() end, "Start / continue debugging" },
+    ["<leader>dl"] = { function() require('dap').run_last() end, "Run last" },
+    ["<leader>db"] = { function() require('dap').toggle_breakpoint() end, "Toggle breakpoint" },
+
     -- movement
     ["<left>"] = { "<C-w>h", "move cursor to left split" },
     ["<right>"] = { "<C-w>l", "move cursor to right split" },
@@ -34,8 +168,12 @@ M.general = {
     ["<leader>j"] = { ":cnext<cr>", "next quick fix" },
     ["<leader>k"] = { ":cprev<cr>", "prev quick fix" },
 
-    -- toggle trouble
+    -- trouble
     ["<leader>xx"] = { "<cmd>TroubleToggle<cr>", "toggle trouble list" },
+    ["<leader>xw"] = { "<cmd>TroubleToggle workspace_diagnostics<cr>", "toggle trouble workspace" },
+    ["<leader>xd"] = { "<cmd>TroubleToggle document_diagnostics<cr>", "toggle trouble document" },
+    ["<leader>xq"] = { "<cmd>TroubleToggle quickfix<cr>", "toggle trouble quickfix" },
+    ["<leader>xl"] = { "<cmd>TroubleToggle loclist<cr>", "toggle trouble loclist" },
 
     -- lazy git!
     ["<leader>gg"] = { "<cmd>LazyGit<cr>", "lazy git" },

@@ -123,27 +123,30 @@ local plugins = {
    lazy = false,
   },
 
-  -- nnn
+  -- DAP
   {
-   "luukvbaal/nnn.nvim",
-   lazy = false,
-   config = function() require("nnn").setup() end
+    "mfussenegger/nvim-dap",
+    lazy = false,
+    config = function()
+      require "custom.configs.dap"
+    end,
   },
 
-
-  -- TODO: are we done with flutter?
+  -- Rust tools
   {
-    'akinsho/flutter-tools.nvim',
+    'mrcjkb/rustaceanvim',
+    version = '^4', -- Recommended
+    ft = { 'rust' },
+  },
+
+  {
+    'AlexvZyl/nordic.nvim',
     lazy = false,
-    dependencies = {
-        'nvim-lua/plenary.nvim',
-        'stevearc/dressing.nvim', -- optional for vim.ui.select
-    },
-    config = true,
-  }
-
-
-
+    priority = 1000,
+    config = function()
+      require 'nordic' .load()
+    end
+  },
   -- To make a plugin not be loaded
   -- {
   --   "NvChad/nvim-colorizer.lua",

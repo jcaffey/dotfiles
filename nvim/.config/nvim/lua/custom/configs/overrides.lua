@@ -54,6 +54,8 @@ M.mason = {
     "clang-format",
 
     -- mine
+    "codelldb",
+    "cpptools",
     "gopls",
     "pyright",
     "tailwindcss-language-server",
