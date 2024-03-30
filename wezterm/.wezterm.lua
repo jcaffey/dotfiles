@@ -31,7 +31,7 @@ config.text_background_opacity = 0.3
 -- font
 config.font = wezterm.font 'JetBrains Mono'
 -- config.font = wezterm.font 'MonoLisa'
-config.font_size = 18.0
+config.font_size = 16.0
 
 -- window options
 config.window_decorations = "RESIZE"
