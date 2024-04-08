@@ -11,6 +11,10 @@
 :::::::::::::::::::::::::::::::::::::::::::
 ```
 
+# hackery
+for nordic plugin to work correctly with nvchad / base46 we need to:
+`cp ~/.local/share/nvim/lazy/base46/lua/base46/themes/rosepine.lua ~/.local/share/nvim/lazy/base46/lua/base46/themes/nordic.lua`
+
 todo - supress lua warnings in nvim config
 todo - install a freaking align plugin for especially for terraform! - tabular
 
