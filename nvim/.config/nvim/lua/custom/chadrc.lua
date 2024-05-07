@@ -12,6 +12,10 @@ M.ui = {
   hl_add = highlights.add,
 
   transparency = false,
+
+  statusline = {
+    theme = "vscode_colored",
+  }
 }
 
 M.plugins = "custom.plugins"

@@ -133,20 +133,20 @@ local plugins = {
   },
 
   -- Rust tools
-  {
-    'mrcjkb/rustaceanvim',
-    version = '^4', -- Recommended
-    ft = { 'rust' },
-  },
+  -- {
+  --   'mrcjkb/rustaceanvim',
+  --   version = '^4', -- Recommended
+  --   ft = { 'rust' },
+  -- },
 
-  {
-    'AlexvZyl/nordic.nvim',
-    lazy = false,
-    priority = 1000,
-    config = function()
-      require 'nordic' .load()
-    end
-  },
+  -- {
+  --   'AlexvZyl/nordic.nvim',
+  --   lazy = false,
+  --   priority = 1000,
+  --   config = function()
+  --     require 'nordic' .load()
+  --   end
+  -- },
   -- To make a plugin not be loaded
   -- {
   --   "NvChad/nvim-colorizer.lua",

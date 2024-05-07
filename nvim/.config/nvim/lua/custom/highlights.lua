@@ -7,8 +7,12 @@ local M = {}
 
 ---@type Base46HLGroupsList
 M.override = {
+  CursorLine = {
+    bg = "grey"
+  },
   Comment = {
     italic = false,
+    fg = "nord_blue",
   },
   Search = {
     fg = "yellow",

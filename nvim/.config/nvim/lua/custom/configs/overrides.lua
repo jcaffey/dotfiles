@@ -71,11 +71,12 @@ M.mason = {
 M.nvimtree = {
   git = {
     enable = true,
+    ignore = false,
   },
 
   renderer = {
     root_folder_label = false,
-    highlight_git = false,
+    highlight_git = true,
     highlight_opened_files = "none",
 
     indent_markers = {
@@ -87,7 +88,7 @@ M.nvimtree = {
         file = true,
         folder = true,
         folder_arrow = true,
-        git = false,
+        git = true,
       },
 
       glyphs = {
