@@ -5,8 +5,18 @@
 
 local M = {}
 
+-- vim.cmd([[
+--     :hi      NvimTreeExecFile    guifg=#ffa0a0
+--     :hi      NvimTreeSpecialFile guifg=#ff80ff gui=underline
+--     :hi      NvimTreeSymlink     guifg=Yellow  gui=italic
+--     :hi link NvimTreeImageFile   Title
+-- ]])
 ---@type Base46HLGroupsList
 M.override = {
+  LineNr = {
+    bg = "NONE",
+    fg = "grey_fg2"
+  },
   CursorLine = {
     bg = "grey"
   },

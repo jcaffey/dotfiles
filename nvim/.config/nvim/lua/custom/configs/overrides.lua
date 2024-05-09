@@ -75,7 +75,7 @@ M.nvimtree = {
   },
 
   renderer = {
-    root_folder_label = false,
+    root_folder_label = true,
     highlight_git = true,
     highlight_opened_files = "none",
 
@@ -90,20 +90,9 @@ M.nvimtree = {
         folder_arrow = true,
         git = true,
       },
-
       glyphs = {
         default = "●",
         symlink = "",
-        folder = {
-          default = "●",
-          empty = "●",
-          empty_open = "●",
-          open = "●",
-          symlink = "●",
-          symlink_open = "",
-          arrow_open = "",
-          arrow_closed = "",
-        },
         git = {
           unstaged = "✗",
           staged = "✓",

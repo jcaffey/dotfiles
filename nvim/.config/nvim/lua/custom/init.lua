@@ -1,11 +1,3 @@
--- local autocmd = vim.api.nvim_create_autocmd
-
--- Auto resize panes when resizing nvim window
--- autocmd("VimResized", {
---   pattern = "*",
---   command = "tabdo wincmd =",
--- })
---
 local function augroup(name)
   return vim.api.nvim_create_augroup("lazyvim_" .. name, { clear = true })
 end
@@ -24,6 +16,9 @@ vim.o.clipboard = ""
 
 -- default to relative line numbers
 vim.wo.relativenumber = true
+
+-- numberwidth
+vim.cmd("set numberwidth=6")
 
 -- Highlight on yank
 vim.api.nvim_create_autocmd("TextYankPost", {

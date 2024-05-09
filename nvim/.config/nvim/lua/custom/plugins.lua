@@ -41,14 +41,14 @@ local plugins = {
   -- Custom plugins to install start here. Always try to lazy load them for performance reasons.
 
 
-  -- better espace
-  {
-    "max397574/better-escape.nvim",
-    event = "InsertEnter",
-    config = function()
-      require("better_escape").setup()
-    end,
-  },
+  -- -- better espace
+  -- {
+  --   "max397574/better-escape.nvim",
+  --   event = "InsertEnter",
+  --   config = function()
+  --     require("better_escape").setup()
+  --   end,
+  -- },
 
   -- lazygit
   {
@@ -132,6 +132,17 @@ local plugins = {
     end,
   },
 
+  -- harpoon2
+  {
+    "ThePrimeagen/harpoon",
+    lazy = false,
+    branch = "harpoon2",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    init = function()
+      require("custom.configs.harpoon")
+      require("core.utils").load_mappings("harpoon")
+    end,
+  },
   -- Rust tools
   -- {
   --   'mrcjkb/rustaceanvim',
