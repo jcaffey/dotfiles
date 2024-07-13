@@ -13,7 +13,7 @@ M.general = {
   n = {
     -- oil
     ["-"] = { "<cmd>Oil<cr>", "Open parent dir" },
-    ["<leader>e"] = { "<cmd>Oil --float<cr>", "Open oil in floating window" },
+    ["<leader>e"] = { function() require('oil').open_float('.') end, "Open oil in floating window at root" },
 
     -- spectre
     ["<leader>S"] = { function() require("spectre").toggle() end, "spectre" },
