@@ -70,12 +70,13 @@ M.mason = {
 -- git support in nvimtree
 M.nvimtree = {
   git = {
-    enable = true,
+    -- TODO: i have a sneaky suspiciion that git features are killing performance
+    enable = false,
     ignore = false,
   },
 
   renderer = {
-    root_folder_label = true,
+    root_folder_label = false,
     highlight_git = true,
     highlight_opened_files = "none",
 
@@ -85,24 +86,24 @@ M.nvimtree = {
 
     icons = {
       show = {
-        file = true,
+        file = false,
         folder = true,
-        folder_arrow = true,
-        git = true,
+        folder_arrow = false,
+        git = false,
       },
-      glyphs = {
-        default = "●",
-        symlink = "",
-        git = {
-          unstaged = "✗",
-          staged = "✓",
-          unmerged = "",
-          renamed = "➜",
-          untracked = "★",
-          deleted = "",
-          ignored = "◌",
-        },
-      },
+      -- glyphs = {
+      --   default = "●",
+      --   symlink = "",
+      --   git = {
+      --     unstaged = "✗",
+      --     staged = "✓",
+      --     unmerged = "",
+      --     renamed = "➜",
+      --     untracked = "★",
+      --     deleted = "",
+      --     ignored = "◌",
+      --   },
+      -- },
     },
   },
 }

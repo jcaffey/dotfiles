@@ -9,65 +9,15 @@ M.disabled = {
   }
 }
 
-M.harpoon = {
-  plugin = true,
-  n = {
-    ["<leader>h"] = {
-      function()
-        _G.harpoon.ui:toggle_quick_menu(_G.harpoon:list())
-      end,
-      "Harpoon list"
-    },
-    ["<leader>ha"] = {
-      function()
-        _G.harpoon:list():add()
-      end,
-      "Harpoon add"
-    },
-    ["<C-h>"] = {
-      function()
-        _G.harpoon:list():select(1)
-      end,
-      "Harpoon select 1"
-    },
-    ["<C-j>"] = {
-      function()
-        _G.harpoon:list():select(2)
-      end,
-      "Harpoon select 2"
-    },
-    ["<C-k>"] = {
-      function()
-        _G.harpoon:list():select(3)
-      end,
-      "Harpoon select 3"
-    },
-    ["<C-l>"] = {
-      function()
-        _G.harpoon:list():select(4)
-      end,
-      "Harpoon select 4"
-    },
-    ["h["] = {
-      function()
-        _G.harpoon:list():prev()
-      end,
-      "Harpoon prev"
-    },
-    ["h]"] = {
-      function()
-        _G.harpoon:list():next()
-      end,
-      "Harpoon next"
-    },
-  }
-}
-
 M.general = {
   n = {
-    -- harpoon2
---    ["<leader>hh"] = { function() harpoon.ui:toggle_quick_menu(harpoon:list()) end, "harpoon" },
--- vim.keymap.set("n", "<leader>hl", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end)
+    -- oil
+    ["-"] = { "<cmd>Oil<cr>", "Open parent dir" },
+    ["<leader>e"] = { "<cmd>Oil --float<cr>", "Open oil in floating window" },
+
+    -- spectre
+    ["<leader>S"] = { function() require("spectre").toggle() end, "spectre" },
+
     -- DAP debugging
     ["<leader>dk"] = { function() require('dap').continue() end, "Start / continue debugging" },
     ["<leader>dl"] = { function() require('dap').run_last() end, "Run last" },

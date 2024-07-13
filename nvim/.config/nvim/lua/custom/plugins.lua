@@ -36,12 +36,25 @@ local plugins = {
   {
     "nvim-tree/nvim-tree.lua",
     opts = overrides.nvimtree,
+    enabled = false, -- disabled for oil
   },
 
   -- Custom plugins to install start here. Always try to lazy load them for performance reasons.
 
 
-  -- -- better espace
+  {
+    'stevearc/oil.nvim',
+    opts = {},
+    lazy = false,
+    -- Optional dependencies
+    -- dependencies = { "echasnovski/mini.icons" },
+    dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if prefer nvim-web-devicons
+    config = function()
+      require "custom.configs.oil"
+    end
+  },
+
+  -- better escape
   -- {
   --   "max397574/better-escape.nvim",
   --   event = "InsertEnter",
@@ -100,7 +113,7 @@ local plugins = {
   -- trouble
   {
    "folke/trouble.nvim",
-   dependencies = { "nvim-tree/nvim-web-devicons" },
+   -- dependencies = { "nvim-tree/nvim-web-devicons" },
    lazy = false,
    opts = {
     -- your configuration comes here
@@ -132,32 +145,38 @@ local plugins = {
     end,
   },
 
-  -- harpoon2
   {
     "ThePrimeagen/harpoon",
-    lazy = false,
     branch = "harpoon2",
     dependencies = { "nvim-lua/plenary.nvim" },
-    init = function()
-      require("custom.configs.harpoon")
-      require("core.utils").load_mappings("harpoon")
+    event = "VeryLazy",
+    config = function()
+      local harpoon = require("harpoon")
+
+      -- REQUIRED
+      harpoon:setup()
+      -- REQUIRED
+
+      -- todo: how should the mapps get access to harpoon?
+      -- previously i was setting a global variable. but i'd rather
+      -- it be local and just define the mappings here... though,
+      -- it wont show up in whichkey
+      -- require("core.utils").load_mappings("harpoon")
+
+      -- mappings
+      vim.keymap.set("n", "<leader>a", function() harpoon:list():add() end)
+      vim.keymap.set("n", "<leader>h", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end)
+
+      vim.keymap.set("n", "<C-h>", function() harpoon:list():select(1) end)
+      vim.keymap.set("n", "<C-j>", function() harpoon:list():select(2) end)
+      vim.keymap.set("n", "<C-k>", function() harpoon:list():select(3) end)
+      vim.keymap.set("n", "<C-l>", function() harpoon:list():select(4) end)
+
+      -- Toggle previous & next buffers stored within Harpoon list
+      vim.keymap.set("n", "<S-j>", function() harpoon:list():prev() end)
+      vim.keymap.set("n", "<S-k>", function() harpoon:list():next() end)
     end,
   },
-  -- Rust tools
-  -- {
-  --   'mrcjkb/rustaceanvim',
-  --   version = '^4', -- Recommended
-  --   ft = { 'rust' },
-  -- },
-
-  -- {
-  --   'AlexvZyl/nordic.nvim',
-  --   lazy = false,
-  --   priority = 1000,
-  --   config = function()
-  --     require 'nordic' .load()
-  --   end
-  -- },
   -- To make a plugin not be loaded
   -- {
   --   "NvChad/nvim-colorizer.lua",
