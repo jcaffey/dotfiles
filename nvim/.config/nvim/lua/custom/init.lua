@@ -18,7 +18,7 @@ vim.o.clipboard = ""
 vim.wo.relativenumber = true
 
 -- numberwidth
-vim.cmd("set numberwidth=6")
+vim.cmd("set numberwidth=12")
 
 -- Highlight on yank
 vim.api.nvim_create_autocmd("TextYankPost", {
