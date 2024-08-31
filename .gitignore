@@ -30,6 +30,7 @@
 !repo.md
 !ripgrep/ripgrep.rc
 !sup/**
+!surfraw/**
 !tmux/.tmux.conf
 !tmux/.tmux/darwin.conf
 !tmux/.tmux/hybrid-theme.tmuxline
@@ -42,6 +43,7 @@
 !vim/.vim/.undo/.gitkeep
 !vim/.vim/templates
 !vim/.vimrc
+!w3m/**
 !wallpapers/**
 !wezterm/**
 !yazi/**
