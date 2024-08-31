@@ -11,7 +11,7 @@ fish_add_path ~/flutter/bin
 fish_add_path ~/.cargo/bin
 fish_add_path ~/.n/bin
 fish_add_path ~/.rvm/bin
-fish_add_path /opt/homebrew/opt/go@1.20/bin
+fish_add_path /opt/homebrew/Cellar/go/1.23.0/bin
 fish_add_path ~/.ebcli-virtual-env/executables # elastic beanstalk cli
 fish_add_path ~/jcaffey/.local/share/nvim/mason/bin # mason install path for nvim tools
 fish_add_path ~/go/bin # binaries from go install
@@ -19,9 +19,11 @@ fish_add_path ~/go/bin # binaries from go install
 # environment variables
 set -gx RIPGREP_CONFIG_PATH $HOME/ripgrep.rc
 set -gx XDG_CONFIG_HOME ~/.config
-set -gx EDITOR 'nvim'
+set -gx EDITOR "nvim"
 set -g fish_greeting "all your base are belong to us"
 set -gx N_PREFIX $HOME/.n
+set -gx WWW_HOME "google.com"
+set -gx BROWSER w3m
 
 # cross compile to linux-musl
 # set -gx TARGET_CC x86_64-linux-musl-gcc
@@ -32,6 +34,7 @@ source $HOME/.config/fish/aliases/git
 source $HOME/.config/fish/aliases/ls
 source $HOME/.config/fish/aliases/terraform
 source $HOME/.config/fish/aliases/tmux
+source $HOME/.config/fish/aliases/w3m
 source $HOME/.config/fish/aliases/yazi.fish
 
 # functions

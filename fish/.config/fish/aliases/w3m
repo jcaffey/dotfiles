@@ -1,0 +1,5 @@
+# google.com (via WWW_HOME var)
+abbr --add w w3m
+
+# bookmarks
+abbr --add ww w3m -B
