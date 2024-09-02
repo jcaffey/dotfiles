@@ -30,6 +30,8 @@
   - name: Install packages with brew
     community.general.homebrew:
       name:
+        - aerc
+        - btop
         - cowsay
         - diff-so-fancy
         - docker
@@ -45,6 +47,7 @@
         - n
         - node
         - nmap
+        - pass
         - reattach-to-user-namespace
         - rg
         - rustup
@@ -53,6 +56,7 @@
         - stow
         - terraform
         - tmux
+        - tmuxinator
         - w3m
         - wezterm
         - yarn
