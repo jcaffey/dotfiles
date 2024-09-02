@@ -60,7 +60,9 @@ setw -g window-status-style "none,fg=colour7,bg=colour8"
 
 # option 10
 setw -g window-status-format "#[fg=colour7,bg=colour8]⌗#I #W"
-setw -g window-status-current-format "#[fg=colour3,bg=colour8]⌗#I #[fg=colour7,bg=colour8]#W"
+setw -g window-status-current-format "#[fg=colour3,bg=colour8]⌗#I #W"
+# only number highlighted
+# setw -g window-status-current-format "#[fg=colour3,bg=colour8]⌗#I #[fg=colour7,bg=colour8]#W"
 
 # without emojis
 # setw -g window-status-format "#[fg=colour7,bg=colour8] #I #[fg=colour7,bg=colour8] #W "
