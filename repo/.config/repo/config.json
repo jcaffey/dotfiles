@@ -1,6 +1,7 @@
 {
   "repo": {
     "aliases": {
+      "cheat": "/Users/jcaffey/repos/cheat-sheets",
       "dotfiles": "/Users/jcaffey/dotfiles"
     },
     "editor": {
