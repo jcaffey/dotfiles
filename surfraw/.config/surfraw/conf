@@ -1,2 +1,2 @@
 SURFRAW_text_browser=/opt/homebrew/bin/w3m
-SURFRAW_graphical=no
+SURFRAW_graphical=open -a Arc
