@@ -30,7 +30,7 @@ for _, lsp in ipairs(servers) do
   }
 end
 
--- manually setup
+-- manually setup configs
 --
 -- lspconfig.pyright.setup { blabla}
 --
@@ -50,6 +50,9 @@ end
 local configs = require("lspconfig.configs")
 
 -- godot gdscript
+-- IMPORTANT!
+-- For lsp to work you must start neovim with:
+-- nvim --listen /tmp/godot.pipe
 lspconfig["gdscript"].setup({
   name = "godot",
   cmd = vim.lsp.rpc.connect("127.0.0.1", "6005"),

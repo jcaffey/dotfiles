@@ -33,6 +33,7 @@ dap.configurations.rust = {
 }
 
 -- godot
+-- see mappings. launch scene with <leader>dk
 dap.adapters.godot = {
 	type = "server",
 	host = "127.0.0.1",
