@@ -1,4 +1,6 @@
-require("dap").adapters.lldb = {
+local dap = require("dap")
+
+dap.adapters.lldb = {
     type = "server",
     port = "${port}",
     executable = {
@@ -25,7 +27,24 @@ local lldb = {
 	runInTerminal = false,
 }
 
-require('dap').configurations.rust = {
+-- rust
+dap.configurations.rust = {
 	lldb -- different debuggers or more configurations can be used here
 }
 
+-- godot
+dap.adapters.godot = {
+	type = "server",
+	host = "127.0.0.1",
+	port = 6006,
+}
+
+dap.configurations.gdscript = {
+	{
+		type = "godot",
+		request = "launch",
+		name = "Launch scene",
+		project = "${workspaceFolder}",
+		launch_scene = true,
+	},
+}

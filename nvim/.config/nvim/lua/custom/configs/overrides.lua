@@ -56,6 +56,7 @@ M.mason = {
     -- mine
     "codelldb",
     "cpptools",
+    "gdtoolkit",
     "gopls",
     "pyright",
     "tailwindcss-language-server",

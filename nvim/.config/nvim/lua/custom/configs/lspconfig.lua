@@ -10,6 +10,9 @@ local servers = {
   "eslint",
   "tsserver",
   "clangd",
+  -- setup manually below
+  -- see: https://www.reddit.com/r/neovim/comments/1c2bhcs/godotgdscript_in_neovim_with_lsp_and_debugging_in/
+  -- "gdscript",
   "gopls",
  -- "ruby_ls", - use custom config below... this one is broken
   "tailwindcss",
@@ -45,6 +48,12 @@ end
 --
 
 local configs = require("lspconfig.configs")
+
+-- godot gdscript
+lspconfig["gdscript"].setup({
+  name = "godot",
+  cmd = vim.lsp.rpc.connect("127.0.0.1", "6005"),
+})
 
 if not configs.ruby_lsp then
 	local enabled_features = {
