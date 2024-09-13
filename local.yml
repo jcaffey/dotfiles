@@ -44,6 +44,8 @@
         - git
         - jq
         - lazygit
+        - lolcat
+        - moebius
         - neovim
         - n
         - node
