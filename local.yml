@@ -43,6 +43,7 @@
         - figlet
         - fzf
         - git
+        - hexedit
         - jq
         - lazygit
         - lolcat
