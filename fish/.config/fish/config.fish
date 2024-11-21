@@ -6,7 +6,7 @@ starship init fish | source
 
 # PATH
 fish_add_path ~/bin
-fish_add_path (yarn global bin)
+# fish_add_path (yarn global bin)
 fish_add_path ~/flutter/bin
 fish_add_path ~/.cargo/bin
 fish_add_path ~/.n/bin
@@ -15,6 +15,8 @@ fish_add_path /opt/homebrew/Cellar/go/1.23.0/bin
 fish_add_path ~/.ebcli-virtual-env/executables # elastic beanstalk cli
 fish_add_path ~/jcaffey/.local/share/nvim/mason/bin # mason install path for nvim tools
 fish_add_path ~/go/bin # binaries from go install
+fish_add_path /opt/homebrew/opt/binutils/bin # binutils - readelf, strings, etc...
+
 
 # environment variables
 set -gx RIPGREP_CONFIG_PATH $HOME/ripgrep.rc
