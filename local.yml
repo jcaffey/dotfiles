@@ -33,6 +33,7 @@
         - aerc
         - bat
         - btop
+        - binutils
         - cowsay
         - diff-so-fancy
         - docker
