@@ -20,6 +20,7 @@ ansible-playbook --ask-become-pass local.yml
 - arc
 - doppler
 - github cli
+- static-web-server
 
 ## ubuntu container
 
