@@ -8,7 +8,6 @@ local servers = {
   "html",
   "cssls",
   "eslint",
-  "tsserver",
   "clangd",
   -- setup manually below
   -- see: https://www.reddit.com/r/neovim/comments/1c2bhcs/godotgdscript_in_neovim_with_lsp_and_debugging_in/
