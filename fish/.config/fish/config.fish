@@ -8,14 +8,21 @@ starship init fish | source
 fish_add_path ~/bin
 # fish_add_path (yarn global bin)
 fish_add_path ~/flutter/bin
+fish_add_path /opt/homebrew/opt/rustup/bin
 fish_add_path ~/.cargo/bin
 fish_add_path ~/.n/bin
 fish_add_path ~/.rvm/bin
 fish_add_path /opt/homebrew/Cellar/go/1.23.0/bin
-fish_add_path ~/.ebcli-virtual-env/executables # elastic beanstalk cli
-fish_add_path ~/jcaffey/.local/share/nvim/mason/bin # mason install path for nvim tools
-fish_add_path ~/go/bin # binaries from go install
-fish_add_path /opt/homebrew/opt/binutils/bin # binutils - readelf, strings, etc...
+# sqlite
+fish_add_path /opt/homebrew/opt/sqlite/bin
+# elastic beanstalk cli
+fish_add_path ~/.ebcli-virtual-env/executables
+# mason install path for nvim tools
+fish_add_path ~/jcaffey/.local/share/nvim/mason/bin
+# binaries from go install
+fish_add_path ~/go/bin
+# binutils - readelf, strings, etc...
+fish_add_path /opt/homebrew/opt/binutils/bin
 
 
 # environment variables
@@ -34,6 +41,7 @@ set -gx BROWSER w3m
 source $HOME/.config/fish/aliases/common
 source $HOME/.config/fish/aliases/git
 source $HOME/.config/fish/aliases/ls
+source $HOME/.config/fish/aliases/tailscale.fish
 source $HOME/.config/fish/aliases/terraform
 source $HOME/.config/fish/aliases/tmux
 source $HOME/.config/fish/aliases/w3m
