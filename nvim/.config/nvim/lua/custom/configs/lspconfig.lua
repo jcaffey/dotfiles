@@ -52,10 +52,10 @@ local configs = require("lspconfig.configs")
 -- IMPORTANT!
 -- For lsp to work you must start neovim with:
 -- nvim --listen /tmp/godot.pipe
-lspconfig["gdscript"].setup({
-  name = "godot",
-  cmd = vim.lsp.rpc.connect("127.0.0.1", "6005"),
-})
+-- lspconfig["gdscript"].setup({
+--   name = "godot",
+--   cmd = vim.lsp.rpc.connect("127.0.0.1", "6005"),
+-- })
 
 if not configs.ruby_lsp then
 	local enabled_features = {
