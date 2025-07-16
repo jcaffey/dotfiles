@@ -93,32 +93,33 @@ if not configs.ruby_lsp then
 	}
 end
 
-lspconfig.ruby_ls.setup {
-  on_attach = function(client, buffer)
-    local callback = function()
-    local params = vim.lsp.util.make_text_document_params(buffer)
-
-    client.request(
-      'textDocument/diagnostic',
-      { textDocument = params },
-      function(err, result)
-        if err then return end
-
-        vim.lsp.diagnostic.on_publish_diagnostics(
-          nil,
-          vim.tbl_extend('keep', params, { diagnostics = result.items }),
-          { client_id = client.id }
-        )
-      end
-    )
-  end
-
-  callback() -- call on attach
-
-  vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWritePre', 'BufReadPost', 'InsertLeave', 'TextChanged' }, {
-    buffer = buffer,
-    callback = callback,
-  })
-end,
-  capabilities = capabilities,
-}
+-- TODO: rubyls is deprecated in favor of ruby_lsp
+-- lspconfig.ruby_ls.setup {
+--   on_attach = function(client, buffer)
+--     local callback = function()
+--     local params = vim.lsp.util.make_text_document_params(buffer)
+--
+--     client.request(
+--       'textDocument/diagnostic',
+--       { textDocument = params },
+--       function(err, result)
+--         if err then return end
+--
+--         vim.lsp.diagnostic.on_publish_diagnostics(
+--           nil,
+--           vim.tbl_extend('keep', params, { diagnostics = result.items }),
+--           { client_id = client.id }
+--         )
+--       end
+--     )
+--   end
+--
+--   callback() -- call on attach
+--
+--   vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWritePre', 'BufReadPost', 'InsertLeave', 'TextChanged' }, {
+--     buffer = buffer,
+--     callback = callback,
+--   })
+-- end,
+--   capabilities = capabilities,
+-- }
