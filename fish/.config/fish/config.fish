@@ -24,6 +24,9 @@ fish_add_path ~/go/bin
 # binutils - readelf, strings, etc...
 fish_add_path /opt/homebrew/opt/binutils/bin
 
+# nix
+fish_add_path ~/.nix-profile/bin
+
 
 # environment variables
 set -gx RIPGREP_CONFIG_PATH $HOME/ripgrep.rc
@@ -68,3 +71,7 @@ zoxide init fish | source
 
 # TODO: setup rvm ... it complains that wezterm isnt a login shell
 # rvm default
+
+# bun
+set --export BUN_INSTALL "$HOME/.bun"
+set --export PATH $BUN_INSTALL/bin $PATH

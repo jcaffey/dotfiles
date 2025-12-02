@@ -13,7 +13,14 @@
 !ack/.ackrc
 !alacritty/**
 !bash/.bashrc
-!bin/**
+!bin/bookmarks
+!bin/cheat
+!bin/email
+!bin/google
+!bin/muxit
+!bin/repo
+!bin/snip
+!bin/upcase
 !bootstrap.sh
 !fish/**
 !git/**/.gitkeep

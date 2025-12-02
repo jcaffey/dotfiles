@@ -1,125 +1,65 @@
-local on_attach = require("plugins.configs.lspconfig").on_attach
-local capabilities = require("plugins.configs.lspconfig").capabilities
-local util = require("lspconfig.util")
-local lspconfig = require("lspconfig")
+dofile(vim.g.base46_cache .. "lsp")
+require "nvchad.lsp"
 
--- if you just want default config for the servers then put them in a table
-local servers = {
-  "html",
-  "cssls",
-  "eslint",
-  "ts_ls",
-  "clangd",
-  -- setup manually below
-  -- see: https://www.reddit.com/r/neovim/comments/1c2bhcs/godotgdscript_in_neovim_with_lsp_and_debugging_in/
-  -- "gdscript",
-  "gopls",
- -- "ruby_ls", - use custom config below... this one is broken
-  "tailwindcss",
-  "csharp_ls",
-  "sourcekit",
-  "terraformls",
-  "rust_analyzer", -- rustaceanvim handles this for me but its broken
-  "pyright",
+local M = {}
+local utils = require "core.utils"
+
+-- export on_attach & capabilities for custom lspconfigs
+
+M.on_attach = function(client, bufnr)
+  utils.load_mappings("lspconfig", { buffer = bufnr })
+
+  if client.server_capabilities.signatureHelpProvider then
+    require("nvchad.signature").setup(client)
+  end
+
+  if not utils.load_config().ui.lsp_semantic_tokens and client.supports_method "textDocument/semanticTokens" then
+    client.server_capabilities.semanticTokensProvider = nil
+  end
+end
+
+M.capabilities = vim.lsp.protocol.make_client_capabilities()
+
+M.capabilities.textDocument.completion.completionItem = {
+  documentationFormat = { "markdown", "plaintext" },
+  snippetSupport = true,
+  preselectSupport = true,
+  insertReplaceSupport = true,
+  labelDetailsSupport = true,
+  deprecatedSupport = true,
+  commitCharactersSupport = true,
+  tagSupport = { valueSet = { 1 } },
+  resolveSupport = {
+    properties = {
+      "documentation",
+      "detail",
+      "additionalTextEdits",
+    },
+  },
 }
 
-for _, lsp in ipairs(servers) do
-  lspconfig[lsp].setup {
-    on_attach = on_attach,
-    capabilities = capabilities,
-  }
-end
+require("lspconfig").lua_ls.setup {
+  on_attach = M.on_attach,
+  capabilities = M.capabilities,
 
--- manually setup configs
---
--- lspconfig.pyright.setup { blabla}
---
--- Without the loop, you would have to manually set up each LSP 
--- 
--- lspconfig.html.setup {
---   on_attach = on_attach,
---   capabilities = capabilities,
--- }
---
--- lspconfig.cssls.setup {
---   on_attach = on_attach,
---   capabilities = capabilities,
--- }
---
+  settings = {
+    Lua = {
+      diagnostics = {
+        globals = { "vim" },
+      },
+      workspace = {
+        library = {
+          [vim.fn.expand "$VIMRUNTIME/lua"] = true,
+          [vim.fn.expand "$VIMRUNTIME/lua/vim/lsp"] = true,
+          [vim.fn.stdpath "data" .. "/lazy/ui/nvchad_types"] = true,
+          [vim.fn.stdpath "data" .. "/lazy/lazy.nvim/lua/lazy"] = true,
+        },
+        maxPreload = 100000,
+        preloadFileSize = 10000,
+      },
+    },
+  },
+}
 
-local configs = require("lspconfig.configs")
+return M
 
--- godot gdscript
--- IMPORTANT!
--- For lsp to work you must start neovim with:
--- nvim --listen /tmp/godot.pipe
--- lspconfig["gdscript"].setup({
---   name = "godot",
---   cmd = vim.lsp.rpc.connect("127.0.0.1", "6005"),
--- })
-
-if not configs.ruby_lsp then
-	local enabled_features = {
-		"documentHighlights",
-		"documentSymbols",
-		"foldingRanges",
-		"selectionRanges",
-		-- "semanticHighlighting",
-		"formatting",
-		"codeActions",
-	}
-
-	configs.ruby_lsp = {
-		default_config = {
-			cmd = { "bundle", "exec", "ruby-lsp" },
-			filetypes = { "ruby" },
-			root_dir = util.root_pattern("Gemfile", ".git"),
-			init_options = {
-				enabledFeatures = enabled_features,
-			},
-			settings = {},
-		},
-		commands = {
-			FormatRuby = {
-				function()
-					vim.lsp.buf.format({
-						name = "ruby_lsp",
-						async = true,
-					})
-				end,
-				description = "Format using ruby-lsp",
-			},
-		},
-	}
-end
-
--- TODO: rubyls is deprecated in favor of ruby_lsp
--- lspconfig.ruby_ls.setup {
---   on_attach = function(client, buffer)
---     local callback = function()
---     local params = vim.lsp.util.make_text_document_params(buffer)
---
---     client.request(
---       'textDocument/diagnostic',
---       { textDocument = params },
---       function(err, result)
---         if err then return end
---
---         vim.lsp.diagnostic.on_publish_diagnostics(
---           nil,
---           vim.tbl_extend('keep', params, { diagnostics = result.items }),
---           { client_id = client.id }
---         )
---       end
---     )
---   end
---
---   callback() -- call on attach
---
---   vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWritePre', 'BufReadPost', 'InsertLeave', 'TextChanged' }, {
---     buffer = buffer,
---     callback = callback,
---   })
--- end,
---   capabilities = capabilities,
--- }

@@ -1,10 +1,74 @@
 local overrides = require("custom.configs.overrides")
 
 ---@type NvPluginSpec[]
-local plugins = {
+  local plugins = {
+  {
+    "folke/snacks.nvim",
+    priority = 1000,
+    lazy = false,
+    ---@type snacks.Config
+    opts = {
+      -- your configuration comes here
+      -- or leave it empty to use the default settings
+      -- refer to the configuration section below
+      animate = { enabled = true },
+      bigfile = { enabled = true },
+      dashboard = { enabled = true },
+      debug  = { enabled=true },
+      ---@class snacks.dim.Config
+      {
+        ---@type snacks.scope.Config
+        scope = {
+          min_size = 5,
+          max_size = 20,
+          siblings = true,
+        },
+        -- animate scopes. Enabled by default for Neovim >= 0.10
+        -- Works on older versions but has to trigger redraws during animation.
+        ---@type snacks.animate.Config|{enabled?: boolean}
+        animate = {
+          enabled = vim.fn.has("nvim-0.10") == 1,
+          easing = "outQuad",
+          duration = {
+            step = 20, -- ms per step
+            total = 300, -- maximum duration
+          },
+        },
+        -- what buffers to dim
+        filter = function(buf)
+          return vim.g.snacks_dim ~= false and vim.b[buf].snacks_dim ~= false and vim.bo[buf].buftype == ""
+        end,
+      },
+      explorer = { enabled = true },
+      -- gh = {
+      --   opts = {},
+      --   keys = {
+      --     { "<leader>gi", function() Snacks.picker.gh_issue() end, desc = "GitHub Issues (open)" },
+      --     { "<leader>gI", function() Snacks.picker.gh_issue({ state = "all" }) end, desc = "GitHub Issues (all)" },
+      --     { "<leader>gp", function() Snacks.picker.gh_pr() end, desc = "GitHub Pull Requests (open)" },
+      --     { "<leader>gP", function() Snacks.picker.gh_pr({ state = "all" }) end, desc = "GitHub Pull Requests (all)" },
+      --   },
+      -- },
+      gitbrowse = {
+        opts = {},
+        keys = {
+          -- keymaps are set in lua/custom/mappings.lua
+          -- { "<leader>gB", "Snacks.gitbrowse()", desc = "View on Github" },
+        },
+      },
+      indent = { enabled = true },
+      input = { enabled = true },
+      picker = { enabled = false },
+      notifier = { enabled = true },
+      quickfile = { enabled = true },
+      scope = { enabled = true },
+      scroll = { enabled = true },
+      statuscolumn = { enabled = true },
+      words = { enabled = true },
+    },
+  },
 
   -- Override plugin definition options
-
   {
     "neovim/nvim-lspconfig",
     dependencies = {
@@ -39,6 +103,33 @@ local plugins = {
     enabled = false, -- disabled for oil
   },
 
+  {
+    "NvChad/ui",
+    config = function()
+      vim.opt.statusline=""
+    end
+  },
+
+  -- {
+  --   "neovim/nvim-lspconfig",
+  --   init = function()
+  --     -- require("core.utils").lazy_load "nvim-lspconfig"
+  --   end,
+  --   config = function()
+  --     require "plugins.configs.lspconfig"
+  --   end,
+  -- },
+
+  {
+    "neovim/nvim-lspconfig",
+    event = "LspAttach",  -- this is available since Neovim 0.10
+    dependencies = {
+      -- your other lsp-related plugins
+    },
+    config = function()
+      require "plugins.configs.lspconfig"
+    end,
+  },
   -- Custom plugins to install start here. Always try to lazy load them for performance reasons.
 
 

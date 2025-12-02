@@ -41,13 +41,16 @@ M.general = {
     ["<leader>\\"] = { ":vsplit<cr>", "vertical split" },
     ["<leader>-"] = { ":split<cr>", "horizontal split" },
 
+    -- gitbrowse
+    ["<leader>gB"] = { ":=Snacks.gitbrowse()<cr>", "View on GitHub" },
+
     -- quickfix
     ["<leader>qf"] = { ":copen<cr>", "quick fix list" },
     ["<leader>j"] = { ":cnext<cr>", "next quick fix" },
     ["<leader>k"] = { ":cprev<cr>", "prev quick fix" },
 
     -- trouble
-    ["<leader>xx"] = { "<cmd>TroubleToggle<cr>", "toggle trouble list" },
+    ["<leader>xx"] = { "<cmd>Trouble diagnostics toggle<cr>", "Trouble Diagnostics" },
     ["<leader>xw"] = { "<cmd>TroubleToggle workspace_diagnostics<cr>", "toggle trouble workspace" },
     ["<leader>xd"] = { "<cmd>TroubleToggle document_diagnostics<cr>", "toggle trouble document" },
     ["<leader>xq"] = { "<cmd>TroubleToggle quickfix<cr>", "toggle trouble quickfix" },

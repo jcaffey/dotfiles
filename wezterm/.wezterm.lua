@@ -19,11 +19,12 @@ config.default_prog = { '/opt/homebrew/bin/fish', '-l' }
 -- For example, changing the color scheme:
 -- config.color_scheme = 'AdventureTime'
 -- config.color_scheme = 'Catppuccin Mocha'
-config.color_scheme = 'catppuccin-macchiato' -- good for default text and im just about that catppuccin life
+-- config.color_scheme = 'Catppuccin Frappe'
+-- config.color_scheme = 'catppuccin-macchiato' -- good for default text and im just about that catppuccin life
 -- config.color_scheme = 'Catppuccin Macchiato' -- good for default text and im just about that catppuccin life
 -- config.color_scheme = 'Ciapre' -- easier to read default (white) text
 -- config.color_scheme = 'Dracula'
--- config.color_scheme = 'duckbones'
+config.color_scheme = 'duckbones'
 -- config.color_scheme = 'duskfox' -- very good!
 
 config.colors = {
@@ -39,10 +40,10 @@ config.text_background_opacity = 0.3
 -- font
 config.font = wezterm.font 'JetBrains Mono'
 -- config.font = wezterm.font 'MonoLisa'
-config.font_size = 14
+config.font_size = 15
 
 -- window options
-config.window_decorations = "RESIZE"
+-- config.window_decorations = "RESIZE"
 config.native_macos_fullscreen_mode = true
 config.tab_bar_at_bottom = true
 config.enable_tab_bar = true
