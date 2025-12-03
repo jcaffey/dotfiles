@@ -49,3 +49,4 @@ dap.configurations.gdscript = {
 		launch_scene = true,
 	},
 }
+
