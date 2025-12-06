@@ -79,6 +79,43 @@ return {
     end,
   },
 
+-- In your plugins.lua or wherever you declare plugins
+  {
+    "nvim-treesitter/nvim-treesitter",
+    build = ":TSUpdate",
+    config = function()
+      require("nvim-treesitter.configs").setup({
+        ensure_installed = {
+          "vim",
+          "lua",
+          "vimdoc",
+          "html",
+          "css",
+          "elixir",
+          "heex",       -- Elixir's HTML+EEX templates (very important!)
+          "eex",
+          "surface",    -- if you use Surface components
+        },
+        highlight = {
+          enable = true,
+          additional_vim_regex_highlighting = false, -- recommended
+        },
+        -- Optional but highly recommended for Elixir
+        indent = { enable = true },
+        incremental_selection = { enable = true },
+      })
+
+      -- Optional: better Heex file detection
+      vim.filetype.add({
+        extension = {
+          heex = "heex",
+        },
+        pattern = {
+          [".*%.heex$"] = "heex",
+        },
+      })
+    end,
+  },
   -- test new blink
   -- { import = "nvchad.blink.lazyspec" },
 
