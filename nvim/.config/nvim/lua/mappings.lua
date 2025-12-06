@@ -15,6 +15,12 @@ map("n", "<leader>-", ":split<cr>", { desc = "horizontal split" })
 map("v", "<leader>\\", ":vsplit<cr>", { desc = "vertical split" })
 map("v", "<leader>-", ":split<cr>", { desc = "horizontal split" })
 
+-- delete without yanking
+-- pro tip: use `"0p` to paste instead of p if you forget to delete something without these keymaps
+vim.keymap.set('n', '<leader>d', '"_d', { desc = 'Delete without yanking' })
+vim.keymap.set('n', '<leader>dd', '"_dd', { desc = 'Delete line without yanking' })
+vim.keymap.set('n', '<leader>c', '"_c', { desc = 'Change without yanking' })
+
 -- oil
 map("n", "-", "<cmd>Oil<cr>", { desc = "Open parent directory" })
 map("n", "<leader>e", function() require('oil').open_float('.') end, { desc = "Open oil in floating window at root" })
