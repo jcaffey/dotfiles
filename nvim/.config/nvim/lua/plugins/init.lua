@@ -91,6 +91,7 @@ return {
           "vimdoc",
           "html",
           "css",
+          "rust",
           "elixir",
           "heex",       -- Elixir's HTML+EEX templates (very important!)
           "eex",
