@@ -53,18 +53,20 @@ return {
       --     { "<leader>gB", "Snacks.gitbrowse()", desc = "View on Github" },
       --   },
       -- },
+      --
       indent = { enabled = true },
       input = { enabled = true },
       picker = { enabled = false },
       notifier = { enabled = true },
       quickfile = { enabled = true },
       scope = { enabled = true },
-      scroll = { enabled = true },
+      scroll = { enabled = false },
       statuscolumn = { enabled = true },
       words = { enabled = true },
     }
   },
 
+  -- format on save!
   {
     "stevearc/conform.nvim",
     -- event = 'BufWritePre', -- uncomment for format on save
@@ -117,18 +119,9 @@ return {
       })
     end,
   },
+
   -- test new blink
   -- { import = "nvchad.blink.lazyspec" },
-
-  -- {
-  -- 	"nvim-treesitter/nvim-treesitter",
-  -- 	opts = {
-  -- 		ensure_installed = {
-  -- 			"vim", "lua", "vimdoc",
-  --      "html", "css"
-  -- 		},
-  -- 	},
-  -- },
 
   -- oil
   {
@@ -174,16 +167,71 @@ return {
     },
   },
 
+  -- repeat
+  {
+    "tpope/vim-repeat",
+    lazy = false,   -- recommended because many plugins expect it to be loaded already
+  },
+
+  -- leap
+  {
+    "ggandor/leap.nvim",
+    dependencies = { "tpope/vim-repeat" },
+    lazy = false,
+    config = function()
+      require("leap").setup{
+        -- only use lower case letters for labels...shift key is evil.
+        labels = { -- Override the full label set (used for extended labeling when autojump is off)
+          'a', 's', 'f', 't', 'g', 'v', 'n', 'z', 'x', 'c', 'v', 'q', 'w', 'e'
+        },
+        safe_labels = { -- Override the full label set (used for extended labeling when autojump is off)
+          'a', 's', 'f', 't', 'g', 'v', 'n', 'z', 'x', 'c', 'v', 'q', 'w', 'e'
+        },
+      }
+
+      -- Simply change the default keys
+      vim.keymap.set({"n","x","o"}, "<leader>s",  "<Plug>(leap-forward)")
+      vim.keymap.set({"n","x","o"}, "<leader>S",  "<Plug>(leap-backward)")
+      -- Optional: keep cross-window on gs or change to gM etc.
+      --
+      --
+      -- Override the primary label highlight (first char)
+      vim.api.nvim_set_hl(0, 'LeapLabel', {
+        bg = '#FF37F5',  -- Bright green background (hex color; adjust as needed)
+        fg = '#ffffff',  -- Black foreground text for contrast (optional)
+        bold = true,     -- Keep bold if desired (optional)
+      })
+
+
+      vim.api.nvim_set_hl(0, 'LeapBackdrop', {
+        bg = '#0EB2F5',  -- Bright green background (hex color; adjust as needed)
+        fg = '#ffffff',  -- Black foreground text for contrast (optional)
+        bold = true,     -- Keep bold if desired (optional)
+      })
+
+      vim.api.nvim_set_hl(0, 'LeapMatch', {
+        bg = '#ffffff',  -- Bright green background (hex color; adjust as needed)
+        fg = '#000000',  -- Black foreground text for contrast (optional)
+        bold = true,     -- Keep bold if desired (optional)
+      })
+    end,
+  },
+
   -- surround
   {
-      "kylechui/nvim-surround",
-      version = "*", -- Use for stability; omit to use `main` branch for the latest features
-      event = "VeryLazy",
-      config = function()
-          require("nvim-surround").setup({
-              -- Configuration here, or leave empty to use defaults
-          })
-      end
+    "kylechui/nvim-surround",
+    dependencies = {
+      "tpope/vim-repeat",      -- makes ys/cs/ds repeatable with .
+    },
+    keys = {
+      "ys", "yss", "ds", "cs",   -- load as soon as you try to use surround
+      { "S", mode = "x" },       -- visual-mode S for surround selection
+    },
+    config = function()
+      require("nvim-surround").setup({
+        -- Empty = perfect defaults in 2025
+      })
+    end,
   },
 
   -- trouble
