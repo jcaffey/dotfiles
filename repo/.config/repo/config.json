@@ -2,7 +2,9 @@
   "repo": {
     "aliases": {
       "cheat": "/Users/jcaffey/repos/cheat-sheets",
-      "dotfiles": "/Users/jcaffey/dotfiles"
+      "dotfiles": "/Users/jcaffey/dotfiles",
+      "platform": "/Users/jcaffey/repos/volt/platform",
+      "volt": "/Users/jcaffey/repos/volt/platform/volt"
     },
     "editor": {
       "command": "nvim",

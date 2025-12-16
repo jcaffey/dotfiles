@@ -21,6 +21,10 @@ vim.keymap.set('n', '<leader>d', '"_d', { desc = 'Delete without yanking' })
 vim.keymap.set('n', '<leader>dd', '"_dd', { desc = 'Delete line without yanking' })
 vim.keymap.set('n', '<leader>c', '"_c', { desc = 'Change without yanking' })
 
+-- tabufline
+map("n", "<leader>bl", function() require("nvchad.tabufline").closeBufs_at_direction("left") end, { desc = "Close buffers to left" })
+map("n", "<leader>br", function() require("nvchad.tabufline").closeBufs_at_direction("right") end, { desc = "Close buffers to right" })
+
 -- oil
 map("n", "-", "<cmd>Oil<cr>", { desc = "Open parent directory" })
 map("n", "<leader>e", function() require('oil').open_float('.') end, { desc = "Open oil in floating window at root" })
