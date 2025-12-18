@@ -27,6 +27,9 @@ fish_add_path /opt/homebrew/opt/binutils/bin
 # nix
 fish_add_path ~/.nix-profile/bin
 
+# global ruby
+fish_add_path ~/.gem/ruby/3.3.0/bin
+
 
 # environment variables
 set -gx RIPGREP_CONFIG_PATH $HOME/ripgrep.rc
@@ -51,6 +54,9 @@ source $HOME/.config/fish/aliases/w3m
 source $HOME/.config/fish/aliases/yazi.fish
 
 # functions
+source $HOME/.config/fish/functions/mkd.fish
+source $HOME/.config/fish/functions/figlet.fish
+source $HOME/.config/fish/functions/git.fish
 source $HOME/.config/fish/functions/yazi.fish
 
 # cd to parent dir of git repo (git parengit parenet)

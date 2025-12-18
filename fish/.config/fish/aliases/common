@@ -1,2 +1,4 @@
 abbr --add nv nvim
 abbr --add mux tmuxinator
+abbr --add r repo
+abbr --add ld lazydocker
