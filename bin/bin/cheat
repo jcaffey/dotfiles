@@ -1,3 +1,33 @@
+#!/usr/bin/env elixir
+
+defmodule Cheat do
+  def run() do
+    args = System.argv()
+
+    # pattern matching in elixir is f'ing raw
+    line =
+      case args do
+        [] ->
+          # No arguments provided → read from stdin (handles piping)
+          IO.read(:stdio, :eof) |> String.trim()
+
+        [arg | _] ->
+          # Use the argument (you can handle multiple if needed)
+          arg
+
+        _ ->
+          IO.puts("Usage: elixir cheat.exs arg")
+          System.halt(1)
+          ""
+      end
+
+    line = "bat ~/repos/cheat-sheets/#{line}.adoc"
+    System.shell(line, into: IO.stream())
+  end
+end
+
+Cheat.run
+
 #!/bin/zsh
-readonly name=${1:? "Must provide snippet name"}
-cat ~/repos/cheat-sheets/$name.adoc | glow
+# readonly name=${1:? "Must provide snippet name"}
+# cat ~/repos/cheat-sheets/$name.adoc | /opt/homebrew/bin/glow
