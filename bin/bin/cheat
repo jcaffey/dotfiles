@@ -21,13 +21,15 @@ defmodule Cheat do
           ""
       end
 
-    line = "bat ~/repos/cheat-sheets/#{line}.adoc"
-    System.shell(line, into: IO.stream())
+    path = Path.expand("~/repos/cheat-sheets/#{line}.adoc")
+    cmd = "/opt/homebrew/bin/bat --color=always #{path}"
+    {output, _exit_code} = System.shell(cmd)
+    IO.puts(output)
   end
 end
 
 Cheat.run
 
-#!/bin/zsh
+# #!/bin/zsh
 # readonly name=${1:? "Must provide snippet name"}
-# cat ~/repos/cheat-sheets/$name.adoc | /opt/homebrew/bin/glow
+# /opt/homebrew/bin/bat ~/repos/cheat-sheets/$name.adoc
