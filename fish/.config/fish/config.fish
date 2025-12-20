@@ -5,12 +5,16 @@ fish_vi_key_bindings
 starship init fish | source
 
 # PATH
+#
+# nix-darwin
+fish_add_path /run/current-system/sw/bin
 fish_add_path ~/bin
 # fish_add_path (yarn global bin)
 fish_add_path ~/flutter/bin
 fish_add_path /opt/homebrew/opt/rustup/bin
 fish_add_path ~/.cargo/bin
-fish_add_path ~/.n/bin
+# moving from n to nix
+# fish_add_path ~/.n/bin
 fish_add_path ~/.rvm/bin
 fish_add_path /opt/homebrew/Cellar/go/1.23.0/bin
 # sqlite
