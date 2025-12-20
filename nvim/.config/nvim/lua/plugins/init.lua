@@ -204,7 +204,7 @@ return {
 
 
       vim.api.nvim_set_hl(0, 'LeapBackdrop', {
-        bg = '#0EB2F5',  -- Bright green background (hex color; adjust as needed)
+        bg = '#adfef2',  -- Bright green background (hex color; adjust as needed)
         fg = '#ffffff',  -- Black foreground text for contrast (optional)
         bold = true,     -- Keep bold if desired (optional)
       })

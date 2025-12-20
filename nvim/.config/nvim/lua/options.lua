@@ -28,8 +28,8 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 -- vim.api.nvim_set_hl(0, "IncSearch",    { bg = "#b16286", fg = "#ebdbb2" })       -- purple
 --
 -- -- Everforest / nightfox style
-vim.api.nvim_set_hl(0, "Search",    { bg = "#a7c080", fg = "#000000", bold = true })
-vim.api.nvim_set_hl(0, "IncSearch", { bg = "#e67e80", fg = "#000000", bold = true })
+vim.api.nvim_set_hl(0, "Search",    { bg = "#adfef2", fg = "#000000", bold = true })
+vim.api.nvim_set_hl(0, "IncSearch", { bg = "#ebdbb2", fg = "#000000", bold = true })
 
 -- Pure underline instead of background (very clean)
 -- vim.api.nvim_set_hl(0, "Search",    { underline = true, sp = "#ff9900" })
