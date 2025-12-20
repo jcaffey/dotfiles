@@ -1,0 +1,15 @@
+= devenv
+
+== Does devenv run new services or my local services? Example: redis
+
+When you run devenv up in your monorepo, devenv starts its own isolated instance of Redis — it does not use your globally installed Redis (whether via Nix profile, nix-darwin, Home Manager, or otherwise).
+Why this happens
+
+Devenv's services.redis (or equivalent in your monorepo's devenv.nix) is designed for reproducibility and isolation.
+It fetches the Redis binary from Nixpkgs (a specific pinned version for your project).
+Starts a fresh Redis server process managed by a process manager (usually process-compose).
+Uses project-local state stored in .devenv/state/redis (or similar under $DEVENV_STATE).
+Binds by default to 127.0.0.1:6379 (configurable via services.redis.port, services.redis.bind, etc.).
+
+This ensures every developer gets the exact same Redis version and clean state, without depending on whatever might be running globally on the host machine (macOS or otherwise).
+Your global Redis (e.g., from nix profile install redis or similar) runs separately if you started it manually (or via launchd/nix-darwin module). The two instances won't interfere unless they try to bind the same port — in which case one will fail to start.

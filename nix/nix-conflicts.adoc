@@ -1,0 +1,78 @@
+= Example conflict
+
+Attempting to install a rust rewrite of gnu core utils, but when applying the change via `darwin-rebuild` I get the following...
+```sh
+~/.config/nix-darwin on ☁️  (us-east-1)
+❯ sudo darwin-rebuild switch --flake .#volt
+Password:
+building the system configuration...
+warning: Using 'builtins.toFile' to create a file named 'options.json' that references the store path '/nix/store/krhf9igjyi7h8c5mlddxd8fhwv1ljmzm-source' without a proper context. The resulting file will not have a correct store reference, so this is unreliable and may stop working in the future.
+setting up /Applications/Nix Apps...
+setting up pam...
+applying patches...
+setting up /etc...
+user defaults...
+restarting Dock...
+setting up launchd services...
+configuring networking...
+configuring application firewall...
+configuring power...
+setting up /Library/Fonts/Nix Fonts...
+setting nvram variables...
+Activating home-manager configuration for jcaffey
+Starting Home Manager activation
+Activating checkFilesChanged
+Activating checkLinkTargets
+Activating writeBoundary
+Activating installPackages
+nix profile remove /nix/store/d9rzshpw6kzy1bp6rfnz96vsz321kqhy-home-manager-path
+removing 'home-manager-path'
+warning: 'install' is a deprecated alias for 'add'
+error: An existing package already provides the following file:
+
+         /nix/store/r072pk5mqzjafbigwbfaz7wklw1152c7-home-manager-path/libexec/coreutils/libstdbuf.dylib
+
+       This is the conflicting file from the new package:
+
+         /nix/store/gr2b1rr3a245gpr7cnmw43m49zrm5619-uutils-coreutils-0.5.0/libexec/coreutils/libstdbuf.dylib
+
+       To remove the existing package:
+
+         nix profile remove home-manager-path
+
+       The new package can also be added next to the existing one by assigning a different priority.
+       The conflicting packages have a priority of 5.
+       To prioritise the new package:
+
+         nix profile add flake:nixpkgs#legacyPackages.aarch64-darwin.uutils-coreutils --priority 4
+
+       To prioritise the existing package:
+
+         nix profile add flake:nixpkgs#legacyPackages.aarch64-darwin.uutils-coreutils --priority 6
+
+Oops, Nix failed to install your new Home Manager profile!
+
+Perhaps there is a conflict with a package that was installed using
+"nix profile install"? Try running
+
+    nix profile list
+
+and if there is a conflicting package you can remove it with
+
+    nix profile remove {number | store path}
+
+Then try activating your Home Manager configuration again.
+```
+
+== Options
+
+you don't have to do anything - nix already removed home-manager-path.
+
+nix profile remove /nix/store/d9rzshpw6kzy1bp6rfnz96vsz321kqhy-home-manager-path
+removing 'home-manager-path'
+
+but here are some options:
+
+- pick one: gnu or the rust version (nix profile remove utils|home-manager-path)
+- set priority (they both currently have 5 ... lower is higher priority): nix profile add flake:nixpkgs#legacyPackages.aarch64-darwin.uutils-coreutils --priority 4
+- BEST: install regular core utils :)

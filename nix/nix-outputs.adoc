@@ -1,0 +1,54 @@
+In **Nix flakes**, there are no strictly mandatory outputs — a flake can define arbitrary attributes in its `outputs` function. However, Nix commands (like `nix build`, `nix run`, `nix develop`, `nixos-rebuild`, etc.) recognize a **conventional schema** for certain outputs. These "standard" or "default" outputs have special meanings and are used by default when no specific output is specified.
+
+### Modern Recommended Outputs (Current Best Practice)
+These are the preferred structure (older top-level names like `defaultPackage` are deprecated and trigger warnings):
+
+- **`packages.<system>.<name>`**: Derivations (buildable packages).  
+  - `packages.<system>.default`: The package built/run by default with `nix build .` or `nix run .` (if no `apps` default).
+
+- **`apps.<system>.<name>`**: Executable programs ( `{ type = "app"; program = "/path/to/exec"; }` ).  
+  - `apps.<system>.default`: The app run by default with `nix run .`.
+
+- **`devShells.<system>.<name>`**: Development shells (from `pkgs.mkShell`).  
+  - `devShells.<system>.default`: The shell entered with `nix develop .`.
+
+- **`formatter.<system>`**: A derivation for code formatting (e.g., alejandra or nixpkgs-fmt). Used by `nix fmt .`.
+
+- **`overlays.<name>`**: Nixpkgs overlays.  
+  - `overlays.default`: The default overlay consumable by other flakes.
+
+- **`nixosModules.<name>`** / **`darwinModules.<name>`**: System modules (for NixOS or nix-darwin).  
+  - `<type>Modules.default`: The default module.
+
+- **`nixosConfigurations.<hostname>`** / **`darwinConfigurations.<hostname>`**: Full system configurations. Used by `nixos-rebuild --flake .#hostname` or `darwin-rebuild`.
+
+- **`checks.<system>.<name>`**: Derivations for testing/CI (built by `nix flake check` or Hydra).
+
+- **`templates.<name>`**: Project templates (for `nix flake init -t`).  
+  - `templates.default`: The default template used by plain `nix flake init`.
+
+- **`legacyPackages.<system>.<name>`**: Alternative location for packages (for backward compatibility with non-flake Nix).
+
+- **`hydraJobs.<system>.<name>`**: Outputs for Hydra CI.
+
+Other common ones include `lib` (libraries), `bundlers`, etc., but the above are the most "default" in terms of Nix command integration.
+
+### How Defaults Work in Commands
+- `nix build .`: Builds `packages.<system>.default` (or falls back to `legacyPackages`).
+- `nix run .`: Runs `apps.<system>.default` (or the main program of `packages.<system>.default`).
+- `nix develop .`: Enters `devShells.<system>.default`.
+- Many flakes define a `.default` in relevant categories to make unqualified commands work seamlessly.
+
+### Example from `nix flake init` (Default Template)
+Running `nix flake init` (without `-t`) uses the "trivial" template from the global `templates` flake, which produces a minimal `flake.nix` with:
+```nix
+outputs = { self, nixpkgs }: {
+  packages.x86_64-linux.hello = nixpkgs.legacyPackages.x86_64-linux.hello;
+  packages.x86_64-linux.default = self.packages.x86_64-linux.hello;
+};
+```
+(Adjusted for your system.) This defines a single default package.
+
+For a full example of all standard outputs, see the `full` template: `nix flake init -t templates#full`.
+
+You can inspect any flake's outputs with `nix flake show <flake-ref>`. For the official schema details, refer to the Nix manual or community resources like the NixOS Wiki.

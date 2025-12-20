@@ -1,0 +1,41 @@
+= nix-darwin and home manager
+
+== Setup
+
+`sudo nix run nix-darwin -- switch --flake .#volt`
+
+I had to backup /etc/bashrc to /etc/bashrc.before-nix-darwin
+
+system => ls /run/current-system/sw/bin
+
+home manager => /etc/profiles/per-user/jcaffey/bin
+
+determinate nix => ~/nix-profile/bin
+
+Every option imagineable:
+
+https://nix-darwin.github.io/nix-darwin/manual/
+
+== uninstall determinate nix
+
+`/nix/nix-installer uninstall`
+
+== uninstall nix-darwin
+
+`sudo nix --extra-experimental-features "nix-command flakes" run nix-darwin#darwin-uninstaller`
+
+
+== uninstall home manager
+
+Edit your nix-darwin flake/configuration (usually ~/.config/nix-darwin/flake.nix or similar).
+Remove the Home Manager module import and any home-manager.users.<youruser> sections.
+Rebuild and switch:Bashdarwin-rebuild switch --flake /path/to/your/flake
+This will deactivate and remove user environments managed by Home Manager (e.g., dotfiles, user packages, launch agents).
+
+If you're unsure which mode you're using:
+
+Check if home-manager is in your PATH (standalone).
+Look in your nix-darwin config for home-manager imports (module mode).
+
+After removal, run nix-collect-garbage -d to clean up old generations.
+
