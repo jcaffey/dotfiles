@@ -2,6 +2,10 @@
 
 This is documentation for my personal use. This repo is similar to notes, but programming specific.
 
+== Generate website
+
+`antora antora-playbook.yml`
+
 == Build
 
 `docker build -t joshua-docs .`
@@ -13,3 +17,7 @@ This is documentation for my personal use. This repo is similar to notes, but pr
 == URL
 
 https://docs-cold-feather-6914.fly.dev/joshua-docs/index.html
+
+== deploy
+
+`fly deploy`

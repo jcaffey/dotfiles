@@ -1,0 +1,50 @@
+= Rollback
+
+To *rollback* your nix-darwin system configuration (e.g., after a bad
+`darwin-rebuild switch` that broke something), use the built-in
+generation management features, similar to NixOS.
+
+== Quick Rollback to the Previous Generation Run this command (it may
+require `sudo` depending on your setup):
+
+....
+darwin-rebuild --rollback
+....
+
+This switches your system back to the immediately previous generation.
+
+== List Available Generations First, check your existing system
+generations:
+
+....
+darwin-rebuild --list-generations
+....
+
+This shows a numbered list with dates, like:
+
+....
+1   2025-12-01 12:00:00
+2   2025-12-15 10:30:00   (current)
+....
+
+== Switch to a Specific Generation If you want to go back further than
+one step, use the generation number from the list:
+
+....
+darwin-rebuild --switch-generation <number>
+....
+
+Replace `++<++number++>++` with the desired ID (e.g.,
+`--switch-generation 1`).
+
+== Notes - These commands work whether you’re using flakes or the
+classic non-flake setup. - If you’re using flakes, you can add
+`--flake .#your-hostname` (or whatever your flake path is) if needed,
+but the rollback flags usually work directly. - After rolling back, you
+may need to log out/in or restart for all changes (like shell
+environment) to take effect. - Old generations can be cleaned up later
+with `nix-collect-garbage -d` (but keep some around for safety).
+
+This is one of the best features of nix-darwin—atomic, instant rollbacks
+without losing data! If something still seems broken, share the output
+of `--list-generations` for more help.

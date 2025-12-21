@@ -1,1 +1,3 @@
+* xref:index.adoc[]
 * xref:new-page.adoc[]
+* xref:imperative-vs-declarative.adoc[]

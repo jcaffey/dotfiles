@@ -1,0 +1,8 @@
+.Nix
+* xref:index.adoc[]
+* xref:darwin-rebuild.adoc[]
+* xref:nix-darwin-home-manaqger.adoc[]
+* xref:nix-darwin-rollback.adoc[]
+* xref:nix-conflicts.adoc[]
+* xref:nix-outputs.adoc[]
+* xref:README.adoc[]

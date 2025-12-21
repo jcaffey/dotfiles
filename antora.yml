@@ -1,5 +1,6 @@
 name: joshua-docs
 version: ~
-title: joshua docs
+title: joshua-docs
 nav:
 - modules/ROOT/nav.adoc
+- modules/nix/nav.adoc

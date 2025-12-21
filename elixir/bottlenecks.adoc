@@ -1,0 +1,167 @@
+==== Polling SQS: Is There a Better Solution Than Polling?
+
+There isn’t a fundamentally better alternative to polling for Amazon
+SQS — *SQS is a pull-based (polling) queue by design*, not push-based
+like SNS or WebSockets. All consumers must poll for messages.
+
+However, you can make polling *much more efficient* than naive short
+polling:
+
+* *Use long polling exclusively*: Set `WaitTimeSeconds` to 20 (the
+maximum) when calling `ReceiveMessage`. This makes SQS wait up to 20
+seconds for messages to arrive before returning an empty response.
+** Benefits: Reduces empty responses (and API costs) dramatically,
+lowers latency (messages returned as soon as available), and increases
+throughput.
+** Short polling is almost never preferable and wastes requests/costs.
+* *Batch receives*: Poll for up to 10 messages per request
+(`MaxNumberOfMessages=10`).
+* *No true push alternative*: SQS doesn’t support server-push
+notifications. (SNS can fan-out pushes, but it’s not a queue
+replacement.)
+
+In Elixir, the best way to handle this efficiently is *Broadway with the
+`broadway++_++sqs` producer* (maintained by Dashbit, creators of
+Broadway). It handles long polling, batching, acknowledgments, and
+back-pressure automatically — far superior to manual polling loops.
+
+==== Recommended Architecture: Use Broadway for SQS Ingestion
+
+Broadway is purpose-built for high-concurrency, fault-tolerant data
+pipelines in Elixir/OTP, leveraging GenStage for back-pressure and
+automatic scaling.
+
+Example setup for your use case:
+
+[source,elixir]
+----
+defmodule MyApp.JobProcessor do
+  use Broadway
+
+  alias Broadway.Message
+
+  def start_link(_opts) do
+    Broadway.start_link(__MODULE__,
+      name: __MODULE__,
+      producer: [
+        module: {BroadwaySQS.Producer,
+          queue_url: System.get_env("SQS_QUEUE_URL"),
+          config: [
+            access_key_id: System.get_env("AWS_ACCESS_KEY_ID"),
+            secret_access_key: System.get_env("AWS_SECRET_ACCESS_KEY"),
+            region: System.get_env("AWS_REGION")
+          ]},
+        concurrency: 10,  # Multiple producers for faster polling
+        max_demand: 10    # Batch up to 10 messages per poll
+      ],
+      processors: [
+        default: [
+          concurrency: 50..200,  # Tune based on job duration/CPU
+          max_demand: 10
+        ]
+      ]
+    )
+  end
+
+  @impl Broadway
+  def handle_message(_, message, _) do
+    # Parse job from message.data (JSON typically)
+    job = Jason.decode!(message.data)
+
+    # DB call (e.g., Ecto)
+    Repo.insert_or_update(job)
+
+    # External API call (e.g., HTTPoison/Tesla)
+    Tesla.post("https://external-api.com", job_payload)
+
+    message  # Success: Broadway auto-acks (deletes from SQS)
+  end
+
+  @impl Broadway
+  def handle_failed(messages, _context) do
+    # Failed messages go here (e.g., after retries)
+    # Log, send to DLQ, or custom retry
+    messages
+  end
+end
+----
+
+* Add to your supervision tree: `++{++MyApp.JobProcessor, ++[]++}`
+* Broadway handles: Long polling (20s), batch receives/deletes,
+automatic acks on success, back-pressure (slow processing throttles
+polling), fault isolation.
+
+==== Potential Bottlenecks & Solutions for Maximum Throughput
+
+Your jobs are *I/O-bound* (DB {plus} external API calls), so BEAM’s
+lightweight processes excel here — you can easily handle thousands of
+concurrent jobs per node.
+
+[width="100%",cols="29%,30%,41%",options="header",]
+|===
+|Bottleneck |Description |Solutions & Tips
+|*SQS Polling Rate* |Too many empty polls → high costs/latency. Too few
+producers → slow ingestion. |Use BroadwaySQS with long polling
+(auto-enabled). Multiple producer stages (concurrency: 5–20). Batch size
+10.
+
+|*Visibility Timeout* |Too short → duplicate processing (message
+reappears while still working). Too long → delays on failures. |Set to
+*several times expected job duration* (e.g., 5–10 minutes if jobs take
+~30s–2min). Broadway can extend via heartbeat if needed. Use DLQ for
+persistent failures (max receives → DLQ).
+
+|*External API Latency/Rate Limits* |Slowest part; blocks processes if
+synchronous. Rate limits throttle throughput. |Use concurrent HTTP
+client (Tesla {plus} Hackney pool). Pool connections (e.g., `:poolboy`
+or DBConnection). Implement circuit breakers (e.g., Fuse). Respect rate
+limits with jitter/backoff.
+
+|*Database Connections* |Pool exhaustion → waits/errors. |Use Ecto with
+Poolboy or DBConnection pool. Size pool to ~2–5x cores. Batch DB writes
+if possible. Use read replicas for queries.
+
+|*Single Node Capacity* |CPU/memory saturated; too many concurrent
+processes. |Tune Broadway concurrency (processors: 100–1000{plus} per
+node typical for I/O). Monitor with `:observer` or Telemetry.
+*Distribute horizontally*: Run multiple identical nodes (cluster via
+libcluster). SQS scales automatically across consumers.
+
+|*Acknowledgment Overhead* |Deleting messages one-by-one is
+slow/expensive. |Broadway batches acks (deletes up to 10 at once) by
+default — huge perf win.
+
+|*Error Handling / Poison Messages* |One bad message crashes/restarts
+pipeline. |Broadway isolates failures per message. Use
+`handle++_++failed/2` {plus} DLQ. Supervision trees restart on crashes.
+
+|*Network/HTTPS Overhead* |SQS over HTTPS can bottleneck at very high
+throughput. |If extreme (10k{plus} msgs/sec), consider HTTP endpoint
+(less secure). Usually not needed.
+
+|*Back-Pressure Missing* |Fast polling overwhelms slow processing →
+queue buildup or crashes. |Broadway’s GenStage back-pressure
+automatically slows producers when processors lag.
+|===
+
+==== Additional Tips for Maximum Jobs/sec
+
+* *Horizontal scaling is easiest*: Add more EC2 instances (or
+containers) running the same app. BEAM clusters effortlessly; no shared
+state needed.
+* *Monitoring*: Use Broadway’s built-in Telemetry events {plus}
+Prometheus/Grafana. Track queue length, processing latency, in-flight
+messages.
+* *Testing locally*: Use ElasticMQ (SQS-compatible) or LocalStack.
+* *FIFO vs Standard Queue*: Use standard for higher throughput unless
+you need exact ordering.
+* *Cost*: Long polling {plus} batching minimizes SQS requests (billed
+per 64KB payload {plus} requests).
+* *Fault Tolerance*: Wrap external calls in try/rescue; use supervisors.
+"`Let it crash`" on transients, retry on known errors.
+
+This setup (Broadway {plus} OTP) routinely handles *tens to hundreds of
+thousands* of jobs per hour on modest hardware, scaling linearly with
+nodes. Start with Broadway — it’s the idiomatic, high-performance way in
+Elixir for exactly your scenario. If you share more details (e.g.,
+expected job rate, duration), I can refine tuning!
