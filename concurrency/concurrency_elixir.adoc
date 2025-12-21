@@ -1,0 +1,216 @@
+==== How Concurrency Works in Elixir
+
+Elixir’s concurrency model is one of its standout features, inherited
+from the *Erlang VM (BEAM)*. It uses the *Actor model*:
+
+* *Processes* are the unit of concurrency: Extremely *lightweight* (a
+few KB each), isolated, and managed entirely by the BEAM scheduler (not
+OS threads).
+* You can easily spawn *hundreds of thousands or millions* of processes
+without significant overhead.
+* Processes communicate via *asynchronous message passing* (no shared
+memory → no locks, race conditions, or mutexes needed).
+* The BEAM uses *preemptive scheduling*: It automatically distributes
+processes across all available CPU cores for true parallelism, and
+ensures no single process hogs the CPU (fair sharing via reductions).
+* Fault-tolerance is built-in via *OTP* (Open Telecom Platform):
+Supervisors monitor processes and restart them on failure ("`let it
+crash`" philosophy).
+
+This makes Elixir ideal for highly concurrent, scalable, fault-tolerant
+systems like web servers (Phoenix), real-time apps, or distributed
+systems.
+
+Basic building blocks: - `spawn/1`: Creates a new process running a
+function. - `send/2`: Sends a message to a process (by its PID). -
+`receive/1`: Checks the process’s mailbox for matching messages.
+
+Higher-level abstractions: - *Task*: For simple fire-and-forget or
+awaitable asynchronous computations. - *GenServer*: For stateful servers
+that handle messages (like actors with state). - *Supervisor*: For
+monitoring and restarting child processes.
+
+==== Comparison to Rust (with Tokio Async)
+
+Since you’re familiar with Rust, here’s a direct mapping. Rust’s async
+(via Tokio) is great for *I/O-bound concurrency* (e.g., handling
+thousands of network connections), but Elixir’s model is more
+general-purpose and easier for massive concurrency {plus}
+fault-tolerance.
+
+[width="99%",cols="21%,40%,39%",options="header",]
+|===
+|Aspect |Elixir (BEAM Processes) |Rust (Tokio Async)
+|*Unit of Concurrency* |Lightweight processes (green threads/actors)
+|Async tasks/futures (cooperative yielding)
+
+|*Creation Cost* |Very cheap: Millions possible |Cheap: Thousands to
+hundreds of thousands typical
+
+|*Scheduling* |Preemptive (BEAM scheduler across cores) |Cooperative
+(tasks yield at `.await`; can block if not careful)
+
+|*Parallelism* |Automatic across all cores |On multi-threaded Tokio:
+Yes; single-threaded: Concurrency only
+
+|*Communication* |Message passing (copy or reference for large data)
+|Channels (mpsc), or shared state with Mutex/Arc
+
+|*Shared State* |Avoided (immutable data {plus} messages) |Possible but
+requires sync primitives
+
+|*Fault Tolerance* |Built-in supervision trees (restart on crash)
+|Manual (e.g., handle errors in tasks)
+
+|*Best For* |Massive concurrency, distributed systems, soft real-time
+|I/O-heavy apps (servers), with manual control
+
+|*Overhead* |Minimal; designed for it from ground up |Low for I/O, but
+CPU-bound needs threads/Rayon
+|===
+
+===== Code Examples: Concurrent "`Sleep`" Tasks
+
+Let’s compare a simple example: Running two tasks that "`sleep`" for
+different durations concurrently, then waiting for both.
+
+*Rust with Tokio* (multi-threaded runtime for parallelism):
+
+[source,rust]
+----
+use tokio::time::{sleep, Duration};
+
+#[tokio::main]
+async fn main() {
+    let task1 = tokio::spawn(async {
+        println!("Task 1 starting");
+        sleep(Duration::from_secs(2)).await;
+        println!("Task 1 done");
+    });
+
+    let task2 = tokio::spawn(async {
+        println!("Task 2 starting");
+        sleep(Duration::from_secs(1)).await;
+        println!("Task 2 done");
+    });
+
+    // Wait for both
+    let _ = tokio::join!(task1, task2);
+}
+----
+
+* `tokio::spawn` creates independent tasks (can run in parallel on
+multiple threads).
+* Tasks yield at `.await`, allowing concurrency even on one thread.
+* Total time: ~2 seconds (overlapping).
+
+*Elixir Equivalent* (using `Task.async` for awaitable tasks):
+
+[source,elixir]
+----
+defmodule Example do
+  def task1 do
+    IO.puts("Task 1 starting")
+    Process.sleep(2000)
+    IO.puts("Task 1 done")
+  end
+
+  def task2 do
+    IO.puts("Task 2 starting")
+    Process.sleep(1000)
+    IO.puts("Task 2 done")
+  end
+
+  def run do
+    t1 = Task.async(&task1/0)
+    t2 = Task.async(&task2/0)
+
+    # Wait for both
+    Task.await(t1)
+    Task.await(t2)
+  end
+end
+
+Example.run()
+----
+
+* Or more idiomatically with `Task.await++_++many/1`:
++
+[source,elixir]
+----
+tasks = [Task.async(&task1/0), Task.async(&task2/0)]
+Task.await_many(tasks)
+----
+* Processes run concurrently (and in parallel across cores
+automatically).
+* `Process.sleep` blocks only that process; the scheduler switches to
+others.
+* Total time: ~2 seconds (overlapping).
+* If you don’t need results: Just `Task.start(&task1/0)`
+(fire-and-forget).
+
+===== Another Example: Message Passing (GenServer vs Tokio Channel)
+
+*Rust (Tokio mpsc channel)*:
+
+[source,rust]
+----
+use tokio::sync::mpsc;
+
+#[tokio::main]
+async fn main() {
+    let (tx, mut rx) = mpsc::channel(32);
+
+    tokio::spawn(async move {
+        tx.send("Hello from task!").await.unwrap();
+    });
+
+    while let Some(msg) = rx.recv().await {
+        println!("Received: {}", msg);
+    }
+}
+----
+
+*Elixir (GenServer for stateful server)*:
+
+[source,elixir]
+----
+defmodule MyServer do
+  use GenServer
+
+  def start_link do
+    GenServer.start_link(__MODULE__, :ok, name: __MODULE__)
+  end
+
+  def send_message(msg) do
+    GenServer.cast(__MODULE__, {:msg, msg})
+  end
+
+  def handle_cast({:msg, msg}, state) do
+    IO.puts("Received: #{msg}")
+    {:noreply, state}
+  end
+end
+
+# Start server
+{:ok, _} = MyServer.start_link()
+
+# From another process
+Task.start(fn -> MyServer.send_message("Hello from task!") end)
+----
+
+==== Key Takeaways for a Rust Developer Learning Elixir
+
+* Think of Elixir processes like `tokio::spawn` but *much lighter,
+automatically parallel, and with built-in supervision*.
+* No need for `.await` everywhere: Code in processes looks
+synchronous/sequential.
+* Message passing replaces channels (simpler for many cases).
+* For web servers: Phoenix handles thousands of connections with one
+process per connection effortlessly (like Tokio but easier scaling).
+
+Elixir shines when you need *extreme concurrency {plus} reliability*
+(e.g., WhatsApp/Discord backends use Erlang/Elixir). Rust/Tokio is
+better for raw performance in CPU-bound or low-level work.
+
+If you have a specific scenario or more code to compare, let me know!

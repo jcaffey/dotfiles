@@ -1,0 +1,200 @@
+= Concurrency
+
+Rob Pike (Go language co-creator) famously stated: "`Concurrency is
+about dealing with lots of things at once. Parallelism is about doing
+lots of things at once.`"
+
+Concurrency structures programs to handle
+multiple tasks; parallelism executes them simultaneously for speedup.
+
+== What is the benefit of concurrent tasks if they are not being processed in parallel?
+
+It seems that the context switching inherent to concurrency would cause more
+overhead, thus making it slower to process multiple items concurrently
+on a single core. However, there are benefits to
+concurrency without simultaneous execution in the IO domain - especially
+for handling network connections. A web server must be able to handle
+many HTTP requests concurrently even if the response to those requests
+cannot be executed in parallel. If a web server did not support concurrent handling
+of HTTP requests, only one user could make a request at a time.
+
+Yes, you’re absolutely correct in your observation: concurrency without
+parallelism (i.e., on a single CPU core) introduces *context-switching
+overhead*, which can make pure CPU-bound tasks slightly slower overall
+compared to running them sequentially. However, concurrency still
+provides significant benefits, especially in certain domains. The key
+advantage comes from *hiding latency* and improving *responsiveness*
+rather than raw throughput for computation.
+
+==== Main Benefits of Concurrency Without Parallelism
+
+[arabic]
+. *Handling Blocking I/O Efficiently*
+* Most real-world programs spend a lot of time *waiting* — for network
+responses, disk reads/writes, database queries, user input, etc.
+* While one task is waiting (blocked on I/O), the CPU would otherwise be
+idle.
+* With concurrency, the system can switch to another task that is ready
+to run, making productive use of the CPU during wait times.
+* *Result*: Much higher throughput and better resource utilization.
++
+Your web server example is perfect:
+* A typical web server might receive a request, then wait for a database
+query or external API call.
+* Without concurrency: It handles one request at a time → serves only
+one client, others wait in queue → terrible scalability and user
+experience.
+* With concurrency (e.g., async/await in Node.js, threads in Java,
+goroutines in Go): It can handle thousands of simultaneous connections.
+While one connection is waiting for the database, the server processes
+others.
+* Even on a single core, this dramatically increases the number of
+requests served per second.
+. *Improved Responsiveness in Interactive Applications*
+* GUIs (e.g., desktop apps, mobile apps) must remain responsive to user
+input while performing background work.
+* Example: A text editor saving a large file to disk.
+** Without concurrency: The UI freezes until the save completes.
+** With concurrency: The save happens in a background thread/task; the
+UI stays responsive for typing, scrolling, etc.
+* Even on one core, quick context switches keep the interface snappy.
+. *Simplifying Program Structure*
+* Concurrent programming models (e.g., async/await, promises, channels)
+often lead to cleaner, more readable code than callback hell or state
+machines for handling asynchronous operations.
+* You can write code that _looks_ sequential but handles multiple flows
+efficiently.
+. *Better Resource Utilization on Limited Hardware*
+* On single-core systems (common in embedded devices, early servers, or
+constrained environments), concurrency allows multiplexing many slow
+operations without wasting CPU time during waits.
+
+==== When Concurrency Without Parallelism Can Be Slower
+
+You’re right: for *pure CPU-bound work* (e.g., crunching numbers, image
+processing with no I/O), concurrency on a single core is usually
+*slower* due to: - Context switch overhead (saving/restoring registers,
+TLB flushes, etc.) - Cache thrashing (different tasks polluting CPU
+caches) - Synchronization costs (locks, atomic operations)
+
+In such cases, true parallelism (multi-core) is needed for speedup.
+
+==== Summary Table
+
+[width="100%",cols="38%,54%,8%",options="header",]
+|===
+|Scenario |Concurrency (no parallelism) Benefit? |Why?
+|CPU-bound tasks only |Usually none (or negative) |Overhead ++>++
+benefit
+
+|I/O-bound tasks (network, disk, etc.) |Major benefit |Hides latency,
+increases throughput
+
+|Interactive/UI applications |High benefit |Keeps UI responsive
+
+|Server handling many connections |Essential |Scales to many clients
+|===
+
+*Bottom line*: Concurrency without parallelism isn’t about going faster
+on computation — it’s about *not wasting time waiting*. In I/O-heavy
+workloads (which dominate most servers, web apps, and interactive
+programs), this makes systems far more efficient and scalable, even on a
+single core.
+
+== Concurrency in Rust
+
+==== Key Points
+
+* An `async fn` by itself does *not* run anything. It returns a `Future`
+(a value implementing the `Future` trait). Futures are *lazy* — they do
+no work until polled (driven forward).
+* To achieve concurrency, you need:
+** An *async runtime* (e.g., Tokio, async-std, smol) to manage and poll
+multiple futures.
+** To compose multiple futures so they can progress concurrently,
+typically using constructs like `futures::join!`, `join++_++all`,
+`select!`, or streaming primitives.
+* When multiple futures are awaited together (e.g., via `join!`), the
+runtime polls them *concurrently*: it switches between them whenever one
+is pending (e.g., waiting on I/O), allowing others to make progress —
+even on a *single thread*.
+* This is *concurrency without parallelism*, similar to Node.js’s event
+loop: great for I/O-bound workloads (e.g., handling many network
+connections).
+
+==== Example of Concurrency
+
+[source,rust]
+----
+use tokio::time::{sleep, Duration};
+
+async fn task1() {
+    println!("Task 1 starting");
+    sleep(Duration::from_secs(2)).await;  // Yields here
+    println!("Task 1 done");
+}
+
+async fn task2() {
+    println!("Task 2 starting");
+    sleep(Duration::from_secs(1)).await;  // Yields here
+    println!("Task 2 done");
+}
+
+#[tokio::main]
+async fn main() {
+    tokio::join!(task1(), task2());
+    // Output order: Task1 start, Task2 start, Task2 done, Task1 done
+    // Both tasks run concurrently on the same thread.
+}
+----
+
+Both tasks start immediately, and while one is "`sleeping`" (pending),
+the runtime switches to the other.
+
+==== Parallelism (Optional)
+
+* Popular runtimes like *Tokio* are *multi-threaded* by default. If you
+`tokio::spawn` tasks (instead of just joining futures), they can run *in
+parallel* across multiple CPU cores.
+* Example: `tokio::spawn(task1()); tokio::spawn(task2());` may execute
+on different threads simultaneously.
+
+==== Summary
+
+* `async fn` alone: No execution, no concurrency.
+* With a runtime and proper composition (e.g., `join!`): *Yes,
+concurrent* (overlapping progress via cooperative yielding at `.await`
+points).
+* Often *not parallel* unless you explicitly spawn tasks on a
+multi-threaded runtime.
+
+This design allows efficient handling of thousands of concurrent I/O
+operations (like web servers) with low overhead, which is why async is
+so powerful in Rust for networking and similar domains.
+
+== Are tokio tasks green threads?
+
+a Tokio task is often described as an asynchronous green thread. It is a
+lightweight, cooperatively scheduled unit of execution managed by the
+Tokio runtime, not by the operating system directly. Key distinctions of
+a Tokio task: Lightweight: Tasks require very little memory overhead
+(around 64 bytes) compared to OS threads, allowing applications to spawn
+thousands or millions of concurrent tasks. User-space management: The
+Tokio runtime manages the scheduling of these tasks, multiplexing them
+onto a smaller, fixed pool of actual OS threads, similar to how
+traditional green threads work. Cooperative scheduling: Unlike OS
+threads, which can be preempted at any time by the kernel, a Tokio task
+only yields control back to the scheduler at explicit .await points
+within the code. This allows the runtime to switch to another task while
+the current one is waiting for an I/O operation to complete.
+Implementation: Under the hood, Rust’s async/await mechanism transforms
+asynchronous code into a state machine at compile time, which avoids the
+need for a separate stack for each task (a common feature of traditional
+green thread implementations like Go’s goroutines). In essence, while
+the internal implementation uses state machines and futures rather than
+traditional stack-switching green threads, the behavior and purpose of a
+Tokio task (lightweight, runtime-managed concurrency) align closely with
+the concept of green threads.
+
+
+

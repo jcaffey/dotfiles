@@ -1,0 +1,96 @@
+==== Maximum Number of TCP Connections a Server Can Handle
+
+There is *no strict theoretical maximum* for concurrent TCP connections
+on a single server port/IP. Each TCP connection is uniquely identified
+by a *4-tuple*: (source IP, source port, destination IP, destination
+port).
+
+* The destination IP and port are fixed for the server.
+* Source IP (client IP) and source port (typically ephemeral, up to
+~28,000–60,000 per client depending on OS) vary.
+* Theoretically, this allows billions of connections (2^48 for IPv4
+combinations), far beyond practical limits.
+
+In practice, modern well-tuned servers can handle *hundreds of thousands
+to millions* of concurrent TCP connections: - Examples: Nginx or Phoenix
+Framework servers have demonstrated *1–2 million* WebSocket/TCP
+connections on beefy hardware. - The old "`*C10K problem*`" (handling
+10,000 connections) was solved years ago with event-driven architectures
+(e.g., epoll on Linux, kqueue on BSD). - Today, the "`*C100K/C1M*`"
+(100K–1M connections) is routine for optimized software like Nginx,
+Node.js, or Go servers.
+
+==== Limiting Factors
+
+===== Software Limits
+
+* *File descriptors*: In Linux/Unix, sockets are file descriptors.
+Defaults are low (e.g., 1024 soft limit per process), but tunable:
+** Per-process: `ulimit -n` (often set to 1M{plus}).
+** System-wide: `/proc/sys/fs/file-max` (default ~800K–several million).
+* *Application design*: Thread-per-connection models (e.g., old Apache)
+struggle beyond ~10K due to overhead. Event-driven/async models (e.g.,
+Nginx, Tokio in Rust) scale much higher.
+* *Kernel parameters*: Things like `somaxconn` (listen backlog),
+`tcp++_++max++_++syn++_++backlog` (half-open connections), and
+TIME++_++WAIT reuse affect scalability.
+* *Memory per connection*: Each connection uses ~1–10 KB kernel memory
+{plus} application state (buffers, structs). 1M connections might need
+several GB RAM.
+
+===== Hardware Limits
+
+* *Memory (RAM)*: Primary bottleneck. Kernel structures {plus} buffers
+consume RAM; e.g., 1M connections could use 10–20 GB.
+* *CPU*: Processing packets, interrupts, and application logic.
+Multi-core helps, but for idle/keep-alive connections, CPU is less
+critical.
+* *Network bandwidth*: Incoming/outgoing traffic limits effective
+throughput (e.g., 10 Gbps NIC caps real data transfer).
+* *NIC/offloading*: Modern NICs with RSS (Receive Side Scaling) and
+offloads (e.g., TSO, GRO) help distribute load across cores.
+
+==== Is the Max Different for UDP?
+
+Yes, UDP is *connectionless*, so there are *no "`connections`"* in the
+TCP sense — just datagrams.
+
+* A single UDP socket (bound to one port) can receive/send from/to
+*unlimited clients* simultaneously (limited only by software/hardware as
+above).
+* Identification: Based on the 4-tuple per datagram, but no state
+tracking like TCP (no handshake, no connection table).
+* Practical limits: Similar to TCP (file descriptors for the socket,
+memory for buffers, CPU for processing packets). But often higher
+throughput possible since less overhead (no reliability/reordering).
+* Max "`associations`": Theoretically unlimited, but applications must
+track "`sessions`" manually if needed (e.g., via client IP/port).
+* UDP sockets still count toward file descriptor limits, but one socket
+handles everything.
+
+===== TCP vs UDP Summary Table
+
+[width="100%",cols="21%,40%,39%",options="header",]
+|===
+|Aspect |TCP (Connection-Oriented) |UDP (Connectionless)
+|*State per "`Connection`"* |Yes (kernel tracks full state) |No
+(stateless datagrams)
+
+|*Max Concurrent* |100K–millions (with tuning) |Potentially higher (one
+socket for all)
+
+|*Overhead* |Higher (handshake, reliability, ordering) |Lower
+(fire-and-forget)
+
+|*Limiting Factors* |File descriptors, memory per conn, kernel tables
+|Processing packets, buffers, bandwidth
+
+|*Typical Use* |Reliable streams (HTTP, WebSockets) |Real-time (VoIP,
+gaming, DNS)
+|===
+
+In short: TCP has more per-connection overhead, limiting it sooner than
+UDP for massive concurrency, but practical maxima are driven by tuning
+and resources rather than protocol hard limits. For extreme scales
+(e.g., millions), use async/event-driven software on Linux with proper
+sysctl/ulimit tweaks.

@@ -1,0 +1,53 @@
+= Elixir in Parallel across nodes
+
+*Yes*, Elixir can orchestrate *parallel execution across multiple nodes*
+in a distributed cluster, thanks to its foundation on the Erlang VM
+(BEAM), which provides built-in support for distributed computing.
+
+==== Key Mechanisms
+
+* *Node Connection and Message Passing* — Elixir nodes (running BEAM
+instances) connect seamlessly (e.g., via `Node.connect/1`), and
+processes communicate via message passing regardless of location. This
+enables coordination of work across machines.
+* *Distributed Tasks with Task.Supervisor* — Start a `Task.Supervisor`
+on each node, then remotely spawn supervised tasks using
+`Task.Supervisor.async(++{++SupervisorName, node}, module, fun, args)`.
+These tasks run in parallel on their respective nodes, with results
+awaited on the coordinating node.
+** Example from official docs:
++
+[source,elixir]
+----
+# On remote node
+Task.Supervisor.start_link(name: MyApp.DistSupervisor)
+
+# On local node
+supervisor = {MyApp.DistSupervisor, :"remote@host"}
+task = Task.Supervisor.async(supervisor, MyModule, :my_fun, [arg1, arg2])
+result = Task.await(task)
+----
+** Scale by mapping over `Node.list()` to dispatch tasks to all
+connected nodes and await results with `Task.await++_++many/2`.
+* *RPC and Remote Execution* — Use Erlang’s `:erpc` module or
+`Node.spawn/4` for direct remote function calls, though supervised tasks
+are preferred for reliability.
+* *Higher-Level Abstractions*:
+** *Flow* — Built-in library for parallel streams that supports
+partitioning data across nodes for distributed processing.
+** *Horde* — Popular library providing distributed `DynamicSupervisor`
+and `Registry` (using CRDTs for dynamic cluster membership), ideal for
+managing processes/tasks across nodes with automatic balancing and fault
+tolerance.
+
+==== Limitations and Considerations
+
+Parallelism within a single node is automatic (BEAM schedulers
+distribute processes across CPU cores), but across nodes requires
+explicit orchestration (e.g., dispatching tasks). Network latency and
+data transfer costs apply for CPU-bound work.
+
+Elixir excels at this for scalable, fault-tolerant systems like web
+servers, data processing pipelines, or chat applications. For details,
+see the https://hexdocs.pm/elixir/distributed-tasks.html[Elixir
+distributed tasks guide] or libraries like Horde.

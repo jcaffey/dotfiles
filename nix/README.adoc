@@ -66,3 +66,15 @@ scripts like your apply script). nix run is a temporary, on-demand way
 to run a program from a Nix package (or flake output) without installing
 it permanently into your user profile.
 * Use nix profile install for everyday tools you want always available.
+
+=== what about nix-shell?
+
+Some programs you want to try by immediately running them. For example, if i want to try out the go-httpbin server, i would run:
+`nix run nixpkgs#go-httpbin` - this will start httpbin for me and i can use it right away.
+
+But what if I want to try a program that requires some setup or arguments? For example, if i wanted to try the `prettier` code formatter
+i need to pipe some text to the program. This is where `nix-shell` becomes useful.
+
+`nix-shell -p prettier` will give me a shell with prettier available in the path and i can now execute commands like `cat file.md | prettier parser=markdown` to see if i like it
+
+if i decide i like prettier then i can nix profile add it or even better, update my home manager config.
