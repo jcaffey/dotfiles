@@ -22,7 +22,7 @@ defmodule Cheat do
       end
 
     path = Path.expand("~/repos/cheat-sheets/#{line}.adoc")
-    cmd = "/opt/homebrew/bin/bat --color=always #{path}"
+    cmd = "bat --color=always #{path}"
     {output, _exit_code} = System.shell(cmd)
     IO.puts(output)
   end
