@@ -1,0 +1,67 @@
+= README
+
+== Setup
+
+Install localstack via nix home manager or
+`nix profile add nixpkgs#localstack`
+
+Sign in to www.localstack.com for credentials
+
+`localstack auth set-token ++<++token++>++`
+
+`localstack start`
+
+== Configure credentials
+
+* Add ++[++profile localstack++]++ to aws config file:
+
+[source,sh]
+----
+[default]
+region = us-east-1
+
+[profile localstack]
+region=us-east-1
+output=json
+endpoint_url = http://localhost:4566
+----
+
+* Add ++[++localstack++]++ to aws credentials file:
+
+[source,sh]
+----
+❯ cat ~/.aws/credentials
+[default]
+aws_access_key_id = <secret>
+aws_secret_access_key = <secret>
+
+[localstack]
+aws_access_key_id=test
+aws_secret_access_key=test
+----
+
+You can now execute commands against localstack with the aws CLI _but
+you must provide the localstack profile or endpoint as an argument to
+the CLI!_
+
+== Ditch the additional arguments to AWS CLI
+
+Install the most recent version of `awscli-local` and the underlying AWS
+CLI version 1 (awscli). `awscli-local` handles the profile and endpoint
+arguments for you when working with localstack.
+
+[source,sh]
+----
+pip install awscli-local[ver1]
+----
+
+== Test setup
+
+Run: `awslocal kinesis list-streams`
+
+You should see a request to localstack and receive a response. You’re
+good to go.
+
+== Troubleshooting and more info
+
+https://docs.localstack.cloud/aws/integrations/aws-native-tools/aws-cli/

@@ -1,4 +1,6 @@
-=== Quick Background for Nix Novices
+= README
+
+== Quick Background for Nix Novices
 
 * Nix → a powerful package manager that installs software in an
 isolated, reproducible way (nothing interferes with your regular macOS
@@ -15,9 +17,9 @@ Determinate Systems. Their installer is faster, more stable on macOS
 (e.g., survives OS upgrades), and comes with nice defaults. This
 template is built to work well with it.
 
-=== Apply nix config
+== Apply nix config
 
-==== 1. `sudo nix run nix-darwin -- switch --flake .#volt`
+=== 1. `sudo nix run nix-darwin -- switch --flake .#volt`
 
 * This runs the *`darwin-rebuild`* tool *directly from the nix-darwin
 flake* without needing it pre-installed on your system.
@@ -31,7 +33,7 @@ your PATH.
 * After the first successful run, it installs `darwin-rebuild` into the
 system profile, so you can use the simpler command next time.
 
-==== 2. `sudo darwin-rebuild switch --flake .#volt`
+=== 2. `sudo darwin-rebuild switch --flake .#volt`
 
 * This uses the *`darwin-rebuild`* command *already installed* on your
 system (typically from a previous nix-darwin activation).
@@ -40,10 +42,10 @@ the initial setup.
 * *When to use this*: For everyday updates — e.g., after editing your
 `flake.nix` or modules to add packages, users, services, etc.
 
-==== Key Differences
+=== Key Differences
 
 [width="100%",cols="21%,41%,38%",options="header",]
-|===
+|==
 |Aspect |`nix run nix-darwin -- switch ...` |`darwin-rebuild switch ...`
 |Requires pre-installed `darwin-rebuild`? |No (fetches it on-the-fly)
 |Yes
@@ -56,9 +58,9 @@ changes
 
 |Version of `darwin-rebuild` |Latest from the nix-darwin flake input
 |The version from your current system generation
-|===
+|==
 
-=== nix run vs nix profile add
+== nix run vs nix profile add
 
 * Use nix run for one-off or occasional tools (e.g., trying something
 new, running a specific version without cluttering your profile, or
@@ -67,7 +69,7 @@ to run a program from a Nix package (or flake output) without installing
 it permanently into your user profile.
 * Use nix profile install for everyday tools you want always available.
 
-=== what about nix-shell?
+== what about nix-shell?
 
 Some programs you want to try by immediately running them. For example, if i want to try out the go-httpbin server, i would run:
 `nix run nixpkgs#go-httpbin` - this will start httpbin for me and i can use it right away.

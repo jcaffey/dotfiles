@@ -1,0 +1,2 @@
+.Local Stack
+* xref:README.adoc[]

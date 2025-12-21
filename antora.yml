@@ -3,4 +3,5 @@ version: ~
 title: joshua-docs
 nav:
 - modules/ROOT/nav.adoc
+- modules/localstack/nav.adoc
 - modules/nix/nav.adoc

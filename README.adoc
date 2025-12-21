@@ -1,6 +1,7 @@
 = Docs
 
-This is documentation for my personal use. This repo is similar to notes, but programming specific.
+This is documentation for my personal use. This repo is similar to
+notes, but programming specific.
 
 == Generate website
 
@@ -18,6 +19,13 @@ This is documentation for my personal use. This repo is similar to notes, but pr
 
 https://docs-cold-feather-6914.fly.dev/joshua-docs/index.html
 
-== deploy
+== Deploy
 
 `fly deploy`
+
+== Create a nav.adoc from adoc files in pages dir
+
+[source,sh]
+----
+ls pages | parallel "echo \* xref:{}[]" > nav.adoc
+----

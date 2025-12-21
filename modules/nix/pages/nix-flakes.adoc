@@ -1,3 +1,5 @@
+= Nix Flakes
+
 In **Nix flakes**, there are no strictly mandatory outputs — a flake can define arbitrary attributes in its `outputs` function. However, Nix commands (like `nix build`, `nix run`, `nix develop`, `nixos-rebuild`, etc.) recognize a **conventional schema** for certain outputs. These "standard" or "default" outputs have special meanings and are used by default when no specific output is specified.
 
 == Modern Recommended Outputs (Current Best Practice)

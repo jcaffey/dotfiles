@@ -1,3 +1,0 @@
-= Welcome!
-
-this is the nix module
