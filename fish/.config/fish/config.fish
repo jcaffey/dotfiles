@@ -11,8 +11,6 @@ fish_add_path ~/bin
 fish_add_path ~/flutter/bin
 # binaries from cargo install
 fish_add_path ~/.cargo/bin
-# sqlite
-fish_add_path /opt/homebrew/opt/sqlite/bin
 # elastic beanstalk cli
 fish_add_path ~/.ebcli-virtual-env/executables
 # mason install path for nvim tools
