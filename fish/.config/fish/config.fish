@@ -25,14 +25,14 @@ fish_add_path ~/go/bin
 fish_add_path ~/.nix-profile/bin
 
 # environment variables
-set -g SHELL "fish"
-set -gx RIPGREP_CONFIG_PATH $HOME/ripgrep.rc
-set -gx XDG_CONFIG_HOME ~/.config
-set -gx EDITOR "nvim"
 set -g fish_greeting "all your base are belong to us"
-set -gx N_PREFIX $HOME/.n
-set -gx WWW_HOME "google.com"
 set -gx BROWSER w3m
+set -gx EDITOR "nvim"
+set -gx N_PREFIX $HOME/.n
+set -gx RIPGREP_CONFIG_PATH $HOME/ripgrep.rc
+set -gx SHELL "fish"
+set -gx WWW_HOME "google.com"
+set -gx XDG_CONFIG_HOME ~/.config
 
 # cross compile to linux-musl
 # set -gx TARGET_CC x86_64-linux-musl-gcc
