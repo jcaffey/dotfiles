@@ -6,11 +6,10 @@ source (/Users/jcaffey/.nix-profile/bin/starship init fish --print-full-init | p
 
 # PATH
 #
-# nix-darwin
-fish_add_path /run/current-system/sw/bin
+fish_add_path /run/current-system/sw/bin # nix-darwin system path
 fish_add_path ~/bin
 fish_add_path ~/flutter/bin
-fish_add_path /opt/homebrew/opt/rustup/bin
+# binaries from cargo install
 fish_add_path ~/.cargo/bin
 # sqlite
 fish_add_path /opt/homebrew/opt/sqlite/bin
