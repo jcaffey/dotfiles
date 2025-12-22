@@ -9,14 +9,9 @@ source (/Users/jcaffey/.nix-profile/bin/starship init fish --print-full-init | p
 # nix-darwin
 fish_add_path /run/current-system/sw/bin
 fish_add_path ~/bin
-# fish_add_path (yarn global bin)
 fish_add_path ~/flutter/bin
 fish_add_path /opt/homebrew/opt/rustup/bin
 fish_add_path ~/.cargo/bin
-# moving from n to nix
-# fish_add_path ~/.n/bin
-fish_add_path ~/.rvm/bin
-fish_add_path /opt/homebrew/Cellar/go/1.23.0/bin
 # sqlite
 fish_add_path /opt/homebrew/opt/sqlite/bin
 # elastic beanstalk cli
@@ -25,17 +20,12 @@ fish_add_path ~/.ebcli-virtual-env/executables
 fish_add_path ~/jcaffey/.local/share/nvim/mason/bin
 # binaries from go install
 fish_add_path ~/go/bin
-# binutils - readelf, strings, etc...
-fish_add_path /opt/homebrew/opt/binutils/bin
 
 # nix
 fish_add_path ~/.nix-profile/bin
 
-# global ruby
-fish_add_path ~/.gem/ruby/3.3.0/bin
-
-
 # environment variables
+set -g SHELL "fish"
 set -gx RIPGREP_CONFIG_PATH $HOME/ripgrep.rc
 set -gx XDG_CONFIG_HOME ~/.config
 set -gx EDITOR "nvim"
@@ -75,12 +65,6 @@ end
 
 # zoxide
 zoxide init fish | source
-
-# TODO: use BASS and fisher for install
-# source $HOME/.config/fish/nnn.sh
-
-# TODO: setup rvm ... it complains that wezterm isnt a login shell
-# rvm default
 
 # bun
 set --export BUN_INSTALL "$HOME/.bun"
