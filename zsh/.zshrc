@@ -92,7 +92,7 @@ plugins=(
 source $ZSH/oh-my-zsh.sh
 
 # load starship
-eval "$(starship init zsh)"
+# eval "$(starship init zsh)"
 
 # User configuration
 

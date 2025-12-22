@@ -2,7 +2,7 @@
 fish_vi_key_bindings
 
 # starship
-starship init fish | source
+source (/Users/jcaffey/.nix-profile/bin/starship init fish --print-full-init | psub)
 
 # PATH
 #
