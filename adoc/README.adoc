@@ -1,0 +1,121 @@
+==== Why AsciiDoc (.adoc) is Often Considered Better Than Markdown (.md)
+
+*AsciiDoc* (processed by tools like *Asciidoctor*) is a more powerful
+and mature lightweight markup language compared to Markdown, especially
+for technical documentation, books, and complex projects. While Markdown
+excels in simplicity and ubiquity (e.g., GitHub, Reddit), AsciiDoc
+addresses many of Markdown’s limitations:
+
+* *Standardized and Consistent Syntax*: Markdown has numerous
+"`flavors`" (CommonMark, GitHub-Flavored Markdown, MultiMarkdown, etc.),
+leading to inconsistencies and portability issues. AsciiDoc has a
+single, well-defined standard, making documents predictable across
+tools.
+* *Rich Built-in Features Without HTML Hacks*: AsciiDoc natively
+supports advanced elements like complex tables (with spanning,
+formatting, and captions), admonitions (NOTE, TIP, WARNING),
+cross-references, footnotes, indexes, bibliographies, definition lists,
+sidebars, and embedded media (e.g., videos). In Markdown, these often
+require embedded raw HTML or JavaScript, which couples content to
+presentation and reduces portability.
+* *Designed for Extensibility and Publishing*: AsciiDoc was built with
+extensibility as a core feature (via extensions) and professional
+publishing in mind (e.g., converting to DocBook for PDF, EPUB, man
+pages). It handles print and web output better, with features like
+proper inner-word emphasis and source code blocks.
+* *Better Readability and Maintainability for Large Docs*: Tables and
+lists are easier to read/edit in raw AsciiDoc form. It’s verbose but
+more expressive, making it ideal for multi-page docs, while Markdown
+shines for quick notes or single-page content.
+
+In short, Markdown is great for simple, casual writing, but AsciiDoc
+scales better for growing or complex content without "`whack-a-mole`"
+additions of HTML/JS.
+
+==== Is Markdown a Subset of AsciiDoc?
+
+Not strictly a subset—AsciiDoc does *not* fully parse or render
+arbitrary Markdown syntax natively. However:
+
+* AsciiDoc’s syntax for common elements (headings, lists, bold/italic,
+links, code blocks) is often as concise as (or more concise than)
+Markdown’s.
+* Asciidoctor (the modern processor) emulates much of GitHub-Flavored
+Markdown (GFM) syntax, such as ATX headings, fenced code blocks, and
+blockquotes, to ease migration.
+* Basic Markdown-like content works well in AsciiDoc, but advanced
+Markdown features (e.g., task lists, emojis) may not translate directly.
+* In practice, many view AsciiDoc as a "`better Markdown`" because it
+covers Markdown’s basics while adding more—without needing dialects or
+HTML fallbacks.
+
+==== Tools and Examples for Converting Markdown to AsciiDoc
+
+Conversion is straightforward with dedicated tools, though manual tweaks
+may be needed for perfect results (e.g., complex tables or extensions).
+
+* *Kramdown AsciiDoc (Recommended for Migration)*: A kramdown extension
+specifically designed for converting GitHub-Flavored Markdown to modern
+AsciiDoc.
+** Install: `gem install kramdown-asciidoc`
+** Command: `kramdoc input.md` (outputs `input.adoc`)
+** Handles images, attributes, and GFM well. Official Asciidoctor
+recommendation for migrating docs.
+* *Pandoc (Universal Converter)*:
+** Command: `pandoc input.md -f markdown -t asciidoc -o output.adoc`
+** Supports many options (e.g., for tables, images). Great for batch
+conversion but may require fixes for edge cases.
+* *Other Tools*:
+** Java-based converter:
+https://github.com/markdown-asciidoc/markdown-to-asciidoc[markdown-to-asciidoc]
+(used in IntelliJ plugins).
+** Online tools: Vertopal or Markdown Toolbox converters.
+** Gradle tasks or docToolchain for project-wide conversion.
+
+Example batch conversion (Linux/macOS):
+
+[source,bash]
+----
+for file in *.md; do pandoc "$file" -f markdown -t asciidoc -o "${file%.md}.adoc"; done
+----
+
+==== Custom AsciiDoc: Extensions (Including Dynamic Behavior Like Executing JavaScript)
+
+AsciiDoc’s killer feature is its *extension API*, allowing custom syntax
+and processing (e.g., new blocks/macros). Extensions are typically
+written in Ruby (for Asciidoctor) or Java/Groovy (for AsciidoctorJ), but
+Asciidoctor.js enables JavaScript extensions.
+
+* *Direct JavaScript Execution*: AsciiDoc processors do *not* execute JS
+during conversion (for security/static output). You can’t embed
+`++<++script++>++` that runs server-side. However:
+** Use *passthrough blocks* (`{plus}{plus}{plus}{plus}`) to embed raw
+HTML/JS in output:
++
+....
+++++
+<script src="https://example.com/script.js"></script>
+<div id="dynamic">Content loaded by JS</div>
+++++
+....
++
+This passes through to HTML untouched (client-side execution in
+browser).
+* *Custom Extensions for Dynamic/JS-Like Behavior*:
+** *Asciidoctor.js Extensions*: Write extensions in JavaScript to add
+custom macros/blocks that generate dynamic HTML (which can include JS).
+*** Example: Register a block that outputs HTML with embedded JS.
+*** See docs:
+https://docs.asciidoctor.org/asciidoctor.js/latest/extend/extensions/register/
+** *Ruby/Java Extensions*: Common for advanced features (e.g., shouting
+block that uppercases text, or integrating external data).
+*** Examples from Asciidoctor Extensions Lab: Custom admonitions,
+copy-to-clipboard buttons (adds JS to source blocks), chart macros.
+*** Register globally or per-document.
+
+For truly dynamic content (e.g., fetching data via JS), combine with
+client-side rendering or tools like Antora/Asciidoctor.js in a web app.
+
+AsciiDoc’s extensibility makes it far more customizable than Markdown
+for advanced use cases! If you’re working on docs,
+switching to .adoc could pay off long-term.

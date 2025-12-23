@@ -1,0 +1,86 @@
+==== Handling Architectural Decision Records (ADRs) in Your Team
+
+*Architectural Decision Records (ADRs)* are short, structured documents
+that capture important architectural decisions, including the context,
+options considered, chosen solution, rationale, and consequences. Unlike
+*RFCs* (which are proposals for discussion and consensus on major
+changes, like in your Volt project’s RFC repo), ADRs focus on _recording
+decisions that have already been made_. They’re lightweight, immutable
+(once accepted), and serve as a historical log to help onboard new team
+members, avoid re-debating old choices, and maintain architectural
+integrity.
+
+ADRs complement your existing RFC process perfectly: Use RFCs for
+proposing and debating big ideas, then create ADRs to document the
+finalized decisions (especially architectural ones).
+
+===== Best Practices for Your Team
+
+[arabic]
+. *When to Create an ADR*
+* For _architecturally significant_ decisions: Technology choices (e.g.,
+database, framework), patterns (e.g., microservices vs. monolith),
+trade-offs affecting scalability/security/performance, or cross-cutting
+concerns. +
+* Not for minor implementation details, bug fixes, or small refactors. +
+* If an RFC leads to a decision, follow up with one or more ADRs.
+. *Storage and Management*
+* Store ADRs in your main Volt repository (e.g., in a `docs/adr/` or
+`docs/architecture/decisions/` folder) — keep them close to the code for
+easy access and version control. +
+* Use Markdown files for simplicity (GitHub renders them well). +
+* Optional: Create a separate GitHub repo for ADRs if your project is
+multi-repo, but co-locating is preferred. +
+* Tools to consider: `adr-tools` (CLI for generating/numbering ADRs),
+Log4brains (for browsing/publishing), or VS Code extensions like ADR
+Manager.
+. *Process for Creating and Approving ADRs*
+* *Seek Pre-ADR Feedback (Strongly Recommended)*: Discuss informally
+first via Slack, email, issues, or even a quick call/dinner chat —
+similar to your RFC pre-feedback. +
+* Draft the ADR using a standard template. +
+* Submit as a Pull Request (PR) for review — this captures discussion in
+Git history. +
+* Iterate based on feedback, then merge when approved (status becomes
+"`Accepted`"). +
+* If a decision changes later: Create a new ADR that "`supersedes`" the
+old one (mark the old as "`Deprecated`" or "`Superseded`").
+. *Standard ADR Template* (Recommended: Markdown Architectural Decision
+Records - MADR style) +
+Use this in a file like `0001-my-decision.md`:
++
+[source,markdown]
+----
+# [Short Title of Decision]
+
+## Status
+Proposed | Accepted | Deprecated | Superseded by [ADR-XXX]
+
+## Context
+[Describe the problem, forces, and constraints.]
+
+## Decision
+[What we decided and how to implement it.]
+
+## Alternatives Considered
+[List options evaluated, with pros/cons.]
+
+## Consequences
+[Positive/negative impacts, risks, trade-offs.]
+
+## References
+[Links to related RFCs, issues, discussions.]
+----
+. *Team Guidelines*
+* Keep ADRs concise (1-2 pages max). +
+* Assign ownership: Include author and approvers. +
+* Review periodically: Check if decisions still hold (e.g.,
+quarterly). +
+* Generate an index: Many tools auto-create a table of contents.
+
+This approach is lightweight yet powerful, used by teams at AWS,
+Microsoft, Google, and many OSS projects. It will help your Volt team
+avoid "`why did we do this?`" debates and scale smoothly.
+
+If you’d like, I can draft a full README.md for an ADR directory
+(similar to your RFC one) or customize the template further!
