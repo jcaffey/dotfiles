@@ -1,0 +1,167 @@
+==== Structured Logging Metadata on macOS (launchd {plus} Unified Logging) and Linux (systemd {plus} journald)
+
+Both systems provide *some automatic metadata* for captured
+stdout/stderr logs, making them searchable in the structured binary log
+store. However, the *rich, custom structured fields* (e.g., key-value
+pairs beyond the basics) require the program to use the native logging
+API.
+
+===== Linux (systemd/journald)
+
+* *Automatic metadata from stdout/stderr*: journald captures
+stdout/stderr from services and *automatically adds rich trusted
+metadata* (prefixed with `++_++` in `journalctl -o verbose`), such as:
+** `++_++PID`, `++_++UID`, `++_++GID` (process credentials)
+** `++_++SYSTEMD++_++UNIT` (service name)
+** `++_++COMM` (command name), `++_++EXE` (executable path)
+** `++_++TRANSPORT=stdout` (indicating source)
+** Timestamps, hostname, boot ID, etc.
+* This makes plain `println!` or `printf` logs *structured and
+queryable* (e.g., `journalctl -u my-service` filters perfectly).
+* *Custom structured fields*: For additional key-value pairs (e.g.,
+`REQUEST++_++ID=abc123`), the program must use the native Journal API
+(e.g., `sd++_++journal++_++send()` in C, or equivalents in
+Rust/Python/Go crates). Plain text or JSON on stdout is treated as the
+`MESSAGE` field only—no parsing into separate fields.
+
+===== macOS (launchd {plus} Unified Logging)
+
+* *Automatic metadata from stdout/stderr*: By default (without
+`StandardOutPath`/`StandardErrorPath`), launchd forwards stdout/stderr
+to the unified logging system (via `logd`). It adds *basic metadata*
+like:
+** Process name/ID
+** Timestamp
+** Subsystem (often derived from the plist Label, e.g.,
+`com.mycompany.my-daemon`)
+** Category (sometimes default or process-based)
+* This allows filtering/querying with
+`log show --predicate 'subsystem == "com.mycompany.my-daemon"'` or in
+Console.app.
+* However, the metadata is *less automatic and rich* compared to
+journald (no extensive trusted fields like unit name or invocation ID by
+default).
+* *Custom structured fields*: For full benefits (levels like
+debug/info/error/fault, custom categories, private masking, or extra
+fields), the program must use the native `os++_++log` API (or `Logger`
+in Swift). Plain text on stdout is stored as a basic message—*not parsed
+as structured JSON or key-values*.
+
+===== Comparison Table
+
+[width="100%",cols="25%,38%,37%",options="header",]
+|===
+|Aspect |Linux (systemd/journald) |macOS (launchd/Unified Logging)
+|*Capture stdout/stderr* |Automatic for services (default) |Automatic to
+unified log (if no file redirect)
+
+|*Auto-added metadata* |Extensive (PID, UID, unit, exe, transport, etc.)
+|Basic (process, timestamp, subsystem from label)
+
+|*Queryable/filterable* |Highly (e.g., by unit, exe, PID) |Yes (by
+subsystem, process, message content)
+
+|*Custom fields (e.g., key=value)* |Only via native API
+(sd++_++journal++_*++) |Only via native API (os++_++log/Logger)
+
+|*Plain text/JSON on stdout* |Treated as single MESSAGE field |Treated
+as basic message (no field extraction)
+|===
+
+===== Recommendations
+
+* *Basic structured benefits* (searchable by process/service): Just
+print to stdout/stderr—both systems handle this well (journald more
+powerfully).
+* *Advanced structured logging* (custom fields, levels, efficiency): Use
+the platform’s native API.
+** Linux: Libraries like `journald` crate (Rust), `systemd` Python
+module, etc.
+** macOS: `os++_++log` (Objective-C/Swift) or bindings in other
+languages.
+* If you want JSON-structured logs without native APIs, parse them
+externally (e.g., forward to Elasticsearch), but you lose built-in
+querying advantages.
+
+This hybrid approach (stdout for simplicity {plus} native API for
+richness) is common in cross-platform daemons.
+
+Companies like *Datadog* collect and make application logs searchable
+through a combination of *agent-based collection* (the most common and
+recommended method) and *direct instrumentation* (for structured or
+custom logs). They don’t truly "`intercept`" logs in a low-level sense
+(e.g., no kernel hooks or binary rewriting for plain prints)—instead,
+they rely on standard OS/container mechanisms or app-level integrations.
+
+Here’s how it works, with a focus on a *Rust web app* (e.g., using Axum,
+Actix, or Rocket):
+
+=== 1. Primary Method: Datadog Agent Collects stdout/stderr (No App Changes Needed)
+
+This is the *easiest and most widely used* approach for containerized or
+hosted apps—no code changes required.
+
+* *How the app produces logs*: In a typical Rust web app, you use crates
+like `tracing`, `log`, or `env++_++logger` to print logs via `println!`,
+`info!()`, `error!()`, etc. These ultimately write to *stdout* and
+*stderr*.
+* *How Datadog "`intercepts`" them*:
+** In *containers* (Docker/Kubernetes, the norm for web apps): The
+container runtime (Docker, containerd) captures stdout/stderr and stores
+them as files on the host node (e.g.,
+`/var/log/pods/++<++pod++_++id++>++/++<++container++>++/` in
+Kubernetes).
+** The *Datadog Agent* (running as a sidecar or DaemonSet on the
+host/cluster) *tails these log files* (or queries the Docker API) and
+forwards the contents to Datadog’s backend.
+** The Agent adds metadata (e.g., container tags, host, service name)
+and can parse/enrich logs (e.g., JSON lines become structured fields).
+* *Searchability*: Once in Datadog, logs are indexed, parsed via
+pipelines, and queryable in the Log Explorer. For best results, output
+*JSON-formatted logs* (e.g., via `tracing-subscriber` with JSON
+formatter)—Datadog auto-parses fields for faceted search.
+* *Why this works seamlessly*: 12-factor app best practice is to log to
+stdout/stderr. Datadog (and tools like Fluentd, Splunk) leverage this—no
+magic interception needed.
+
+=== 2. Direct Sending from the App (Structured or Agentless)
+
+For richer structured logs, trace-log correlation, or environments
+without an Agent:
+
+* Use *OpenTelemetry (OTel)* integration (Datadog’s recommended path for
+Rust):
+** Instrument with the `tracing` crate {plus} OTel layers.
+** Export logs (along with traces/metrics) via OTel exporters to Datadog
+(directly or via Agent).
+** Datadog supports OTel logs natively; structured events include
+fields, severity, and trace IDs for correlation.
+* Community/third-party crates:
+** `datadog-logs`: Batches and sends logs directly to Datadog’s HTTP
+intake API.
+** `datadog-tracing` or similar: For trace-log linking (injects
+`dd.trace++_++id` into JSON logs).
+* Rare: Custom TCP/UDP forwarding in the app.
+
+==== Comparison of Methods
+
+[width="99%",cols="19%,12%,10%,11%,21%,27%",options="header",]
+|===
+|Method |App Changes Needed |Structured Logs |Trace Correlation |Best
+For |How "`Interception`" Happens
+|*Agent {plus} stdout/stderr* |None |Yes (if JSON) |Manual (add IDs)
+|Production containers/K8s |Agent tails container log files
+
+|*OTel Export* |Moderate (instrumentation) |Full native |Automatic
+|Modern Rust apps needing traces |App pushes via exporter
+
+|*Direct HTTP API* |Yes (logger crate) |Full |Possible |Agentless or
+serverless |App sends batches directly
+|===
+
+In summary: For a Rust web app, the simplest way is to *log to
+stdout/stderr in JSON format* and let the *Datadog Agent collect from
+the container runtime*. This gives full searchability with minimal
+effort. For advanced features (e.g., automatic trace linking), add OTel
+instrumentation. Datadog doesn’t hook into Rust’s `print!` directly—it’s
+all built on standard logging practices.
