@@ -2,11 +2,14 @@
 fish_vi_key_bindings
 
 # starship
-source (/Users/jcaffey/.nix-profile/bin/starship init fish --print-full-init | psub)
+source (~/.nix-profile/bin/starship init fish --print-full-init | psub)
+
+# nix
+fish_add_path /run/current-system/sw/bin
+fish_add_path ~/.nix-profile/bin
+fish_add_path /nix/var/nix/profiles/default/bin
 
 # PATH
-#
-fish_add_path /run/current-system/sw/bin # nix-darwin system path
 fish_add_path ~/bin
 fish_add_path ~/flutter/bin
 # binaries from cargo install
@@ -17,9 +20,6 @@ fish_add_path ~/.ebcli-virtual-env/executables
 fish_add_path ~/jcaffey/.local/share/nvim/mason/bin
 # binaries from go install
 fish_add_path ~/go/bin
-
-# nix
-fish_add_path ~/.nix-profile/bin
 
 # environment variables
 set -g fish_greeting "all your base are belong to us"

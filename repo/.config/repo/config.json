@@ -3,6 +3,7 @@
     "aliases": {
       "cheat": "/Users/jcaffey/repos/cheat-sheets",
       "dotfiles": "/Users/jcaffey/dotfiles",
+      "nix": "/Users/jcaffey/.config/nix-darwin",
       "platform": "/Users/jcaffey/repos/volt/platform",
       "todos": "/Users/jcaffey/repos/todos",
       "t": "/Users/jcaffey/repos/todos",
