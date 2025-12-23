@@ -1,0 +1,64 @@
+= daemon vs program
+
+A *daemon* is a type of computer program that runs as a *background
+process*, rather than under the direct control of an interactive user.
+The key differences from a regular (often foreground or interactive)
+program stem from how daemons are designed and initialized in Unix-like
+systems (e.g., Linux, macOS).
+
+==== Core Differences
+
+[width="100%",cols="21%,40%,39%",options="header",]
+|===
+|Aspect |Regular Program/Process |Daemon
+|*User Interaction* |Typically interactive; attached to a terminal (TTY)
+for input/output (e.g., a CLI tool or GUI app). |No direct user
+interaction; detached from any controlling terminal.
+
+|*Lifetime* |Often short-lived or tied to a user session; may terminate
+when the user logs out or closes the terminal. |Long-running; starts at
+boot (or on demand) and persists until shutdown or explicit stop;
+survives user logouts.
+
+|*Parent Process* |Usually a shell or user-initiated process. |Orphaned
+and adopted by init (PID 1) or systemd.
+
+|*Standard I/O* |Connected to stdin/stdout/stderr (terminal).
+|Redirected (often to /dev/null or log files); no terminal attachment.
+
+|*Behavior on Terminal Close* |Backgrounded processes (e.g., via `&`)
+may receive SIGHUP and terminate. |Immune to SIGHUP; continues running
+independently.
+
+|*Purpose* |General tasks, often user-driven. |Provides system services
+(e.g., web servers like httpd, logging like syslogd, SSH like sshd).
+
+|*Naming Convention* |Any name. |Often ends in "`d`" (e.g., crond,
+sshd).
+|===
+
+==== How Daemons Achieve These Differences
+
+Programs become daemons through a process called *daemonization*,
+typically involving these steps (often via a library function like
+`daemon()` in C): 1. Fork off as a child process and exit the parent. 2.
+Create a new session (via `setsid()`) to detach from the controlling
+terminal. 3. Fork again (optional, for double-forking to ensure session
+leadership). 4. Change working directory to `/` (to avoid mounting
+issues). 5. Reset file mask (`umask(0)`). 6. Close or redirect standard
+file descriptors (stdin, stdout, stderr). 7. Handle signals (e.g.,
+ignore or reload config on SIGHUP).
+
+A simple background process (e.g., `myprogram &`) is *not* a full
+daemon—it’s still tied to the terminal/session and can die on logout.
+
+In modern systems like those using *systemd*, many "`daemons`" are
+managed as services, but the core concept remains the same.
+
+Examples: `cron` (schedules tasks), `sshd` (handles SSH connections),
+`nginx` (web server)—all daemons providing ongoing services without user
+intervention.
+
+In Windows, equivalents are called *services*. The term "`daemon`"
+originates from Unix and is inspired by Maxwell’s demon (a tireless
+background helper).

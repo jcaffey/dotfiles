@@ -1,0 +1,73 @@
+= daemon vs service
+
+Yes, there is a distinction between a *daemon* and a *service* on
+Unix-like systems (including Linux), though the terms are often used
+loosely or interchangeably in practice.
+
+==== Key Concepts
+
+* *Daemon*: A daemon is a specific type of *process* that runs
+continuously in the background, detached from any controlling terminal
+(no interactive user input/output). It typically:
+** Survives user logouts.
+** Provides ongoing system functionality (e.g., handling requests,
+monitoring, or scheduling).
+** Is traditionally "`daemonized`" (via forking, session creation, etc.)
+in older SysV-style init systems.
+** Often named with a trailing "`d`" (e.g., `sshd`, `crond`, `httpd`).
++
+Classic examples: `syslogd` (logging), `sshd` (SSH server).
+* *Service*: This term refers to a managed background task, but more
+specifically in modern contexts, it’s the *configuration and management
+layer* provided by the init system (e.g., systemd on most current Linux
+distros).
+** A service describes *how* a process (often a daemon) is started,
+stopped, restarted, monitored, and depended upon.
+** In systemd (the dominant init system today), a "`.service`" unit file
+defines these rules, and it typically launches a daemon process.
+** However, not all services launch long-running daemons: systemd
+supports "`one-shot`" services (run once and exit) or other types.
+
+==== Comparison Table
+
+[width="100%",cols="22%,38%,40%",options="header",]
+|===
+|Aspect |Daemon |Service (in modern Unix/Linux, e.g., systemd)
+|*What it is* |A background process (technical runtime entity). |A
+unit/configuration managed by the init system (e.g., .service file).
+
+|*Lifetime* |Usually long-running and persistent. |Can be long-running
+(daemon-like) or short-lived (one-shot).
+
+|*Management* |Can run independently or managed. |Explicitly managed
+(start/stop/restart via `systemctl`, dependencies, auto-restart).
+
+|*Examples* |`dockerd` (Docker daemon process), `nginx` process.
+|`docker.service` (systemd unit controlling the Docker daemon),
+`nginx.service`.
+
+|*Necessity* |Core Unix concept; exists even without modern init. |Tied
+to init system; in systemd, services often control daemons.
+
+|*Interchangeability* |All classic daemons are background processes, but
+not all are managed as services. |Most services today launch daemons, so
+terms overlap heavily.
+|===
+
+==== In Practice on Modern Systems
+
+* On most current Unix-like systems (e.g., Ubuntu, Fedora, Arch since
+~2015), *systemd* is used, and it explicitly states: "`Service units…
+start and control daemons and the processes they consist of.`"
+* People often say "`start the SSH service`" meaning
+`systemctl start ssh.service`, which runs the `sshd` daemon.
+* Older systems (SysV init) used scripts in `/etc/init.d/` to manage
+daemons—here, "`service`" was a command to control those scripts.
+* There can be daemons not managed as services (rare today), or services
+that aren’t daemons (e.g., one-shot scripts).
+
+In summary: A daemon is the *running background process*, while a
+service is the *managed entity* (often wrapping a daemon). The
+difference is subtle but real—especially in technical discussions or
+when dealing with non-systemd systems. On everyday modern Linux, they’re
+practically synonymous for long-running background tasks.
