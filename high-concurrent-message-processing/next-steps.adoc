@@ -1,0 +1,68 @@
+Got it—thanks for uploading those two documents. I’ve read them both
+carefully, and now I have a crystal-clear picture of what you’re aiming
+for.
+
+You’re building a *high-throughput, fault-tolerant message processing
+system in Elixir* that:
+
+* Consumes messages from Amazon SQS (likely standard queues, high
+volume)
+* Processes each message with I/O-heavy work (database writes/updates
+{plus} external HTTP API calls)
+* Needs to scale reliably to *tens or hundreds of thousands of jobs per
+hour*, potentially growing 10x from a current Lambda-based setup
+* Prioritizes concurrency, low latency, cost efficiency, and operational
+simplicity
+* Wants to avoid the hard limits and overhead of Lambda {plus} SQS
+(concurrency caps, cold starts, throttling)
+
+And you’re strongly leaning toward *Broadway {plus} BroadwaySQS* as the
+core of the pipeline, running on long-running workers (e.g., ECS
+Fargate, EC2, or containers), with horizontal scaling across multiple
+nodes.
+
+The first document ("`bottlenecks.adoc`") is basically a perfect
+blueprint: - Use Broadway with broadway++_++sqs producer - Long polling
+{plus} batching (10 messages) - Multiple producers, high processor
+concurrency (50–200{plus}) - Proper visibility timeout, DLQ setup -
+Back-pressure via GenStage - Tuning for DB pools, HTTP connection
+pooling, circuit breakers - Horizontal scaling across BEAM nodes
+
+The second document validates that this is a common and recommended
+migration path when outgrowing Lambda {plus} SQS, and explicitly calls
+out *Elixir {plus} BroadwaySQS on Fargate* as an excellent (even
+superior in some ways) choice for this exact workload due to BEAM’s
+concurrency model.
+
+So — now that we’re fully aligned: *what do you want to do next?*
+
+Here are some common next steps I can help with deeply:
+
+. *Full working BroadwaySQS project template* +
+A complete, production-ready Mix project structure with supervision
+tree, config, telemetry, logging, DLQ handling, etc.
+. *Advanced tuning & monitoring* +
+Specific recommendations for concurrency values, pool sizes,
+Telemetry/Prometheus setup, observability dashboards.
+. *Error handling & retries strategy* +
+Custom retry logic, exponential backoff, poison message detection,
+automatic DLQ routing.
+. *Deployment to ECS Fargate* +
+Dockerfile, task definition, service auto-scaling based on SQS metrics,
+zero-downtime deploys.
+. *Connection pooling & external service resilience* +
+Best practices with Tesla {plus} Hackney/Finch, Fuse or CircuitBreaker,
+DBConnection/Ecto pool tuning.
+. *Testing locally* +
+Setting up LocalStack or ElasticMQ for dev/testing, integration tests
+with Broadway.
+. *Scaling strategy* +
+When to add more tasks/nodes, auto-scaling policies, cluster setup with
+libcluster (if needed).
+. *Alternatives evaluation* +
+If/when you might consider moving off SQS (Kinesis, Kafka/MSK, Redis
+Streams, etc.) and how that would affect the Elixir side.
+
+Just tell me where you’d like to start or what specific challenge you’re
+facing right now, and we’ll dive in. This is exactly the kind of system
+Elixir/BEAM was made for — excited to help you build it right.
