@@ -1,0 +1,55 @@
+== Service Discovery
+
+*Service discovery* in microservices is a mechanism that allows
+individual services in a distributed system to automatically find and
+communicate with each other without hardcoding network locations (like
+IP addresses and ports).
+
+In a microservices architecture, services are often deployed in
+containers or virtual machines, and their instances can scale up/down
+dynamically, fail, or be redeployed. This makes static configurations
+unreliable—service locations change frequently. Service discovery solves
+this by maintaining a *service registry* (a dynamic database of
+available services) where services register themselves on startup and
+deregister on shutdown.
+
+==== How It Works
+
+* *Registration*: When a service instance starts, it registers its
+location (IP, port, metadata) with the registry. This can be
+self-registration (the service does it itself) or third-party
+registration (e.g., by an orchestrator).
+* *Discovery/Lookup*: When one service needs to call another, it queries
+the registry for current healthy instances.
+* *Health Checking*: The registry often monitors service health and
+removes unhealthy instances.
+* *Load Balancing*: Discovery is frequently paired with load balancing
+to distribute requests across multiple instances.
+
+==== Main Patterns
+
+There are two primary approaches:
+
+*Client-Side Discovery* - The client (calling service) queries the
+registry directly to get a list of available instances, then selects one
+(often with built-in load balancing) and makes the request. - Pros: More
+control for the client, fewer network hops. - Cons: Clients must
+implement discovery logic (can be complex in polyglot environments).
+
+*Server-Side Discovery* - The client sends requests to a known
+router/load balancer (e.g., AWS ELB or a proxy), which queries the
+registry and forwards the request to a healthy instance. - Pros: Simpler
+client code (no discovery logic needed); centralized load balancing. -
+Cons: Additional network hop; potential bottleneck in the router.
+
+==== Popular Tools
+
+* *Netflix Eureka* (client-side, often with Ribbon for load balancing).
+* *Consul* (HashiCorp, supports both patterns).
+* *etcd* or *ZooKeeper*.
+* In Kubernetes: Built-in service discovery via kube-proxy and DNS
+(server-side like).
+
+Service discovery is essential for building resilient, scalable
+microservices systems, often combined with API gateways, service meshes
+(e.g., Istio), and observability tools.
