@@ -1,0 +1,53 @@
+The *CAP theorem* (also known as Brewer’s theorem) is a fundamental
+principle in distributed systems. It states that in a distributed data
+store, it is impossible to simultaneously guarantee all three of the
+following properties:
+
+* *Consistency (C)* — Every read receives the most recent write or an
+error. All nodes see the same data at the same time (strong consistency,
+akin to linearizability).
+* *Availability (A)* — Every request (read or write) receives a
+non-error response, though it may not reflect the latest write.
+* *Partition Tolerance (P)* — The system continues to operate despite
+network partitions (arbitrary message loss or delays between nodes).
+
+The theorem, proposed by Eric Brewer in 2000 and formally proven in 2002
+by Seth Gilbert and Nancy Lynch, highlights that network partitions are
+inevitable in distributed systems (due to hardware failures, network
+issues, etc.). Since *P* must be tolerated for the system to function
+reliably across nodes, designers must trade off between *C* and *A*
+during partitions—you can have at most two out of three.
+
+In normal operation (no partitions), systems can provide all three. But
+when a partition occurs, the system must choose:
+
+[width="100%",cols="21%,20%,44%,15%",options="header",]
+|===
+|Combination |Description |Trade-off During Partition |Examples
+|*CP* (Consistency {plus} Partition Tolerance) |Prioritizes strong
+consistency; may block responses to ensure data accuracy. |Sacrifices
+availability (some requests may fail or timeout). |MongoDB (in certain
+configurations), Redis (strict modes), HBase.
+
+|*AP* (Availability {plus} Partition Tolerance) |Prioritizes responding
+to all requests; accepts temporary inconsistencies. |Sacrifices strong
+consistency (uses eventual consistency, where data converges over time).
+|Cassandra, DynamoDB (default eventual consistency mode), CouchDB.
+
+|*CA* (Consistency {plus} Availability) |Provides both but cannot handle
+partitions well. |Sacrifices partition tolerance (effectively
+single-node or non-distributed). |Traditional relational databases like
+PostgreSQL (without replication across failure-prone networks); rare in
+true distributed setups.
+|===
+
+Modern interpretations (including Brewer’s own clarifications in 2012)
+emphasize that the "`2 out of 3`" rule applies strictly during
+partitions, which are rare. Many systems use techniques like tunable
+consistency or eventual consistency to get close to all three in
+practice. Extensions like the *PACELC theorem* account for
+latency-consistency trade-offs even without partitions.
+
+The CAP theorem guides database and system design, helping choose tools
+based on needs (e.g., banking systems often favor CP for accuracy;
+social feeds favor AP for uptime).
