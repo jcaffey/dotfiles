@@ -65,3 +65,9 @@ map("n", "<leader>xl", "<cmd>TroubleToggle loclist<cr>", { desc = "Trouble Locli
 -- visual mode
 map("v", "J", ":m '>+1<cr>gv=gv", { desc = "move selected line down" })
 map("v", "K", ":m '<-2<cr>gv=gv", { desc = "move selected line up" })
+
+
+-- remap term toggle so it doesnt conflict with aerospace
+map({"n", "t"}, "<A-n>", function()
+  require("nvchad.term").toggle({ pos = "sp", id = "htoggleTerm" })
+end, { desc = "Toggle horizontal terminal" })
