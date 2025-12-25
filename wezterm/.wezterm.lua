@@ -51,20 +51,20 @@ config.colors = {
 }
 
 -- transparency
-config.window_background_opacity = 0.98
+config.window_background_opacity = 0.84
 config.macos_window_background_blur = 60
 config.text_background_opacity = 0.3
 
 -- font
 config.font = wezterm.font 'JetBrains Mono'
 -- config.font = wezterm.font 'MonoLisa'
-config.font_size = 13
+config.font_size = 11
 
 -- window options
--- config.window_decorations = "RESIZE"
+config.window_decorations = "RESIZE"
 config.native_macos_fullscreen_mode = true
-config.tab_bar_at_bottom = true
-config.enable_tab_bar = true
+config.tab_bar_at_bottom = false
+config.enable_tab_bar = false
 config.enable_scroll_bar = false
 
 config.keys = {
