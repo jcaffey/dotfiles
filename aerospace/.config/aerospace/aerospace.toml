@@ -124,6 +124,7 @@ on-mode-changed = []
     alt-8 = 'workspace 8'
     alt-9 = 'workspace 9'
     alt-e = 'workspace E'
+    alt-w = 'workspace W'
     alt-q = 'workspace Q'
     alt-a = 'workspace A'
     alt-s = 'workspace S'
