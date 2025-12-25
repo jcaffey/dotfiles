@@ -1,0 +1,2 @@
+.Antora
+* xref:README.adoc[]

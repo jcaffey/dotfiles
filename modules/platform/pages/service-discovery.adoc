@@ -13,7 +13,7 @@ this by maintaining a *service registry* (a dynamic database of
 available services) where services register themselves on startup and
 deregister on shutdown.
 
-==== How It Works
+== How It Works
 
 * *Registration*: When a service instance starts, it registers its
 location (IP, port, metadata) with the registry. This can be
@@ -26,7 +26,7 @@ removes unhealthy instances.
 * *Load Balancing*: Discovery is frequently paired with load balancing
 to distribute requests across multiple instances.
 
-==== Main Patterns
+=== Main Patterns
 
 There are two primary approaches:
 
@@ -42,7 +42,7 @@ registry and forwards the request to a healthy instance. - Pros: Simpler
 client code (no discovery logic needed); centralized load balancing. -
 Cons: Additional network hop; potential bottleneck in the router.
 
-==== Popular Tools
+=== Popular Tools
 
 * *Netflix Eureka* (client-side, often with Ribbon for load balancing).
 * *Consul* (HashiCorp, supports both patterns).

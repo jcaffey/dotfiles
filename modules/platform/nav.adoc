@@ -1,0 +1,2 @@
+.Platform
+* xref:service-discovery.adoc[]

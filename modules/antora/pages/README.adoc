@@ -1,0 +1,11 @@
+= Antora
+
+== Generate a list of links for a directory’s `nav.adoc`
+
+This just generates the link list, you still need to prepend a heading
+like `.NavItem`
+
+[source,sh]
+----
+ls | awk '{print "* xref:"$1"[]"}' > links
+----

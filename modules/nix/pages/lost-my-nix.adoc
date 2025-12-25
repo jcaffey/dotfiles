@@ -1,27 +1,31 @@
 = My nix disappeared!
 
-Specifically `nix` command isn't available in your terminal.
+Specifically `nix` command isn’t available in your terminal.
 
 == DONT PANIC. ITS OKAY.
 
-This is almost always caused by having your shell setup incorrectly OR not ensuring determinate nix is managing nix.
-For everyone else, try the following:
+This is almost always caused by having your shell setup incorrectly OR
+not ensuring determinate nix is managing nix. For everyone else, try the
+following:
 
-1. Reinstall determinate nix: https://docs.determinate.systems The installer is aware of previous installations and does a repair job if nix is already installed.
-Don't worry - you won't lose your data.
+[arabic]
+. Reinstall determinate nix: https://docs.determinate.systems The
+installer is aware of previous installations and does a repair job if
+nix is already installed. Don’t worry - you won’t lose your data.
+. Make sure your flake config has `nix.enable = false` - this allows
+determinate nix’s daemon to manage nix instead of nix-darwin.
 
-2. Make sure your flake config has `nix.enable = false` - this allows determinate nix's daemon to manage nix instead of nix-darwin.
-
-```nix
+[source,nix]
+----
 home-manager.darwinModules.home-manager
 {
   # Disable nix-darwin's Nix management (required with Determinate installer)
   nix.enable = false;
 }
-```
+----
 
-3. Ensure you have all 3 paths available in PATH:
+[arabic, start=3]
+. Ensure you have all 3 paths available in PATH:
 
-/run/current-system/sw/bin
-~/.nix-profile/bin
+/run/current-system/sw/bin ~/.nix-profile/bin
 /nix/var/nix/profiles/default/bin

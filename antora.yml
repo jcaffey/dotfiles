@@ -2,6 +2,8 @@ name: joshua-docs
 version: ~
 title: joshua-docs
 nav:
-- modules/ROOT/nav.adoc
+- modules/antora/nav.adoc
 - modules/localstack/nav.adoc
 - modules/nix/nav.adoc
+- modules/platform/nav.adoc
+- modules/ROOT/nav.adoc
