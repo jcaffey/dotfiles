@@ -49,6 +49,7 @@ source $HOME/.config/fish/functions/mkd.fish
 source $HOME/.config/fish/functions/figlet.fish
 source $HOME/.config/fish/functions/git.fish
 source $HOME/.config/fish/functions/yazi.fish
+source $HOME/.config/fish/functions/fzf-input.fish
 
 # cd to parent dir of git repo (git parengit parenet)
 function gp
