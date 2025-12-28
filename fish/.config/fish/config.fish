@@ -31,8 +31,8 @@ set -gx SHELL "fish"
 set -gx WWW_HOME "google.com"
 set -gx XDG_CONFIG_HOME ~/.config
 
-# cross compile to linux-musl
-# set -gx TARGET_CC x86_64-linux-musl-gcc
+# pay-respects
+pay-respects fish | source
 
 # Aliases
 source $HOME/.config/fish/aliases/common
