@@ -21,6 +21,7 @@
 !bin/muxit
 !bin/repo
 !bin/snip
+!bin/tauri
 !bin/upcase
 !bootstrap.sh
 !fish/**
