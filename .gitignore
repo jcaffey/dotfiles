@@ -31,6 +31,7 @@
 !lazy-vim/**
 !mbsync/**
 !msmtp/**
+!nushell/**
 !nvim/**
 !nvm/.nvm/.npmrc
 !readline/.inputrc
