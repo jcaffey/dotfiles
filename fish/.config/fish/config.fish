@@ -31,6 +31,12 @@ set -gx SHELL "fish"
 set -gx WWW_HOME "google.com"
 set -gx XDG_CONFIG_HOME ~/.config
 
+# TODO: Does anything actually use this?
+# I've only ever used config home and nushell
+# doesn't seem to care if this is set - it wants to use
+# the stupid application support path. bleh.
+# set -gx XDG_DATA_HOME ~/.local
+
 # pay-respects
 pay-respects fish | source
 

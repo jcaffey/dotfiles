@@ -41,18 +41,19 @@ config.default_prog = { '/run/current-system/sw/bin/fish', '-l' }
 -- config.color_scheme = 'catppuccin-macchiato' -- good for default text and im just about that catppuccin life
 -- config.color_scheme = 'Catppuccin Macchiato' -- good for default text and im just about that catppuccin life
 -- config.color_scheme = 'Ciapre' -- easier to read default (white) text
--- config.color_scheme = 'Dracula'
-config.color_scheme = 'duckbones'
+config.color_scheme = 'Dracula'
+-- config.color_scheme = 'duckbones'
 -- config.color_scheme = 'duskfox' -- very good!
 
 config.colors = {
   cursor_bg = "#236D5F",
+  -- cursor_bg = "#212134",
   cursor_fg = "#000",
 }
 
 -- transparency
-config.window_background_opacity = 0.92
-config.macos_window_background_blur = 10
+config.window_background_opacity = 0.95
+config.macos_window_background_blur = 30
 config.text_background_opacity = 0.3
 
 -- font

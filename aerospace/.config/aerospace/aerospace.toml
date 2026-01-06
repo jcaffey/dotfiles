@@ -11,7 +11,7 @@ after-startup-command = [
   # pastel yellow
   # 'exec-and-forget /Users/jcaffey/.nix-profile/bin/borders active_color=0xfffffd96 inactive_color=0xff494d64 width=8'
   # orange
-  'exec-and-forget /Users/jcaffey/.nix-profile/bin/borders active_color=0xffffc067 inactive_color=0xff494d64 width=8'
+  'exec-and-forget /Users/jcaffey/.nix-profile/bin/borders active_color=0xffffc067 inactive_color=0xff494d64 width=4'
   # brown
   # 'exec-and-forget /Users/jcaffey/.nix-profile/bin/borders active_color=0xff836953 inactive_color=0xff494d64 width=8'
 ]
@@ -64,12 +64,12 @@ on-mode-changed = []
 # See:
 # https://nikitabobko.github.io/AeroSpace/guide#assign-workspaces-to-monitors
 [gaps]
-    inner.horizontal = 10
-    inner.vertical = 10
-    outer.left = 10
-    outer.bottom = 10
-    outer.top = 10
-    outer.right = 10
+    inner.horizontal = 2
+    inner.vertical = 2
+    outer.left = 2
+    outer.bottom = 2
+    outer.top = 2
+    outer.right = 2
 
 # # Assign apps to workspaces on detection
 # [[on-window-detected]]

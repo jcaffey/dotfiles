@@ -1,0 +1,78 @@
+= Aerospace Strategy for maximum efficiencyyyyyyyyyyyy
+
+== Sections / bindings / purpose
+
+=== alt + 1 ... Browser
+
+Primary layout:
+browser
+
+Secondary layout:
+browser + terminal
+
+=== alt + 2 ... tmux
+
+Primary layout:
+tmux terminal
+
+=== alt + 2 ... scratch
+
+primary layout:
+terminal / terminal @ `~/repos/scratch`
+
+=== alt + q ... todo [q]ueue
+
+primary layout:
+6 todo terminals
+
+=== alt + w ... [w]allpaper
+
+primary layout:
+NONE - empty.
+
+Use this when you need to access the desktop or perhaps youre just working with a lot of floating windows.
+
+=== alt + e ... [e]mail
+
+primary layout:
+aerc terminal
+
+=== alt + a ... [a]nnotate
+
+primary layout:
+nvim terminal @ `~/repos/notes`
+
+secondary layout:
+split nvim terminals for `~/repos/notes`
+
+Use this when you need to take notes.
+
+=== alt + s ... [s]lack
+
+primary layout - accordian with `slack`, `discord`, `messages`
+
+Use this for any commnuication programs - slack, messages, discord, etc...
+
+=== alt + s ... [d]ocs
+
+primary layout:
+1 nvim terminal @ `~/repos/joshua-docs`
+
+=== alt + z ... cheatsheet[z] (... and also snippet[z])
+
+primary layout:
+nvim terminal @ `~/repos/cheat-sheets`
+nvim terminal running `claude` - excellent for generating cheat sheets
+
+=== alt + x ... e[x]amine machine
+
+primary layout - accordion:
+`btop` terminal
+`yazi` terminal
+
+
+=== alt + z ... [c]onfig
+
+2 nvim terminals open for: 
+  - `~/dotfiles` 
+  - `~/.config/nix-darwin`
