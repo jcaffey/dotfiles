@@ -1,0 +1,92 @@
+Yes, *Rust {plus} WASM* is a strong option for your frontend, especially
+with your requirements for *code sharing* between a desktop GUI and a
+hosted web GUI (at www.mygui.com), while connecting to the same
+remote/local daemon API.
+
+The leading choice here is *Dioxus* (React-inspired), with alternatives
+like *Leptos* (fine-grained reactivity, Signal-based) or *Yew* (older
+but stable). These frameworks compile your Rust UI code to WASM for the
+web version, and for desktop, they use a webview (similar to Tauri) to
+run the same WASM-based UI natively. This gives near-perfect code
+sharing—the UI logic, components, and state management stay identical,
+with only minor config differences for local vs. remote daemon URLs.
+
+==== How It Fits Your Architecture
+
+Your UI code (in Rust) calls the daemon via HTTP/gRPC over TCP (e.g.,
+using `reqwest` or framework-specific fetch). +
+- Web version → Runs in browser as WASM. +
+- Desktop version → Bundled with a lightweight webview renderer (Dioxus
+uses Tao/WRY, same as Tauri). +
+- No JS needed → Everything is pure Rust, avoiding the frontend/backend
+split of traditional Tauri.
+
+Dioxus excels here: one codebase for web {plus} desktop (and even
+experimental mobile). It’s fullstack-capable, with hot-reloading and
+good performance.
+
+==== Comparison Table (2025 Perspective)
+
+Here’s a focused comparison for your use case (code sharing with
+web-hosted GUI, cross-platform ++*++nix/FreeBSD desktop, daemon
+communication):
+
+[width="100%",cols="17%,22%,25%,15%,21%",options="header",]
+|===
+|Aspect |Rust {plus} WASM (Dioxus/Leptos/Yew) |Tauri (with web tech or
+Rust WASM frontend) |Flutter (with Rust bridge) |Qt (with Rust bindings,
+e.g., CXX-Qt)
+|*Code Sharing with Web GUI* |Excellent (native: same Rust → WASM code
+runs in browser or desktop webview) |Excellent if using JS/TS (standard
+web stack); Good if pairing with Leptos/Dioxus for Rust frontend
+|Partial (~80% Dart UI overlap with Flutter Web, but Dart ≠ web JS)
+|Limited (QML/JS for UI; Rust for logic only)
+
+|*All/Mostly Rust UI* |Yes (pure Rust components) |Optional (JS/TS
+usual; can use Dioxus/Leptos inside Tauri for Rust) |No (Dart UI; Rust
+via FFI bridge) |Partial (QML/JS UI; Rust backends/objects)
+
+|*Desktop Look/Feel & Performance* |Good (webview-based; lightweight,
+fast startup) |Excellent (lightest binaries, system webview) |Excellent
+(true native widgets, smooth) |Best (fully native Qt widgets)
+
+|*Binary Size / Resources* |Small-Medium (WASM {plus} webview ~10-30MB)
+|Smallest (~5-15MB) |Larger (Skia engine bundled) |Medium-Large (Qt
+deps)
+
+|++**++Cross-Platform (++*++nix/FreeBSD)++**++ |Good (webview works;
+FreeBSD via ports) |Excellent (mature) |Good (but Dart/Rust FFI quirks)
+|Good (Qt ports available)
+
+|*Maturity (2025)* |Dioxus/Leptos: Rapidly maturing, active |Very mature
+|Very mature |Mature (bindings improving)
+
+|*Learning Curve (from backend/web background)* |Medium (React-like for
+Dioxus) |Low (if web tech); Medium (if Rust frontend) |Medium-High
+(learn Dart) |High (QML {plus} bindings)
+
+|*Daemon Integration* |Seamless (direct Rust calls or HTTP in same
+binary/shared crate) |Good (IPC bridge) |Good (FFI) |Good (Rust objects
+in Qt)
+
+|*Best For Your Case* |Top choice if you want all-Rust {plus} max
+sharing |Top if you prefer web tech (HTML/CSS/JS) for UI |If native
+mobile future or skia rendering |If highly custom native widgets needed
+|===
+
+==== Recommendation
+
+Go with *Dioxus* if you want to stay in Rust for the UI—it’s the closest
+to "`Rust {plus} WASM frontend`" while supporting desktop natively, and
+perfect for sharing with your hosted web GUI. +
+Fall back to *Tauri* with a web frontend (e.g., Svelte/React/Vue) if you
+prefer leveraging existing web ecosystems/components—it’s more mature,
+slightly lighter, and proven for daemon-based apps. You could even use
+Leptos/Dioxus inside Tauri for a hybrid Rust UI. +
+Avoid Flutter/Qt unless you need true native widgets or mobile as a
+priority (Flutter) or deep Qt integration (e.g., advanced graphics).
+
+Both Dioxus and Tauri pair perfectly with your TCP/HTTP daemon setup.
+Prototype a simple counter app connecting to your daemon in both—Dioxus
+examples are straightforward. Let me know if you want starter code
+ideas!

@@ -1,0 +1,106 @@
+==== Overview of WASM Frontend Frameworks in Rust
+
+WebAssembly (WASM) enables Rust code to run in the browser with
+near-native performance, memory safety, and type checking, making it
+appealing for building frontend web applications. These frameworks
+typically compile Rust to WASM, allowing developers to create
+interactive UIs without JavaScript, though they often interoperate with
+the DOM via crates like `wasm-bindgen` and `web-sys`. They draw
+inspiration from JS frameworks like React, Elm, or SolidJS, focusing on
+component-based architectures, reactivity, and state management. Popular
+use cases include performance-critical apps like dashboards, data
+visualizations, or internal tools, but they face challenges like larger
+bundle sizes, steeper learning curves, and limited SEO compared to
+traditional JS frameworks.
+
+Key frameworks include:
+
+* *Yew*: A mature framework for building reliable web apps, inspired by
+React and Elm. It uses a component-based model with hooks for state and
+effects, and supports virtual DOM for efficient updates. It’s one of the
+earliest in the ecosystem and has a large community.
+* *Leptos*: A full-stack, isomorphic framework emphasizing fine-grained
+reactivity for declarative UIs. It supports server-side rendering (SSR),
+hydration, and integrates well with backend Rust crates like Axum. Known
+for its performance in benchmarks.
+* *Dioxus*: A cross-platform framework for building apps across web,
+desktop, and mobile with a single codebase. It uses a React-like syntax
+with hooks and supports virtual DOM, but focuses on portability and
+full-stack development.
+* *Sycamore*: A lightweight library for reactive web apps, inspired by
+SolidJS. It relies on signals for reactivity and avoids virtual DOM for
+direct DOM manipulation, aiming for high performance.
+* *Seed*: An Elm-inspired framework with built-in state management and a
+macro-based templating system. It’s designed for fast, reliable apps but
+has seen limited recent activity.
+* *Sauron*: A versatile framework following The Elm Architecture,
+supporting client-side, server-side, SSR, and static site generation. It
+emphasizes ergonomics and simplicity with HTML-like views.
+
+Other mentions include Percy (for HTML-over-the-wire) and MoonZoon
+(full-stack), but they are less commonly discussed.
+
+==== Comparison
+
+* *Syntax and Developer Experience*: Yew and Leptos use JSX-like syntax,
+making them familiar to React users, while Dioxus employs a
+dictionary-like approach with curly braces for elements. Sycamore is
+more function-oriented, passing attributes as parameters, which can feel
+less HTML-like. Seed and Sauron follow Elm’s model-view-update pattern.
+Leptos requires a `Scope` for components, and some features need nightly
+Rust for terse syntax. Dioxus stands out for cross-platform support,
+allowing the same code for web and native apps.
+* *Reactivity and Performance*: Most use signals or hooks for state
+management. Leptos and Sycamore employ fine-grained reactivity (like
+SolidJS) for efficient updates without full re-renders. Yew and Dioxus
+rely on virtual DOM, which can be slower for complex apps but simpler to
+implement. Benchmarks show Leptos as the top performer among Rust
+frameworks, often close to vanilla JS, while Sauron lags due to
+implementation issues. Overall, Rust WASM frameworks excel in DOM
+manipulation and memory safety but have larger bundles (3-4x JS) and
+higher memory use (1.2MB overhead).
+* *Features*: Leptos and Dioxus support full-stack (SSR, isomorphism),
+ideal for web apps with backend integration. Yew is web-focused but can
+pair with backends. Sycamore is lightweight for pure frontend. All
+handle iteration and events via closures, but Sycamore supports two-way
+binding. Tailwind CSS integration varies: Leptos/Sycamore use Trunk
+hooks, Dioxus a build script.
+* *Community and Maturity*: Yew and Dioxus have the highest stars
+(32k{plus} each) and active development. Leptos is rapidly growing with
+recent commits. Sycamore and Seed have smaller communities; Seed appears
+inactive since 2023. Documentation is improving but often immature
+compared to JS ecosystems.
+* *Use Cases*: Best for performance-heavy internal tools; less ideal for
+SEO-dependent sites due to dynamic loading. They outperform JS in type
+safety but trail in ecosystem richness and ease of debugging.
+
+[width="100%",cols="48%,26%,26%",options="header",]
+|===
+|Framework |Pros |Cons
+|Yew |Mature ecosystem, large community (32.2k stars), React-like hooks
+and components, reliable for efficient apps. |Slower virtual DOM,
+reduced activity in recent years, steeper Rust learning curve for JS
+devs.
+
+|Leptos |Excellent performance (fastest in Rust benchmarks),
+fine-grained reactivity, full-stack/SSR support, active development
+(19.6k stars). |Requires nightly Rust for optimal syntax, less intuitive
+for non-React users, bundle size overhead.
+
+|Dioxus |Cross-platform (web/desktop/mobile), high performance,
+React-inspired syntax, growing community (32.8k stars). |Immature
+documentation, occasional bugs (e.g., keys), unique syntax may confuse
+beginners.
+
+|Sycamore |Lightweight and fast (SolidJS-like signals), elegant
+reactivity, good for performance-focused apps (3.2k stars). |Clumsy
+handling of iterable updates, young docs, smaller community.
+
+|Seed |Elm-like architecture for simplicity, built-in state management,
+easy templating (3.8k stars). |Inactive development (last commit 2023),
+limited features compared to newer frameworks, smaller ecosystem.
+
+|Sauron |Ergonomic Elm architecture, supports SSR and static generation,
+versatile for client/server (2.1k stars). |Underperforms in benchmarks,
+implementation gaps, smaller community.
+|===

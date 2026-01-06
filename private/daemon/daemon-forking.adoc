@@ -1,0 +1,87 @@
+In traditional Unix/Linux systems, a *daemon* is a background process
+that runs indefinitely, detached from any terminal or user session
+(e.g., web servers like Apache, or system services like cron).
+
+To achieve this detachment reliably, the classic daemonization process
+involves *forking twice* (the "`double fork`" technique). Here’s why
+forking is needed at all, and specifically why twice:
+
+==== Why fork at all?
+
+* Daemons are often started from a terminal/shell or init script.
+* Simply running a process in the background (e.g., with `&`) isn’t
+enough: it remains attached to the controlling terminal/session.
+* When the terminal closes (e.g., user logs out), the process might
+receive SIGHUP (hangup signal) and die, or it could interfere with the
+terminal.
+* Forking creates a child process, and exiting the parent orphans the
+child → which gets re-parented to *init* (PID 1, or modern equivalents
+like systemd).
+* This breaks ties to the original session/terminal, preventing signals
+like SIGHUP from killing it.
+
+==== Why fork *twice* (double fork)?
+
+A single fork {plus} `setsid()` (to create a new session) is often
+sufficient for basic detachment, but the second fork addresses a subtle
+POSIX rule:
+
+[arabic]
+. *First fork*:
+* Parent exits immediately.
+* Child is orphaned → adopted by init.
+* Child is no longer a process group leader (inherited from parent).
+. Child calls `setsid()`:
+* Creates a *new session* and process group.
+* Detaches from the original controlling terminal.
+* But now the child becomes the *session leader*.
+. *Second fork*:
+* Child forks a grandchild.
+* Child (now the intermediate parent) exits.
+* Grandchild is orphaned → adopted by init.
+* Crucially: the grandchild is *not* a session leader (it inherits this
+from the child, but the child exits).
+
+*Key reason*: Only *session leaders* can (re)acquire a controlling
+terminal (e.g., by opening a terminal device like `/dev/tty` without
+special flags). Daemons should *never* have a controlling terminal—even
+accidentally (e.g., via a library call or bug).
+
+* Without the second fork, the daemon (session leader) could
+theoretically reacquire a terminal on some systems (historically System
+V Unix; less common on modern Linux/BSD, but the double fork guarantees
+portability and safety).
+* The double fork ensures the final daemon process cannot become a
+session leader → no risk of reacquiring a terminal.
+
+==== Other steps in full daemonization
+
+Typical sequence (from classics like Stevens’ _Advanced Programming in
+the UNIX Environment_):
+
+[source,c]
+----
+fork();          // 1st fork
+if (parent) exit();
+setsid();        // New session (detaches terminal)
+fork();          // 2nd fork
+if (parent) exit();
+chdir("/");      // Avoid holding directories
+umask(0);        // Reset file permissions
+close fds;       // Close stdin/stdout/stderr, redirect to /dev/null
+// Now run daemon loop
+----
+
+==== Modern context
+
+* Many daemons no longer double-fork manually.
+* Supervisors like *systemd*, *supervisord*, or Docker handle
+detachment, logging, and restarts.
+* They prefer foreground processes (Type=simple in systemd) for better
+PID tracking and control.
+* Double-fork is legacy but still used for standalone daemons or
+compatibility.
+
+In short: Forking detaches from the terminal/session; doing it twice
+guarantees the daemon can *never* reacquire a terminal, making it truly
+independent and safe.

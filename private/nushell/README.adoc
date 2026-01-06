@@ -1,0 +1,7 @@
+= nushell
+
+...if nushell wasn't a shell, people would use it. i want all this stuff in fish, bash, zsh...
+
+I LOVE `^ps` regular command and `ps` structured data command, except it should be `ps` and `ps!` ... because ... ruby.
+
+

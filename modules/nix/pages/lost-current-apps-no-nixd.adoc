@@ -1,0 +1,80 @@
+Unable to spawn /run/current-system/sw/bin/fish because it doesn't exist on the filesystem (ENOENT: No such file or directory)
+⚠️  Process "/run/current-system/sw/bin/fish -l" in domain "local" didn't exit cleanly
+Exited with code 1.
+This message is shown because exit_behavior="CloseOnCleanExit"
+
+
+
+
+after restart:
+
+sudo ./nix/store/pgc008ykgsw3mgxa4h45x1mgi19qdc0q-system-path/bin/darwin-rebuild switch --flake .#volt
+
+https://grok.com/c/cb892420-a839-4790-ab6d-6acdee3af796?rid=322106a4-6bf2-4abc-ba2b-cc6cbd108d92
+
+
+TODO: write documentation for this…
+
+kinda sketch: if nothing works - check for nix daemon in a) ps aux and b) sudo launchctl list | rg nix
+
+should show a daemon for systems.determinate.nix-store
+
+and systems.determinate.nix-daemon
+
+reinstalling determinate can fix store/daemon issues - so no big deal.
+
+# find nix daemon for launchd
+-bash-3.2$ sudo launchctl list | rg nix
+-	0	systems.determinate.nix-store
+1201	0	systems.determinate.nix-daemon
+
+
+if /run/current-system/sw/bin does not exist, then we have a nix-darwin issue and we need to perform a `darwin-rebuild switch`. However, since `/run/…` isn’t in our path, we need to find it from the nix store.
+
+Find a darwin-rebuild … NOTE: this command will find a valid darwin-rebuild, but it is not guaranteed to be the last one installed. it probably won’t matter, so continue with this command. however, if it doesn’t restore your /run/current/sw/bin, then consider running the flake using the NEWEST instance of darwin rebuild in the nix store.
+
+# find darwin-rebuild in nix store
+fd -t d darwin-rebuild /nix/store | tail -n1 | sed 's#$#bin/darwin-rebuild#'
+
+# execute the switch to rebuild /run/current …
+cd ~/.config/nix-darwin
+sudo {nix-darwin path} switch —flake .#volt
+
+# make sure your binaries are here:
+ls /run/current-system/sw/bin
+
+if this doesn’t resolve the issue we need to figure something else out. grab @jcaffey for nix help.
+
+benefits-of-nix.md  configuration.nix  flake.lock  flake.nix  generations.md  home.nix	README.adoc
+-bash-3.2$ sudo /nix/store/xm7fwfh9im93wwbmpjwiq374i3m1bkay-darwin-rebuild/bin/darwin-rebuild switch --flake .#volt
+building the system configuration...
+warning: Git tree '/Users/jcaffey/.config/nix-darwin' has uncommitted changes
+setting up /Applications/Nix Apps...
+setting up pam...
+applying patches...
+setting up /etc...
+user defaults...
+restarting Dock...
+setting up launchd services...
+configuring networking...
+configuring application firewall...
+configuring power...
+setting up /Library/Fonts/Nix Fonts...
+setting nvram variables...
+Activating home-manager configuration for jcaffey
+Starting Home Manager activation
+Activating checkFilesChanged
+Activating checkLinkTargets
+Activating writeBoundary
+Activating installPackages
+nix profile remove /nix/store/y4vgvxl3qs1z6fx5pllj130d4hkijgx9-home-manager-path
+removing 'home-manager-path'
+warning: 'install' is a deprecated alias for 'add'
+Activating linkGeneration
+Cleaning up orphan links from /Users/jcaffey
+Creating home file links in /Users/jcaffey
+Activating onFilesChange
+Activating setupLaunchAgents
+-bash-3.2$ which darwin-rebuild
+/run/current-system/sw/bin/darwin-rebuild
+-bash-3.2$ 

@@ -1,0 +1,1351 @@
+= Erlang/OTP: A Technical Overview
+:toc:
+:toclevels: 4
+:sectnums:
+
+== Introduction
+
+Erlang/OTP is a programming language and runtime system designed for building massively concurrent, distributed, fault-tolerant systems. Developed at Ericsson in the 1980s for telecommunications switches, it has evolved into a general-purpose platform used across industries for systems requiring high availability and soft real-time characteristics.
+
+OTP (Open Telecom Platform) is a collection of libraries, design principles, and middleware that forms the application framework built on top of the Erlang runtime system (BEAM VM).
+
+== Core Architecture
+
+=== The BEAM Virtual Machine
+
+The BEAM (Bogdan/Björn's Erlang Abstract Machine) is a register-based virtual machine optimized for concurrency:
+
+* **Preemptive Scheduling**: The scheduler automatically preempts processes after a fixed number of reductions (function calls, operations)
+* **Reduction-based Execution**: Each operation costs reductions; after ~2000 reductions, a process yields to the scheduler
+* **Multiple Schedulers**: One scheduler per CPU core by default, enabling true parallelism
+* **Process Isolation**: Each process has its own heap, garbage collection is per-process (no stop-the-world)
+* **Non-uniform Memory Architecture (NUMA) Awareness**: Scheduler binding and memory allocation optimized for NUMA systems
+
+=== Process Model
+
+Erlang processes are lightweight user-space processes managed entirely by the BEAM:
+
+* **Memory Footprint**: Initial process size ~300 bytes, growing dynamically
+* **Creation Time**: Process creation takes microseconds (~1-3μs)
+* **Scalability**: Millions of processes on a single node are feasible
+* **Share-Nothing Architecture**: No shared memory between processes; all communication via message passing
+* **Copy Semantics**: Messages are copied between process heaps (except for large binaries >64 bytes, which are reference-counted)
+
+[source,erlang]
+----
+% Process creation and message passing
+Pid = spawn(fun() ->
+    receive
+        {From, Message} ->
+            From ! {self(), process(Message)}
+    end
+end),
+Pid ! {self(), <<"data">>},
+receive
+    {Pid, Result} -> Result
+after 5000 ->
+    timeout
+end.
+----
+
+=== Message Passing and Mailboxes
+
+* **Asynchronous Send**: `!` operator is non-blocking, always returns immediately
+* **Mailbox Queue**: Each process has a FIFO message queue
+* **Selective Receive**: Pattern matching allows receiving specific messages while leaving others in the queue
+* **Mailbox Scanning**: O(n) scan of mailbox on each receive until a match is found
+* **Message References**: Large binaries use reference counting to avoid copying
+
+**Performance Consideration**: Selective receive can create performance issues when mailboxes grow large, as each receive scans from the beginning.
+
+== OTP Design Principles
+
+=== Behaviors (Behaviours)
+
+OTP provides standardized patterns for common concurrent programming patterns:
+
+==== gen_server (Generic Server)
+
+The most commonly used behavior for implementing stateful server processes:
+
+[source,erlang]
+----
+-module(cache_server).
+-behaviour(gen_server).
+
+-export([init/1, handle_call/3, handle_cast/2, handle_info/2, terminate/2, code_change/3]).
+
+% State management with timeout
+init([]) ->
+    {ok, #{}, 5000}.  % State, with 5s timeout
+
+% Synchronous calls
+handle_call({get, Key}, _From, State) ->
+    {reply, maps:get(Key, State, undefined), State};
+handle_call({put, Key, Value}, _From, State) ->
+    {reply, ok, maps:put(Key, Value, State)}.
+
+% Asynchronous casts
+handle_cast({delete, Key}, State) ->
+    {noreply, maps:remove(Key, State)}.
+
+% Timeout handling
+handle_info(timeout, State) ->
+    io:format("No activity for 5 seconds~n"),
+    {noreply, State, 5000}.
+----
+
+**Key Features**:
+
+* Synchronous (`call`) and asynchronous (`cast`) message handling
+* Automatic timeout management
+* Built-in support for system messages (debugging, hot code loading)
+* Standardized process lifecycle
+
+==== gen_statem (Generic State Machine)
+
+Replaced `gen_fsm` in OTP 19, providing more powerful state machine semantics:
+
+[source,erlang]
+----
+-module(door).
+-behaviour(gen_statem).
+
+% State function for locked state
+locked(cast, {button, Digit}, #{code := Code, digits := Digits} = Data) ->
+    NewDigits = [Digit | Digits],
+    case NewDigits of
+        Code ->
+            do_unlock(),
+            {next_state, unlocked, Data#{digits := []}, [{state_timeout, 10000, lock}]};
+        _ ->
+            {keep_state, Data#{digits := NewDigits}}
+    end.
+
+% State function for unlocked state
+unlocked(state_timeout, lock, Data) ->
+    do_lock(),
+    {next_state, locked, Data}.
+----
+
+**Key Features**:
+
+* State functions or handle_event_function callback mode
+* Complex state timeouts and event timeouts
+* State enter calls for state transition hooks
+* Postponing events for later processing
+
+==== Supervisor
+
+The core of fault tolerance in OTP:
+
+[source,erlang]
+----
+-module(app_supervisor).
+-behaviour(supervisor).
+
+init([]) ->
+    SupFlags = #{
+        strategy => one_for_one,  % Restart strategy
+        intensity => 10,          % Max 10 restarts
+        period => 60              % Within 60 seconds
+    },
+
+    ChildSpecs = [
+        #{
+            id => database,
+            start => {db_server, start_link, []},
+            restart => permanent,    % Always restart
+            shutdown => 5000,        % 5s graceful shutdown
+            type => worker
+        },
+        #{
+            id => cache,
+            start => {cache_server, start_link, []},
+            restart => transient,    % Restart if abnormal exit
+            shutdown => brutal_kill, % Immediate kill
+            type => worker
+        }
+    ],
+
+    {ok, {SupFlags, ChildSpecs}}.
+----
+
+**Restart Strategies**:
+
+* `one_for_one`: Only restart the failed child
+* `one_for_all`: Restart all children if any child fails
+* `rest_for_one`: Restart the failed child and all children started after it
+* `simple_one_for_one`: Simplified supervisor for dynamically created children
+
+**Restart Types**:
+
+* `permanent`: Always restart
+* `transient`: Restart only on abnormal termination
+* `temporary`: Never restart
+
+=== Supervision Trees
+
+Applications are structured as hierarchical supervision trees:
+
+----
+                    [Application Supervisor]
+                            |
+            +---------------+---------------+
+            |                               |
+    [Worker Supervisor]              [Connection Supervisor]
+            |                               |
+    +-------+-------+               +-------+-------+
+    |               |               |               |
+[Worker 1]     [Worker 2]     [Conn Pool]     [Conn Handler]
+----
+
+**Design Principles**:
+
+* Supervisors supervise, workers work (no mixing concerns)
+* Deep vs. flat hierarchies: trade-offs between isolation and complexity
+* Restart intensity limits prevent infinite restart loops
+* Shutdown ordering ensures graceful cleanup
+
+== Let It Crash Philosophy
+
+=== Core Principle
+
+Rather than defensive programming with extensive error checking, Erlang embraces failure:
+
+* **Fail Fast**: Let processes crash immediately when encountering unexpected errors
+* **Isolation**: Process crashes don't affect other processes
+* **Supervision**: Supervisors detect crashes and restart failed processes
+* **Clean State**: Restarted processes start with clean state, avoiding corruption
+
+=== Error Handling Mechanisms
+
+==== Linking and Monitoring
+
+[source,erlang]
+----
+% Links are bidirectional, crash propagation
+Pid = spawn_link(fun() -> work() end),
+% If Pid crashes, this process receives an exit signal
+
+% Monitors are unidirectional, informational
+Ref = monitor(process, Pid),
+receive
+    {'DOWN', Ref, process, Pid, Reason} ->
+        % Process died with Reason
+end.
+----
+
+==== Try-Catch vs. Let It Crash
+
+[source,erlang]
+----
+% Defensive (anti-pattern for logic errors)
+try
+    Result = risky_operation(),
+    process(Result)
+catch
+    error:Reason ->
+        % Should this really be caught?
+        handle_error(Reason)
+end.
+
+% Let it crash (preferred for unexpected errors)
+% Only catch at boundaries where you can recover
+Result = risky_operation(),
+process(Result).
+% If it fails, supervisor restarts
+----
+
+**When to Catch**:
+
+* External system boundaries (network, file I/O)
+* When you can actually recover meaningfully
+* User input validation
+
+**When to Let It Crash**:
+
+* Logic errors (bugs)
+* Unexpected data structure violations
+* Internal invariant violations
+
+=== Crash Reports and Debugging
+
+The BEAM provides extensive crash information:
+
+[source,erlang]
+----
+=ERROR REPORT==== 28-Dec-2025::10:15:32 ===
+Error in process <0.52.0> with exit value:
+{badmatch,[1,2]}
+
+** Generic server cache_server terminating
+** Last message in was {get, undefined_key}
+** When Server state == #{...}
+** Reason for termination == {badmatch,[1,2]}
+** exception error: no match of right hand side value [1,2]
+     in function  cache_server:handle_call/3
+     in call from gen_server:try_handle_call/4
+----
+
+== Distributed Erlang
+
+=== Node Architecture
+
+Erlang's distribution is transparent and built into the language:
+
+[source,erlang]
+----
+% Start a distributed node
+erl -name node1@host1.example.com -setcookie secret_cookie
+
+% Connect to another node
+net_kernel:connect_node('node2@host2.example.com').
+
+% Spawn on remote node
+Pid = spawn('node2@host2.example.com', fun() -> work() end).
+
+% Send message to remote process (same syntax as local)
+Pid ! {self(), message}.
+----
+
+**Key Characteristics**:
+
+* **Full Mesh Topology**: By default, all nodes connect to all other nodes (transitive connections)
+* **Location Transparency**: `Pid ! Message` works identically for local and remote processes
+* **Single Cookie Authentication**: Shared secret for node communication (weak security model)
+* **Erlang Distribution Protocol**: Custom TCP-based protocol with heartbeats
+
+=== Distributed Limitations
+
+* **No Network Partition Handling**: Split-brain scenarios require application-level solutions
+* **Security Model**: Cookie-based authentication is not suitable for untrusted networks
+* **Scalability**: Full mesh limits practical cluster size to ~50-100 nodes
+* **CAP Theorem**: Erlang distribution prioritizes availability over partition tolerance
+
+=== Global Registry
+
+[source,erlang]
+----
+% Register name globally across cluster
+global:register_name(my_service, Pid).
+
+% Look up globally registered process
+Pid = global:whereis_name(my_service).
+
+% Global locks for distributed coordination
+global:set_lock({resource, self()}, Nodes).
+----
+
+**Issues**:
+
+* Global registry uses consensus, can be slow during network partitions
+* Better alternatives: `pg` (process groups), `gproc`, or custom consistent hashing
+
+== Memory Management
+
+=== Per-Process Heaps
+
+Each process has its own heap, collected independently:
+
+* **Generational GC**: Young and old generations per process
+* **No Stop-the-World**: GC only pauses the individual process
+* **Hibernation**: `erlang:hibernate/3` compacts process memory and puts process in wait state
+
+[source,erlang]
+----
+% Hibernate to reduce memory
+gen_server:handle_call(hibernate, _From, State) ->
+    {reply, ok, State, hibernate}.
+----
+
+=== Binary Memory Management
+
+Binaries have special handling:
+
+* **Heap Binaries**: <64 bytes, stored on process heap
+* **Refc Binaries**: ≥64 bytes, stored in shared heap, reference counted
+* **Sub-binaries**: Reference slices of refc binaries
+
+**Memory Leak Risk**:
+
+[source,erlang]
+----
+% Bad: Keeps entire large binary in memory
+<<Small:10/binary, _Rest/binary>> = LargeBinary,
+process(Small).  % LargeBinary still referenced!
+
+% Good: Copy small portion
+<<Small:10/binary, _Rest/binary>> = LargeBinary,
+SmallCopy = binary:copy(Small),
+process(SmallCopy).  % LargeBinary can be GC'd
+----
+
+=== ETS (Erlang Term Storage)
+
+Shared memory tables with constant-time access:
+
+[source,erlang]
+----
+% Create table (owned by process)
+Table = ets:new(cache, [set, public, named_table, {read_concurrency, true}]).
+
+% Insert
+ets:insert(cache, {key, value}).
+
+% Lookup (O(1) for set/ordered_set)
+[{key, Value}] = ets:lookup(cache, key).
+
+% Atomic operations
+ets:update_counter(cache, counter, 1).
+----
+
+**Table Types**:
+
+* `set`: Hash table, unique keys, O(1) lookup
+* `ordered_set`: Balanced tree, sorted keys, O(log n) lookup
+* `bag`: Multiple entries per key
+* `duplicate_bag`: Multiple identical entries allowed
+
+**Concurrency Options**:
+
+* `{read_concurrency, true}`: Optimize for concurrent reads (uses multiple locks)
+* `{write_concurrency, true}`: Optimize for concurrent writes (fine-grained locking)
+* `{decentralized_counters, true}`: For high-contention atomic counters
+
+== Hot Code Loading
+
+One of Erlang's unique features:
+
+[source,erlang]
+----
+% Module version handling
+-module(my_server).
+-export([loop/1]).
+
+loop(State) ->
+    receive
+        {upgrade, NewCode} ->
+            % Qualified call triggers code upgrade
+            ?MODULE:loop(State);
+        Msg ->
+            NewState = handle(Msg, State),
+            loop(NewState)  % Unqualified call stays in current version
+    end.
+----
+
+**Code Version Rules**:
+
+* Two versions of a module can coexist: current and old
+* Fully qualified calls (`module:function()`) use the newest version
+* Local calls use the same version as the caller
+* Loading a third version kills processes running old version
+
+**Deployment Strategy**:
+
+1. Load new code (becomes current, old current becomes old)
+2. Processes gradually migrate to new code through qualified calls
+3. Use `release_handler` for coordinated upgrades across supervision trees
+
+== Concurrency and Parallelism
+
+=== Scheduler Behavior
+
+[source,erlang]
+----
+% Check scheduler count
+erlang:system_info(schedulers).          % Online schedulers
+erlang:system_info(schedulers_online).   % Can be changed at runtime
+
+% Set scheduler binding (NUMA optimization)
+erl +sbt db  % Default binding
+erl +sbt u   % Unbound
+----
+
+**Scheduler Internals**:
+
+* Each scheduler has a run queue (priority levels: max, high, normal, low)
+* Work stealing between schedulers for load balancing
+* Process migration between schedulers controlled by scheduler binding
+
+=== Process Priorities
+
+[source,erlang]
+----
+% Set process priority
+process_flag(priority, high).  % low | normal | high | max
+----
+
+**Priority Levels**:
+
+* `low`: Gets 1/8 of CPU compared to normal
+* `normal`: Default
+* `high`: Scheduled more frequently
+* `max`: Almost always scheduled (use sparingly, can starve other processes)
+
+=== Bottleneck Analysis
+
+[source,erlang]
+----
+% Process info for debugging
+erlang:process_info(Pid, [message_queue_len, memory, reductions]).
+
+% System-wide statistics
+erlang:statistics(scheduler_wall_time).
+
+% Identify busy processes
+[{Pid, erlang:process_info(Pid, reductions)} ||
+    Pid <- erlang:processes(),
+    {reductions, R} <- [erlang:process_info(Pid, reductions)],
+    R > 100000].
+----
+
+== NIFs (Native Implemented Functions)
+
+Calling C code from Erlang:
+
+[source,c]
+----
+// C NIF implementation
+#include "erl_nif.h"
+
+static ERL_NIF_TERM
+calculate(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    long a, b;
+    if (!enif_get_long(env, argv[0], &a) ||
+        !enif_get_long(env, argv[1], &b)) {
+        return enif_make_badarg(env);
+    }
+    return enif_make_long(env, a * b);
+}
+
+static ErlNifFunc nif_funcs[] = {
+    {"calculate", 2, calculate}
+};
+
+ERL_NIF_INIT(my_module, nif_funcs, NULL, NULL, NULL, NULL)
+----
+
+**Critical Warnings**:
+
+* NIFs block the scheduler - must return quickly (<1ms)
+* Crashes in NIFs crash the entire VM
+* Use dirty schedulers for long-running NIFs:
+
+[source,erlang]
+----
+-nifs([{long_calculation, 1, [dirty_cpu]}]).
+----
+
+**Dirty Scheduler Types**:
+
+* `dirty_cpu`: CPU-bound work
+* `dirty_io`: I/O-bound work
+
+== Strengths
+
+=== Unmatched Concurrency Model
+
+* **Lightweight Processes**: Can efficiently handle millions of concurrent connections
+* **Predictable Latency**: Per-process GC eliminates stop-the-world pauses
+* **True Isolation**: Process failures don't cascade
+
+=== Fault Tolerance
+
+* **Supervision Trees**: Systematic approach to building resilient systems
+* **Process Isolation**: Memory corruption limited to single process
+* **Let It Crash**: Simplifies error handling code
+
+=== Distribution Built-In
+
+* **Location Transparency**: No distinction between local and remote processes in code
+* **Runtime Introspection**: Can inspect live system state across cluster
+* **Hot Code Loading**: Update code without downtime
+
+=== Soft Real-Time Characteristics
+
+* **Preemptive Scheduling**: No process can monopolize CPU
+* **Bounded Latency**: Predictable response times under load
+* **Priority Scheduling**: Critical processes can get more CPU time
+
+=== Operational Excellence
+
+* **Observer Tool**: GUI for inspecting live system (processes, memory, applications)
+* **Tracing**: Built-in tracing with `dbg`, `recon_trace`, or `redbug`
+* **Remote Shell**: Connect to production nodes for debugging
+* **Crash Dumps**: Detailed post-mortem analysis with `crashdump_viewer`
+
+== Weaknesses
+
+=== Performance Characteristics
+
+* **Single-Threaded Execution**: Each process runs on one core (compensated by many processes)
+* **Message Copying**: Data copied between processes (except large binaries)
+* **Numerical Computation**: Slower than compiled languages for CPU-intensive math
+* **String Processing**: No native string type; binaries or lists have trade-offs
+* **Startup Time**: BEAM startup and OTP application loading can be slow
+
+=== Language Limitations
+
+* **Immutability**: No mutable data structures; all updates create new data
+* **Type System**: Dynamic typing catches errors at runtime, not compile time (Dialyzer helps)
+* **Syntax**: Prolog-influenced syntax has learning curve
+* **String Handling**: Awkward string manipulation compared to modern languages
+
+=== Ecosystem Gaps
+
+* **Limited Libraries**: Smaller ecosystem compared to Python, JavaScript, Java
+* **Numerical/Scientific Computing**: Minimal support for ML, data science
+* **GUI Frameworks**: Very limited options
+* **Windows Support**: Second-class compared to Linux/Unix
+
+=== Distribution Challenges
+
+* **No Partition Tolerance**: Built-in distribution doesn't handle network partitions gracefully
+* **Security Model**: Cookie-based authentication inadequate for hostile networks
+* **Mesh Topology**: Full mesh doesn't scale beyond ~100 nodes
+* **Global State**: Global registry and name servers create coordination bottlenecks
+
+=== Memory Usage
+
+* **Per-Process Overhead**: Millions of idle processes still consume memory
+* **Large Binary Pitfalls**: Sub-binary references can leak memory
+* **Copy Semantics**: Message passing copies data (though very fast)
+
+=== Debugging Complexity
+
+* **Distributed Debugging**: Tracing across nodes is complex
+* **Race Conditions**: Asynchronous nature makes bugs hard to reproduce
+* **Stacktraces**: Can be opaque, especially with higher-order functions
+* **Performance Profiling**: Less mature tooling than mainstream languages
+
+== Production Users
+
+=== WhatsApp
+
+* **Scale**: 900 million users, 2 million concurrent connections per server
+* **Architecture**: Erlang for messaging backend, YAWS web server
+* **Achievement**: Handled 50+ billion messages/day with <50 engineers
+* **Key Benefit**: BEAM's process model mapped perfectly to user sessions
+
+=== Discord
+
+* **Scale**: Millions of concurrent users, 11+ million concurrent voice connections
+* **Component**: Real-time messaging infrastructure
+* **Technology**: Elixir (Erlang ecosystem), custom optimizations
+* **Challenge**: Addressed Erlang's ETS memory fragmentation at scale
+
+=== Amazon (SimpleDB, CloudWatch)
+
+* **Services**: Multiple AWS services built on Erlang
+* **Use Case**: Distributed databases and monitoring systems
+* **Reason**: Fault tolerance and distribution primitives
+
+=== Ericsson
+
+* **Original Purpose**: Telecom switches (AXD301)
+* **Availability**: 99.9999999% (nine nines) uptime
+* **Scale**: Controls ~40% of world's mobile traffic
+* **Legacy**: Erlang's design directly reflects telecom requirements
+
+=== RabbitMQ
+
+* **Product**: Message queue broker
+* **Scale**: Millions of deployments worldwide
+* **Architecture**: Built entirely in Erlang/OTP
+* **Benefit**: Clustering and fault tolerance from OTP
+
+=== Riak
+
+* **Product**: Distributed NoSQL database
+* **Design**: Eventually consistent, high availability
+* **Technology**: Erlang with bitcask storage engine
+* **Strength**: Erlang's distribution for multi-datacenter replication
+
+=== AdRoll
+
+* **Use Case**: Real-time bidding (RTB) for ad tech
+* **Scale**: 500+ billion ad requests per month
+* **Latency**: Consistently low latency under extreme load
+* **Architecture**: Erlang services for bid processing
+
+=== Bet365
+
+* **Use Case**: Real-time sports betting platform
+* **Requirements**: High concurrency, low latency, 24/7 availability
+* **Scale**: Millions of concurrent users during major events
+
+=== CouchDB / Couchbase
+
+* **Product**: Document-oriented databases
+* **Implementation**: Core written in Erlang
+* **Reason**: Replication, clustering, fault tolerance
+
+== Key Influencers and Contributors
+
+=== Joe Armstrong (1950-2019)
+
+* **Role**: Co-inventor of Erlang
+* **Contribution**: Core language design, concurrency model, thesis on fault tolerance
+* **Philosophy**: "Make it work, then make it beautiful, then if you really, really have to, make it fast"
+* **Publications**: "Programming Erlang" (definitive book), thesis on fault-tolerant systems
+* **Legacy**: Let it crash philosophy, share-nothing concurrency
+
+=== Robert Virding
+
+* **Role**: Co-inventor of Erlang
+* **Contribution**: Original language implementation, pattern matching design
+* **Current Work**: LFE (Lisp Flavored Erlang), continuing language innovation
+
+=== Mike Williams
+
+* **Role**: Co-inventor of Erlang
+* **Contribution**: Original requirements from telecom domain, OTP design
+* **Impact**: Shaped Erlang's fault tolerance requirements
+
+=== Björn Gustavsson
+
+* **Role**: BEAM VM developer
+* **Contribution**: Modern BEAM compiler (compiler from BEAM to native)
+* **Impact**: Major performance improvements in R12B and later releases
+
+=== Kenneth Lundin
+
+* **Role**: OTP team lead at Ericsson
+* **Contribution**: OTP behaviors, standard library design
+* **Impact**: Formalized OTP design principles into reusable patterns
+
+=== Francesco Cesarini
+
+* **Role**: Erlang Solutions founder
+* **Contribution**: Training, evangelism, "Erlang Programming" book
+* **Impact**: Brought Erlang to wider audience, mentored thousands of developers
+
+=== Fred Hébert
+
+* **Role**: Author, Erlang community leader
+* **Contribution**: "Learn You Some Erlang for Great Good!" (free online book)
+* **Tools**: `recon` library for production debugging
+* **Impact**: Best practical guide to production Erlang systems
+
+=== José Valim
+
+* **Role**: Creator of Elixir
+* **Contribution**: Modern syntax, metaprogramming, tooling on top of BEAM
+* **Impact**: Brought new developers to BEAM ecosystem, modern language design
+
+=== Garrett Smith
+
+* **Role**: erlang.mk and e2 project creator
+* **Contribution**: Simplified Erlang tooling and patterns
+* **Philosophy**: Simplicity in OTP design
+
+== Design Principles and Patterns
+
+=== Shared-Nothing Architecture
+
+**Principle**: No shared mutable state between processes.
+
+**Implications**:
+
+* All communication through message passing
+* No locks, mutexes, or semaphores in application code
+* Data races impossible at language level
+* Parallel programs are deterministic
+
+**Trade-off**: Message copying overhead vs. safety and simplicity
+
+=== Process per Entity
+
+**Pattern**: Map real-world entities to processes, not threads to cores.
+
+[source,erlang]
+----
+% One process per user session
+% One process per WebSocket connection
+% One process per game entity
+% One process per order
+----
+
+**Benefits**:
+
+* Natural mapping from domain to implementation
+* Isolated state per entity
+* Simplified reasoning about concurrency
+
+**Contrast with Thread Pool Model**: Don't share few threads between many tasks; create many processes.
+
+=== Backpressure and Flow Control
+
+**Problem**: Fast producers overwhelming slow consumers.
+
+**Solutions**:
+
+1. **Synchronous Calls**: Use `gen_server:call` instead of `cast` to block producer
+
+[source,erlang]
+----
+% Producer waits for acknowledgment
+gen_server:call(Consumer, {process, Data}).
+----
+
+2. **Explicit Acknowledgments**:
+
+[source,erlang]
+----
+Consumer ! {data, Data, self()},
+receive
+    {ack, Consumer} -> ok
+after 5000 -> timeout
+end.
+----
+
+3. **Rate Limiting**: Control send rate at producer
+
+[source,erlang]
+----
+% Simple token bucket
+send_with_rate_limit(Target, Messages, RatePerSec) ->
+    IntervalMs = 1000 div RatePerSec,
+    lists:foreach(fun(Msg) ->
+        Target ! Msg,
+        timer:sleep(IntervalMs)
+    end, Messages).
+----
+
+=== Circuit Breaker Pattern
+
+Prevent cascading failures when external systems fail:
+
+[source,erlang]
+----
+-record(circuit, {
+    state = closed,      % closed | open | half_open
+    failure_count = 0,
+    failure_threshold = 5,
+    timeout = 60000,     % Time before trying again
+    last_failure_time
+}).
+
+call_with_circuit(Fun, Circuit) ->
+    case Circuit#circuit.state of
+        open ->
+            case should_try_again(Circuit) of
+                true ->
+                    try_call(Fun, Circuit#circuit{state = half_open});
+                false ->
+                    {error, circuit_open}
+            end;
+        _ ->
+            try_call(Fun, Circuit)
+    end.
+
+try_call(Fun, Circuit) ->
+    try Fun() of
+        Result ->
+            {ok, Result, Circuit#circuit{state = closed, failure_count = 0}}
+    catch
+        _:_ ->
+            NewCount = Circuit#circuit.failure_count + 1,
+            NewState = case NewCount >= Circuit#circuit.failure_threshold of
+                true -> open;
+                false -> Circuit#circuit.state
+            end,
+            {error, failed, Circuit#circuit{
+                state = NewState,
+                failure_count = NewCount,
+                last_failure_time = erlang:monotonic_time(millisecond)
+            }}
+    end.
+----
+
+=== Pooling Pattern
+
+When you have limited resources (database connections, file handles):
+
+[source,erlang]
+----
+% Using poolboy library
+Pool = poolboy:child_spec(db_pool, [
+    {name, {local, db_pool}},
+    {worker_module, db_worker},
+    {size, 10},          % Pool size
+    {max_overflow, 5}    % Additional temporary workers
+]),
+
+% Checkout and checkin
+Worker = poolboy:checkout(db_pool),
+try
+    db_worker:query(Worker, SQL)
+after
+    poolboy:checkin(db_pool, Worker)
+end.
+----
+
+=== Registry Pattern
+
+Discovering processes in a distributed system:
+
+**Options**:
+
+1. **Local Registration**: `register(name, Pid)` - single node only
+2. **Global Registry**: `global:register_name(Name, Pid)` - cluster-wide, but slow
+3. **gproc**: Feature-rich process registry with properties and counters
+4. **pg**: Process groups for pub-sub patterns
+5. **Custom**: Consistent hashing, rendezvous hashing
+
+=== Saga Pattern for Distributed Transactions
+
+Since Erlang doesn't have distributed transactions:
+
+[source,erlang]
+----
+execute_saga(Steps) ->
+    execute_saga(Steps, [], []).
+
+execute_saga([], _Compensations, Results) ->
+    {ok, lists:reverse(Results)};
+execute_saga([{Step, Compensation} | Rest], Compensations, Results) ->
+    case Step() of
+        {ok, Result} ->
+            execute_saga(Rest, [Compensation | Compensations], [Result | Results]);
+        {error, Reason} ->
+            compensate(Compensations),
+            {error, Reason}
+    end.
+
+compensate([]) -> ok;
+compensate([Comp | Rest]) ->
+    Comp(),
+    compensate(Rest).
+
+% Usage
+execute_saga([
+    {fun() -> reserve_inventory() end, fun() -> release_inventory() end},
+    {fun() -> charge_payment() end, fun() -> refund_payment() end},
+    {fun() -> send_confirmation() end, fun() -> send_cancellation() end}
+]).
+----
+
+=== Application Structure
+
+Standard OTP application layout:
+
+----
+my_app/
+├── src/
+│   ├── my_app.erl              % Application callback
+│   ├── my_app_app.erl          % Application behavior
+│   ├── my_app_sup.erl          % Root supervisor
+│   ├── my_app_server.erl       % Gen server
+│   └── my_app_worker.erl       % Worker processes
+├── include/
+│   └── my_app.hrl              % Header files
+├── priv/
+│   └── static/                 % Static resources
+├── test/
+│   └── my_app_SUITE.erl        % Common Test suite
+├── rebar.config                 % Build configuration
+└── src/my_app.app.src          % Application resource file
+----
+
+== Performance Optimization Techniques
+
+=== Message Queue Optimization
+
+**Problem**: Large message queues cause selective receive to be slow.
+
+**Solutions**:
+
+1. Process messages in order received
+2. Use `{min_heap_size, N}` to pre-allocate mailbox space
+3. Drain mailbox if it grows too large
+4. Use ETS for random access instead of selective receive
+
+[source,erlang]
+----
+% Drain mailbox pattern
+drain_messages() ->
+    receive
+        _Msg -> drain_messages()
+    after 0 -> ok
+    end.
+----
+
+=== Binary Handling
+
+[source,erlang]
+----
+% Bad: Creates many intermediate binaries
+concat_slow(Binaries) ->
+    lists:foldl(fun(B, Acc) -> <<Acc/binary, B/binary>> end, <<>>, Binaries).
+
+% Good: Use iolists, convert at boundary
+concat_fast(Binaries) ->
+    iolist_to_binary(Binaries).
+
+% Good: Streaming binary construction
+build_binary() ->
+    <<
+        "header",
+        (integer_to_binary(123))/binary,
+        "footer"
+    >>.
+----
+
+=== ETS Optimization
+
+[source,erlang]
+----
+% Enable concurrency options for high-traffic tables
+ets:new(cache, [
+    set,
+    public,
+    named_table,
+    {read_concurrency, true},    % Multiple reader locks
+    {write_concurrency, true},   % Fine-grained locking
+    {decentralized_counters, true}  % For update_counter
+]).
+
+% Batch operations
+ets:insert_new(Table, [{K1, V1}, {K2, V2}, {K3, V3}]).
+
+% Use ordered_set for range queries
+ets:new(time_series, [ordered_set]),
+ets:select(time_series, MatchSpec).  % Range scans
+----
+
+=== Process Dictionary (When Appropriate)
+
+Generally discouraged, but useful for request context:
+
+[source,erlang]
+----
+% Store request ID for logging
+put(request_id, RequestId),
+
+% Available in all nested calls without passing
+log_info(Message) ->
+    RequestId = get(request_id),
+    logger:info("~s [req=~s]", [Message, RequestId]).
+----
+
+**Use Cases**:
+
+* Request tracing IDs
+* Profiling/instrumentation
+* Process-local caching (with caution)
+
+**Avoid**:
+
+* Storing application state (use parameters instead)
+* Sharing data (use message passing)
+
+=== NIF Best Practices
+
+[source,c]
+----
+// Check if should yield (for long operations)
+if (enif_consume_timeslice(env, percent_done)) {
+    // Need to yield, schedule continuation
+    return enif_schedule_nif(env, "continue", 0, continue_nif, argc, argv);
+}
+
+// Use dirty schedulers for long work
+static ErlNifFunc nif_funcs[] = {
+    {"long_calculation", 1, long_calculation, ERL_NIF_DIRTY_JOB_CPU_BOUND}
+};
+----
+
+== Testing
+
+=== Common Test Framework
+
+[source,erlang]
+----
+-module(cache_SUITE).
+-include_lib("common_test/include/ct.hrl").
+
+-export([all/0, init_per_suite/1, end_per_suite/1, init_per_testcase/2, end_per_testcase/2]).
+-export([test_basic_operations/1, test_expiration/1]).
+
+all() -> [test_basic_operations, test_expiration].
+
+init_per_suite(Config) ->
+    {ok, _} = application:ensure_all_started(my_app),
+    Config.
+
+end_per_suite(_Config) ->
+    application:stop(my_app).
+
+init_per_testcase(_TestCase, Config) ->
+    {ok, Pid} = cache:start_link(),
+    [{cache, Pid} | Config].
+
+end_per_testcase(_TestCase, Config) ->
+    Pid = ?config(cache, Config),
+    cache:stop(Pid).
+
+test_basic_operations(Config) ->
+    Pid = ?config(cache, Config),
+    ok = cache:put(Pid, key, value),
+    {ok, value} = cache:get(Pid, key).
+
+test_expiration(Config) ->
+    Pid = ?config(cache, Config),
+    ok = cache:put(Pid, key, value, 100),  % 100ms TTL
+    timer:sleep(150),
+    {error, not_found} = cache:get(Pid, key).
+----
+
+=== Property-Based Testing with PropEr
+
+[source,erlang]
+----
+-module(cache_prop).
+-include_lib("proper/include/proper.hrl").
+
+prop_get_returns_last_put() ->
+    ?FORALL({Key, Value1, Value2},
+            {key(), value(), value()},
+            begin
+                {ok, Pid} = cache:start_link(),
+                cache:put(Pid, Key, Value1),
+                cache:put(Pid, Key, Value2),
+                {ok, Result} = cache:get(Pid, Key),
+                cache:stop(Pid),
+                Result =:= Value2
+            end).
+
+key() -> non_empty(binary()).
+value() -> term().
+----
+
+=== Concurrency Testing
+
+[source,erlang]
+----
+test_concurrent_writes(_Config) ->
+    {ok, Pid} = cache:start_link(),
+
+    % Spawn 100 concurrent writers
+    Writers = [spawn(fun() ->
+        [cache:put(Pid, {writer, self(), N}, N) || N <- lists:seq(1, 100)]
+    end) || _ <- lists:seq(1, 100)],
+
+    % Wait for all writers
+    [receive {'DOWN', monitor(process, W), _, _, _} -> ok end || W <- Writers],
+
+    % Verify all writes succeeded
+    AllKeys = [{writer, W, N} || W <- Writers, N <- lists:seq(1, 100)],
+    Results = [cache:get(Pid, K) || K <- AllKeys],
+    true = lists:all(fun({ok, _}) -> true; (_) -> false end, Results).
+----
+
+== Deployment and Operations
+
+=== Release Management
+
+Modern releases use `relx` or `mix release`:
+
+[source,erlang]
+----
+%% rebar.config
+{relx, [
+    {release, {my_app, "1.0.0"}, [
+        my_app,
+        sasl,  % System Architecture Support Libraries
+        runtime_tools
+    ]},
+
+    {dev_mode, false},
+    {include_erts, true},  % Bundle Erlang runtime
+    {extended_start_script, true},
+
+    {vm_args, "config/vm.args"},
+    {sys_config, "config/sys.config"}
+]}.
+----
+
+=== VM Arguments (vm.args)
+
+[source,erlang]
+----
+## Node name
+-name my_app@127.0.0.1
+-setcookie secret_cookie_change_in_production
+
+## Scheduler configuration
++A 32                    # Async thread pool size
++K true                  # Enable kernel polling
++P 134217727            # Max processes (default 262144)
+
+## Memory
++MBas aobf              # Best fit allocator strategy
++MBsbct 1024            # Smaller block carrier threshold
+
+## Distribution
+-kernel inet_dist_listen_min 9100
+-kernel inet_dist_listen_max 9155
+
+## Crash dumps
+-env ERL_CRASH_DUMP /var/log/my_app/erl_crash.dump
+-env ERL_CRASH_DUMP_SECONDS 30  # Limit dump time
+----
+
+=== System Configuration (sys.config)
+
+[source,erlang]
+----
+[
+    {kernel, [
+        {logger_level, info},
+        {logger, [
+            {handler, default, logger_std_h, #{
+                config => #{
+                    file => "/var/log/my_app/console.log",
+                    max_no_files => 10,
+                    max_no_bytes => 10485760  % 10MB
+                }
+            }}
+        ]}
+    ]},
+
+    {sasl, [
+        {sasl_error_logger, false}  % Use logger instead
+    ]},
+
+    {my_app, [
+        {port, 8080},
+        {pool_size, 20}
+    ]}
+].
+----
+
+=== Observability
+
+[source,erlang]
+----
+% Enable observer
+observer:start().
+
+% Enable runtime tracing
+recon_trace:calls({cache, put, 3}, 100, [{scope, local}]).
+
+% Get top memory consumers
+recon:proc_count(memory, 10).
+
+% Get top reduction (CPU) consumers
+recon:proc_count(reductions, 10).
+
+% Check scheduler utilization
+recon:scheduler_usage(1000).
+
+% Inspect process state
+sys:get_state(Pid).
+
+% Check process mailbox
+{message_queue_len, Len} = process_info(Pid, message_queue_len).
+----
+
+=== Production Debugging
+
+[source,erlang]
+----
+% Connect remote shell
+erl -name debug@127.0.0.1 -setcookie secret_cookie -remsh my_app@127.0.0.1
+
+% Trace specific function calls
+dbg:tracer().
+dbg:p(all, c).  % Trace calls for all processes
+dbg:tpl(my_module, my_function, [{'_', [], [{return_trace}]}]).
+
+% Heap dump for specific process
+recon:proc_window(memory, 3, 1000).  % Top 3 over 1 second
+
+% Force garbage collection
+[erlang:garbage_collect(P) || P <- processes()].
+----
+
+=== Upgrades (Appups and Relups)
+
+[source,erlang]
+----
+%% my_app.appup
+{"1.0.1",
+    [{"1.0.0", [
+        {load_module, my_module},
+        {update, my_server, {advanced, []}, brutal_purge, brutal_purge, []},
+        {apply, {my_module, migrate_data, []}}
+    ]}],
+    [{"1.0.0", [
+        {apply, {my_module, rollback_data, []}},
+        {update, my_server, {advanced, []}, brutal_purge, brutal_purge, []},
+        {load_module, my_module}
+    ]}]
+}.
+----
+
+**Upgrade Process**:
+
+1. Generate relup: `relx relup`
+2. Install new release in releases directory
+3. Call release_handler: `release_handler:unpack_release("1.0.1")`
+4. Install: `release_handler:install_release("1.0.1")`
+5. Make permanent: `release_handler:make_permanent("1.0.1")`
+
+== Modern Alternatives and Ecosystem
+
+=== Elixir
+
+* Modern syntax inspired by Ruby
+* Powerful macro system for metaprogramming
+* Mix build tool and Hex package manager
+* Same BEAM runtime, full Erlang interop
+* Growing ecosystem with Phoenix web framework
+
+=== LFE (Lisp Flavored Erlang)
+
+* Lisp syntax on BEAM
+* Full Erlang/OTP compatibility
+* Homoiconicity and macro system
+* Smaller community than Elixir
+
+=== Gleam
+
+* Statically typed language for BEAM
+* ML-influenced syntax
+* Compiles to Erlang
+* Modern type system with type inference
+* Still early stage
+
+=== Tooling Evolution
+
+* **rebar3**: Modern build tool (replaced rebar)
+* **Hex**: Package manager (shared with Elixir)
+* **Dialyzer**: Static analysis tool for type errors
+* **erlfmt**: Code formatter
+* **elvis**: Style checker
+* **EUnit, Common Test, PropEr**: Testing frameworks
+
+== Conclusion
+
+Erlang/OTP excels at building systems that must:
+
+* Handle massive concurrency (millions of connections)
+* Provide high availability (five-nines or better)
+* Operate with predictable latency
+* Distribute across multiple nodes
+* Support runtime updates without downtime
+
+It is less suitable for:
+
+* CPU-intensive numerical computation
+* Systems requiring massive throughput per connection
+* Applications where single-threaded performance is critical
+* Projects requiring extensive library ecosystems (ML, data science)
+
+The platform's unique combination of lightweight processes, supervision trees, and distribution primitives makes it irreplaceable for soft real-time distributed systems, particularly in telecommunications, messaging, IoT, and fintech domains where fault tolerance is paramount.
+
+The "let it crash" philosophy and OTP's supervision patterns represent a fundamentally different approach to reliability compared to defensive programming in traditional languages, trading fine-grained error recovery for system-wide resilience through isolation and automatic recovery.

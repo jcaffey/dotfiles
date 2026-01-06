@@ -1,0 +1,39 @@
+**Gzipping (gzip compression) an HTTP response typically **reduces++**++
+overall latency for most real-world scenarios++**++, especially for
+text-based content like HTML, CSS, JS, and JSON.
+
+==== Key Factors Influencing Latency Difference
+
+* *Size reduction* — Gzip usually compresses text assets to 30-50% of
+their original size (often 70-90% savings for larger files),
+significantly cutting transfer time over the network.
+* *Overhead* — Server-side compression and client-side decompression add
+minor CPU time (typically 1-10 ms total, depending on file size and
+hardware).
+* *Network conditions* — On slower or higher-latency connections (e.g.,
+mobile, international), transfer savings dominate. On very fast/local
+networks, overhead can make small files slightly slower.
+* *File size threshold* — Recommended to gzip only files ++>++ ~1KB
+(150-1000 bytes minimum per sources like Google and Akamai); below that,
+overhead can increase size or latency slightly.
+
+==== Typical Latency Impacts
+
+* *For compressible content ++>++10-50KB* (common web pages/assets):
+*Reduction of 100ms to several seconds*, especially on bandwidth-limited
+connections. Examples:
+** Real-world cases show ~15-36% faster page loads or 165ms average
+latency drop.
+** Transfer time savings often outweigh 2-13ms compression {plus} 6ms
+decompression overhead.
+* *For very small responses (++<++1KB)*: Slight *increase* (e.g.,
+2-10ms) due to overhead dominating tiny transfer savings.
+* *High-bandwidth/low-latency scenarios*: Near-neutral or minor penalty
+for small/cached files, but still a net win for larger or dynamic
+content.
+
+In practice, enabling gzip is a standard best practice (per Google
+PageSpeed, web.dev) because the *latency benefits far exceed overhead*
+for typical web traffic. Use static pre-compression for assets when
+possible to minimize server CPU cost. Brotli often provides even better
+savings if supported.
