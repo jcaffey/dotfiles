@@ -1,35 +1,38 @@
+#!/bin/zsh
+readonly name=${1:? "Must provide file name"}
+/Users/jcaffey/.nix-profile/bin/bat ~/repos/cheat-sheets/$name.adoc
+
 #!/usr/bin/env elixir
 
-defmodule Cheat do
-  def run() do
-    args = System.argv()
+# defmodule Cheat do
+#   def run() do
+#     args = System.argv()
+#
+#     # pattern matching in elixir is f'ing raw
+#     line =
+#       case args do
+#         [] ->
+#           # No arguments provided → read from stdin (handles piping)
+#           IO.read(:stdio, :eof) |> String.trim()
+#
+#         [arg | _] ->
+#           # Use the argument (you can handle multiple if needed)
+#           arg
+#
+#         _ ->
+#           IO.puts("Usage: elixir cheat.exs arg")
+#           System.halt(1)
+#           ""
+#       end
+#
+#     path = Path.expand("~/repos/cheat-sheets/#{line}.adoc")
+#     cmd = "bat #{path}"
+#     {output, _exit_code} = System.shell(cmd)
+#     IO.puts(output)
+#   end
+# end
+#
+# Cheat.run
 
-    # pattern matching in elixir is f'ing raw
-    line =
-      case args do
-        [] ->
-          # No arguments provided → read from stdin (handles piping)
-          IO.read(:stdio, :eof) |> String.trim()
-
-        [arg | _] ->
-          # Use the argument (you can handle multiple if needed)
-          arg
-
-        _ ->
-          IO.puts("Usage: elixir cheat.exs arg")
-          System.halt(1)
-          ""
-      end
-
-    path = Path.expand("~/repos/cheat-sheets/#{line}.adoc")
-    cmd = "bat --color=always #{path}"
-    {output, _exit_code} = System.shell(cmd)
-    IO.puts(output)
-  end
-end
-
-Cheat.run
-
-# #!/bin/zsh
-# readonly name=${1:? "Must provide snippet name"}
-# /opt/homebrew/bin/bat ~/repos/cheat-sheets/$name.adoc
+# lol ... this is infinitely easier in zsh :)
+#
